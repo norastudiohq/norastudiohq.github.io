@@ -22,3 +22,9 @@ a{color:var(--accent)}
 .doc{max-width:760px;padding-bottom:48px}
 .doc h1{font-size:30px}
 .doc h2{font-size:19px;margin-top:28px}
+.feature{padding-bottom:28px}
+.feature article{background:var(--card);border:2px solid var(--accent);border-radius:14px;padding:26px;max-width:640px}
+.feature h2{margin:4px 0 8px;font-size:24px}
+.feature p{color:var(--muted);margin:0 0 12px}
+.feature .price{color:var(--ink);font-weight:700;font-size:22px}
+.tag{display:inline-block;background:var(--accent);color:#fff!important;font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;margin:0!important}
