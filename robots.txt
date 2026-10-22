@@ -1,2 +1,3 @@
 User-agent: *
 Disallow: /dl/
+Sitemap: https://norastudiohq.github.io/sitemap.xml

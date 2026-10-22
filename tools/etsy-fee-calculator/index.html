@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Etsy Fee Calculator 2026: Fees, Profit &amp; Break-Even Price | Nora Studio</title>
+<meta name="description" content="Free Etsy fee calculator. Enter your price, shipping and costs to see Etsy's transaction, payment processing, listing and Offsite Ads fees, your real profit, margin, and the price you need for a target margin.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/etsy-fee-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:36px}
+@media(max-width:760px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.panel h2{font-size:19px;margin:0 0 14px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row span:last-child{font-variant-numeric:tabular-nums}
+.big{font-size:30px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Etsy Fee Calculator</h1>
+  <p>See exactly what Etsy takes from a sale and what you keep. Updated for Etsy's 2026 US seller fees. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your sale</h2>
+    <label for="price">Item price <small>(per item, $)</small></label><input id="price" type="number" min="0" step="0.01" value="25">
+    <label for="qty">Quantity in the order</label><input id="qty" type="number" min="1" step="1" value="1">
+    <label for="ship">Shipping you charge the buyer <small>($)</small></label><input id="ship" type="number" min="0" step="0.01" value="5">
+    <label for="tax">Sales tax on the order <small>(Etsy collects it; optional, $)</small></label><input id="tax" type="number" min="0" step="0.01" value="0">
+    <label for="cost">Your cost to make one item <small>(materials, $)</small></label><input id="cost" type="number" min="0" step="0.01" value="6">
+    <label for="post">Postage you pay <small>($)</small></label><input id="post" type="number" min="0" step="0.01" value="4.5">
+    <label for="ads">Did this sale come from Offsite Ads?</label>
+    <select id="ads"><option value="0">No</option><option value="0.15">Yes, 15% (most shops)</option><option value="0.12">Yes, 12% (shops with $10k+/yr)</option></select>
+    <label for="target">Target profit margin <small>(for the price suggestion, %)</small></label><input id="target" type="number" min="0" max="80" step="1" value="40">
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>What you keep</h2>
+    <div class="muted">Profit on this order</div>
+    <div id="profit" class="big">$0.00</div>
+    <div class="muted" id="margin">Margin: 0%</div>
+    <div style="margin-top:16px">
+      <div class="row"><span>Order total (items + shipping)</span><span id="rev">$0.00</span></div>
+      <div class="row"><span>Transaction fee (6.5%)</span><span id="ftx">$0.00</span></div>
+      <div class="row"><span>Payment processing (3% + $0.25)</span><span id="fpp">$0.00</span></div>
+      <div class="row"><span>Listing fee ($0.20 per item)</span><span id="flist">$0.00</span></div>
+      <div class="row"><span>Offsite Ads fee</span><span id="fads">$0.00</span></div>
+      <div class="row"><strong>Total Etsy fees</strong><strong id="ftot">$0.00</strong></div>
+      <div class="row"><span>Your item costs</span><span id="ccost">$0.00</span></div>
+      <div class="row"><span>Postage</span><span id="cpost">$0.00</span></div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="row"><span>Break-even item price</span><strong id="be">$0.00</strong></div>
+      <div class="row"><span>Price for your target margin</span><strong id="tp">$0.00</strong></div>
+    </div>
+    <p class="muted" style="margin-top:12px">Estimates based on Etsy's standard US fees (6.5% transaction, 3% + $0.25 processing, $0.20 listing, Offsite Ads 15% or 12% capped at $100). Currency conversion, Etsy Ads and regulatory fees are not included.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Track every sale, not just one</h2>
+    <p>The Etsy Seller Profit &amp; Fee Tracker does this math for every order automatically, with monthly P&amp;L, profit by product, a dashboard and a pricing calculator. Excel + Google Sheets.</p>
+    <a href="https://buy.stripe.com/00w14pbu8eUOafb8sq5AQ01">Get it for $14</a>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Etsy fees, explained</h2>
+  <h3>How much does Etsy take per sale?</h3>
+  <p>On a typical US sale Etsy takes a 6.5% transaction fee on the item price plus shipping, a payment processing fee of 3% of the order total plus $0.25, and $0.20 to relist each item sold. Together that is usually about 10-12% of the order, more if the sale came through Offsite Ads.</p>
+  <h3>What is the Offsite Ads fee?</h3>
+  <p>If a buyer clicks an Etsy ad on another site and buys within 30 days, Etsy charges 15% of the order (12% for shops that made $10,000 or more in the past year), capped at $100 per order.</p>
+  <h3>Is the transaction fee charged on shipping?</h3>
+  <p>Yes. The 6.5% transaction fee applies to the item price and the shipping you charge. Payment processing also applies to sales tax collected on the order.</p>
+  <h3>How do I price to make a profit on Etsy?</h3>
+  <p>Add up your materials, postage and Etsy's fees, then work backward from the margin you want. The "price for your target margin" result above does that for you.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? v : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toFixed(2);
+const TX = 0.065, PP = 0.03, PPF = 0.25, LIST = 0.20, CAP = 100;
+
+function fees(price, q, ship, tax, ads) {
+  const rev = price * q + ship;
+  const ftx = TX * rev, fpp = PP * (rev + tax) + PPF, flist = LIST * q;
+  const fads = ads ? Math.min(ads * rev, CAP) : 0;
+  return { rev, ftx, fpp, flist, fads, tot: ftx + fpp + flist + fads };
+}
+function profitAt(price, q, ship, tax, ads, cost, post) {
+  const f = fees(price, q, ship, tax, ads);
+  return f.rev - f.tot - cost * q - post;
+}
+// Price where profit / order total = m (m=0 gives break-even). Solved by bisection so the $100 ads cap is respected.
+function priceFor(m, q, ship, tax, ads, cost, post) {
+  let lo = 0, hi = 100000;
+  const g = p => profitAt(p, q, ship, tax, ads, cost, post) - m * (p * q + ship);
+  if (g(hi) < 0) return NaN;
+  for (let i = 0; i < 80; i++) { const mid = (lo + hi) / 2; if (g(mid) >= 0) hi = mid; else lo = mid; }
+  return hi;
+}
+function run() {
+  const price = num("price"), q = Math.max(1, Math.round(num("qty")) || 1), ship = num("ship"), tax = num("tax");
+  const cost = num("cost"), post = num("post"), ads = parseFloat($("ads").value) || 0;
+  const m = Math.min(num("target"), 80) / 100;
+  const f = fees(price, q, ship, tax, ads);
+  const p = f.rev - f.tot - cost * q - post;
+  $("rev").textContent = usd(f.rev); $("ftx").textContent = usd(f.ftx); $("fpp").textContent = usd(f.fpp);
+  $("flist").textContent = usd(f.flist); $("fads").textContent = usd(f.fads); $("ftot").textContent = usd(f.tot);
+  $("ccost").textContent = usd(cost * q); $("cpost").textContent = usd(post);
+  $("profit").textContent = usd(p); $("profit").className = "big " + (p >= 0 ? "pos" : "neg");
+  $("margin").textContent = "Margin: " + (f.rev > 0 ? (100 * p / f.rev).toFixed(1) : "0") + "% of the order total";
+  const be = priceFor(0, q, ship, tax, ads, cost, post), tp = priceFor(m, q, ship, tax, ads, cost, post);
+  $("be").textContent = isFinite(be) ? usd(be) + " per item" : "n/a";
+  $("tp").textContent = isFinite(tp) ? usd(tp) + " per item" : "not reachable";
+}
+document.querySelectorAll("input,select").forEach(el => el.addEventListener("input", run));
+run();
+window.__etsyCalc = { fees, profitAt, priceFor };
+</script>
+</body>
+</html>
