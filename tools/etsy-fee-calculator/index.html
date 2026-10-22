@@ -37,6 +37,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
 <section class="wrap calc">
   <div class="panel">
     <h2>Your sale</h2>
+    <label for="pname">Product name <small>(to save and compare products)</small></label><input id="pname" type="text" maxlength="80" placeholder="e.g. Custom name necklace">
     <label for="price">Item price <small>(per item, $)</small></label><input id="price" type="number" min="0" step="0.01" value="25">
     <label for="qty">Quantity in the order</label><input id="qty" type="number" min="1" step="1" value="1">
     <label for="ship">Shipping you charge the buyer <small>($)</small></label><input id="ship" type="number" min="0" step="0.01" value="5">
@@ -67,7 +68,21 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
       <div class="row"><span>Break-even item price</span><strong id="be">$0.00</strong></div>
       <div class="row"><span>Price for your target margin</span><strong id="tp">$0.00</strong></div>
     </div>
+    <button id="save" class="btn" type="button" style="margin-top:16px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this product to my list</button>
     <p class="muted" style="margin-top:12px">Estimates based on Etsy's standard US fees (6.5% transaction, 3% + $0.25 processing, $0.20 listing, Offsite Ads 15% or 12% capped at $100). Currency conversion, Etsy Ads and regulatory fees are not included.</p>
+  </div>
+</section>
+
+<section class="wrap" id="listwrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My products <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few products above to compare their fees and profit side by side. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" style="width:100%;border-collapse:collapse;font-size:14px;display:none">
+      <thead><tr style="text-align:left;border-bottom:2px solid var(--line)"><th style="padding:6px">Product</th><th>Price</th><th>Qty</th><th>Order total</th><th>Etsy fees</th><th>Your costs</th><th>Profit</th><th>Margin</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current sale if the list is empty.</p>
   </div>
 </section>
 
@@ -131,9 +146,77 @@ function run() {
   $("be").textContent = isFinite(be) ? usd(be) + " per item" : "n/a";
   $("tp").textContent = isFinite(tp) ? usd(tp) + " per item" : "not reachable";
 }
+// ---- Saved products list + CSV export ----
+const KEY = "nora-etsy-fee-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+
+function current() {
+  const price = num("price"), q = Math.max(1, Math.round(num("qty")) || 1), ship = num("ship"), tax = num("tax");
+  const cost = num("cost"), post = num("post"), ads = parseFloat($("ads").value) || 0;
+  const f = fees(price, q, ship, tax, ads), costs = cost * q + post, profit = f.rev - f.tot - costs;
+  const name = ($("pname").value || "").trim() || "Product " + (list.length + 1);
+  return { name, price, q, ship, tax, cost, post, ads, rev: f.rev, ftx: f.ftx, fpp: f.fpp, flist: f.flist, fads: f.fads,
+           fees: f.tot, costs, profit, margin: f.rev > 0 ? profit / f.rev : 0,
+           be: priceFor(0, q, ship, tax, ads, cost, post) };
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function renderList() {
+  const tb = document.querySelector("#list tbody"); tb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr"); tr.style.borderBottom = "1px solid var(--line)";
+    tr.innerHTML = `<td style="padding:6px">${esc(r.name)}</td><td>${usd(r.price)}</td><td>${r.q}</td><td>${usd(r.rev)}</td><td>${usd(r.fees)}</td>` +
+      `<td>${usd(r.costs)}</td><td class="${r.profit >= 0 ? "pos" : "neg"}"><strong>${usd(r.profit)}</strong></td><td>${(100 * r.margin).toFixed(1)}%</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("pname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this product to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  let s = typeof v === "number" ? (Math.round(v * 100) / 100).toString() : String(v);
+  if (/^[=+\-@]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(rows) {
+  const lines = [
+    ["Etsy fee & profit report - made with Nora Studio's free Etsy Fee Calculator"],
+    ["Calculator: https://norastudiohq.github.io/tools/etsy-fee-calculator/"],
+    ["Track every order automatically: Etsy Seller Profit & Fee Tracker - https://buy.stripe.com/00w14pbu8eUOafb8sq5AQ01"],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Product", "Item price", "Qty", "Shipping charged", "Sales tax", "Order total", "Transaction fee", "Processing fee",
+     "Listing fee", "Offsite Ads fee", "Total Etsy fees", "Item cost (each)", "Postage", "Your costs", "Profit", "Margin %", "Break-even price"]
+  ];
+  rows.forEach(r => lines.push([r.name, r.price, r.q, r.ship, r.tax, r.rev, r.ftx, r.fpp, r.flist, r.fads, r.fees, r.cost, r.post,
+    r.costs, r.profit, Math.round(r.margin * 1000) / 10, isFinite(r.be) ? r.be : ""]));
+  lines.push([], ["Estimates use Etsy's standard US fees (6.5% transaction; 3% + $0.25 processing; $0.20 listing; Offsite Ads 15%/12% capped at $100)."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const rows = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "etsy-fees-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
 document.querySelectorAll("input,select").forEach(el => el.addEventListener("input", run));
-run();
-window.__etsyCalc = { fees, profitAt, priceFor };
+run(); renderList();
+window.__etsyCalc = { fees, profitAt, priceFor, current, toCSV, get list() { return list; } };
 </script>
 </body>
 </html>
