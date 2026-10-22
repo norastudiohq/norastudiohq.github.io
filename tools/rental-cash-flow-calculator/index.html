@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rental Property Cash Flow Calculator 2026: Cap Rate, Cash-on-Cash &amp; DSCR | Nora Studio</title>
+<meta name="description" content="Free rental property cash flow calculator. Enter price, loan, rent and expenses to see your mortgage payment, NOI, monthly cash flow, cap rate, cash-on-cash return, GRM and DSCR. No signup.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/rental-cash-flow-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:36px}
+@media(max-width:760px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+.panel h3{font-size:15px;margin:18px 0 0;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);box-sizing:border-box}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row span:last-child{font-variant-numeric:tabular-nums;text-align:right}
+.big{font-size:30px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.verdict{border-radius:10px;padding:10px 14px;font-weight:700;margin:10px 0 4px}
+.verdict.pos{background:rgba(46,139,87,.12)}.verdict.neg{background:rgba(192,57,43,.12)}.verdict.even{background:rgba(127,127,127,.14)}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+#list th,#list td{padding:6px;white-space:nowrap}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Rental Property Cash Flow Calculator</h1>
+  <p>See whether a rental pays for itself: mortgage payment, operating expenses, NOI, monthly cash flow, cap rate, cash-on-cash return, GRM and DSCR. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>The property</h2>
+    <label for="pname">Property name <small>(to save and compare deals)</small></label><input id="pname" type="text" maxlength="80" placeholder="e.g. 12 Oak St duplex">
+    <h3>Purchase &amp; loan</h3>
+    <label for="price">Purchase price <small>($)</small></label><input id="price" type="number" min="0" step="1000" value="250000">
+    <div class="two">
+      <div><label for="down">Down payment <small>(%)</small></label><input id="down" type="number" min="0" max="100" step="1" value="20"></div>
+      <div><label for="closing">Closing costs <small>($)</small></label><input id="closing" type="number" min="0" step="100" value="7500"></div>
+      <div><label for="rate">Interest rate <small>(%/yr)</small></label><input id="rate" type="number" min="0" max="30" step="0.125" value="7"></div>
+      <div><label for="term">Loan term <small>(years)</small></label><input id="term" type="number" min="0" max="50" step="1" value="30"></div>
+    </div>
+    <h3>Income</h3>
+    <div class="two">
+      <div><label for="rent">Monthly rent <small>($)</small></label><input id="rent" type="number" min="0" step="25" value="2200"></div>
+      <div><label for="vac">Vacancy <small>(%)</small></label><input id="vac" type="number" min="0" max="100" step="1" value="5"></div>
+    </div>
+    <h3>Expenses</h3>
+    <div class="two">
+      <div><label for="ptax">Property tax <small>($/yr)</small></label><input id="ptax" type="number" min="0" step="100" value="3000"></div>
+      <div><label for="ins">Insurance <small>($/yr)</small></label><input id="ins" type="number" min="0" step="100" value="1200"></div>
+      <div><label for="hoa">HOA <small>($/mo)</small></label><input id="hoa" type="number" min="0" step="10" value="0"></div>
+      <div><label for="other">Other monthly costs <small>($)</small></label><input id="other" type="number" min="0" step="10" value="50"></div>
+      <div><label for="maint">Maintenance <small>(% of rent)</small></label><input id="maint" type="number" min="0" max="100" step="1" value="8"></div>
+      <div><label for="mgmt">Management <small>(% of rent)</small></label><input id="mgmt" type="number" min="0" max="100" step="1" value="8"></div>
+    </div>
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Does it cash flow?</h2>
+    <div class="muted">Monthly cash flow</div>
+    <div id="cfm" class="big">$0.00</div>
+    <div class="muted" id="cfy">$0.00 per year</div>
+    <div id="verdict" class="verdict even">-</div>
+    <div style="margin-top:16px">
+      <div class="row"><span>Loan amount</span><span id="loan">$0.00</span></div>
+      <div class="row"><span>Monthly mortgage (principal + interest)</span><span id="pmt">$0.00</span></div>
+      <div class="row"><span>Rent collected after vacancy</span><span id="eff">$0.00</span></div>
+      <div class="row"><span>Monthly operating expenses</span><span id="opex">$0.00</span></div>
+      <div class="row"><strong>Net operating income (NOI, annual)</strong><strong id="noi">$0.00</strong></div>
+      <div class="row"><span>Cash invested (down + closing)</span><span id="cash">$0.00</span></div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="row"><span>Cap rate</span><strong id="cap">-</strong></div>
+      <div class="row"><span>Cash-on-cash return</span><strong id="coc">-</strong></div>
+      <div class="row"><span>Gross rent multiplier (GRM)</span><strong id="grm">-</strong></div>
+      <div class="row"><span>Debt service coverage (DSCR)</span><strong id="dscr">-</strong></div>
+      <div class="row"><span>1% rule (rent / price)</span><strong id="one">-</strong></div>
+    </div>
+    <p class="muted" id="warn" style="display:none"></p>
+    <button id="save" class="btn" type="button" style="margin-top:16px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this property to my list</button>
+    <p class="muted" style="margin-top:12px">Estimates. Maintenance is a % of scheduled rent; management is a % of rent collected after vacancy. Mortgage is principal + interest only (taxes and insurance are counted in operating expenses). Income taxes, depreciation, appreciation and capital expenditures beyond maintenance are not included.</p>
+  </div>
+</section>
+
+<section class="wrap" id="listwrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My properties <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few properties above to compare cash flow and returns side by side. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" style="width:100%;border-collapse:collapse;font-size:14px;display:none">
+      <thead><tr style="text-align:left;border-bottom:2px solid var(--line)"><th>Property</th><th>Price</th><th>Rent</th><th>Mortgage</th><th>NOI/yr</th><th>Cash flow/mo</th><th>Cap rate</th><th>Cash-on-cash</th><th>DSCR</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current property if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Own the property? Track it all year</h2>
+    <p>The Rental Property Tracker logs rent, expenses and mortgage for every unit, shows cash flow by property and month on a dashboard, and builds a Schedule E summary for tax time. Excel + Google Sheets.</p>
+    <a href="https://buy.stripe.com/14A6oJ69OcMG72ZcIG5AQ00">Get it for $15</a>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Rental property numbers, explained</h2>
+  <h3>What is a good cap rate for a rental property?</h3>
+  <p>Cap rate is NOI divided by the purchase price, ignoring the loan. Many investors look for roughly 5% to 10%. Lower cap rates (4-6%) are common in expensive, stable markets; higher ones (8-10%+) usually come with older properties or riskier areas. Compare cap rates between similar properties in the same market rather than against one fixed number.</p>
+  <h3>What is a good cash-on-cash return?</h3>
+  <p>Cash-on-cash return is your annual cash flow divided by the cash you put in (down payment plus closing costs). Many buy-and-hold investors target 8% to 12%. It reflects your financing, so a bigger down payment or higher interest rate changes it even when the property is the same.</p>
+  <h3>What is the 1% rule?</h3>
+  <p>The 1% rule is a quick screen: monthly rent should be at least 1% of the purchase price (a $250,000 house should rent for $2,500 a month). Passing it does not guarantee positive cash flow and failing it does not rule a deal out; run the full numbers above.</p>
+  <h3>How do I estimate maintenance costs?</h3>
+  <p>A common rule is 5% to 10% of rent for routine repairs, higher for older homes, or about 1% of the property value per year. Many investors also set aside a separate amount for big-ticket replacements such as roofs, HVAC and water heaters.</p>
+  <h3>What is DSCR and why do lenders care?</h3>
+  <p>Debt service coverage ratio is annual NOI divided by annual mortgage payments. A DSCR of 1.25 means the property earns 25% more than its loan payments. Many lenders want 1.2 to 1.25 or higher; below 1.0 the rent does not cover the mortgage.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const MAX = 1e12;
+// Defensive parse: blank/text/negative/NaN -> 0, capped at hi.
+const num = (id, hi) => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, hi === undefined ? MAX : hi) : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = v => v === null ? "n/a" : (100 * v).toFixed(2) + "%";
+const TRACKER = "https://buy.stripe.com/14A6oJ69OcMG72ZcIG5AQ00";
+const TOOL = "https://norastudiohq.github.io/tools/rental-cash-flow-calculator/";
+
+// Standard amortization; 0% interest = straight-line. Returns 0 when no loan or no term.
+function payment(loan, ratePct, years) {
+  const n = Math.round(years * 12), r = ratePct / 100 / 12;
+  if (!(loan > 0) || !(n > 0)) return 0;
+  if (r === 0) return loan / n;
+  return loan * r / (1 - Math.pow(1 + r, -n));
+}
+function analyze(i) {
+  const loan = i.price * (1 - i.down / 100);
+  const pmt = payment(loan, i.rate, i.term);
+  const eff = i.rent * (1 - i.vac / 100);
+  const opex = i.ptax / 12 + i.ins / 12 + i.hoa + i.other + i.rent * i.maint / 100 + eff * i.mgmt / 100;
+  const noi = (eff - opex) * 12;
+  const cfm = eff - opex - pmt, cfy = cfm * 12;
+  const cash = i.price * i.down / 100 + i.closing;
+  const ds = pmt * 12;
+  return {
+    loan, pmt, eff, opex, noi, cfm, cfy, cash,
+    cap: i.price > 0 ? noi / i.price : null,
+    coc: cash > 0 ? cfy / cash : null,
+    grm: i.rent > 0 ? i.price / (i.rent * 12) : null,
+    dscr: ds > 0 ? noi / ds : null,
+    one: i.price > 0 ? i.rent / i.price : null,
+    verdict: Math.round(cfm * 100) > 0 ? "positive" : Math.round(cfm * 100) < 0 ? "negative" : "break-even",
+    noTerm: loan > 0 && !(Math.round(i.term * 12) > 0)
+  };
+}
+function inputs() {
+  return {
+    price: num("price"), down: num("down", 100), rate: num("rate", 100), term: num("term", 100), closing: num("closing"),
+    rent: num("rent"), vac: num("vac", 100), ptax: num("ptax"), ins: num("ins"), hoa: num("hoa"), other: num("other"),
+    maint: num("maint", 100), mgmt: num("mgmt", 100)
+  };
+}
+function run() {
+  const i = inputs(), a = analyze(i);
+  $("loan").textContent = usd(a.loan); $("pmt").textContent = usd(a.pmt); $("eff").textContent = usd(a.eff);
+  $("opex").textContent = usd(a.opex); $("noi").textContent = usd(a.noi); $("cash").textContent = usd(a.cash);
+  $("cfm").textContent = usd(a.cfm); $("cfm").className = "big " + (a.cfm >= 0 ? "pos" : "neg");
+  $("cfy").textContent = usd(a.cfy) + " per year";
+  const v = $("verdict");
+  if (a.verdict === "positive") { v.className = "verdict pos"; v.textContent = "Positive cash flow: the rent covers all costs and the mortgage."; }
+  else if (a.verdict === "negative") { v.className = "verdict neg"; v.textContent = "Negative cash flow: you would pay " + usd(-a.cfm) + " a month out of pocket."; }
+  else { v.className = "verdict even"; v.textContent = "Break-even: the rent just covers costs and the mortgage."; }
+  $("cap").textContent = pct(a.cap); $("coc").textContent = pct(a.coc);
+  $("grm").textContent = a.grm === null ? "n/a" : a.grm.toFixed(2);
+  $("dscr").textContent = a.dscr !== null ? a.dscr.toFixed(2) : a.loan > 0 ? "n/a" : "no loan";
+  $("one").textContent = a.one === null ? "n/a" : (100 * a.one).toFixed(2) + "% " + (a.one >= 0.01 ? "(passes)" : "(below 1%)");
+  $("warn").style.display = a.noTerm ? "block" : "none";
+  $("warn").textContent = a.noTerm ? "Enter a loan term to include the mortgage payment." : "";
+}
+// ---- Saved properties list + CSV export ----
+const KEY = "nora-rental-cashflow-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+
+function current() {
+  const i = inputs(), a = analyze(i);
+  const name = ($("pname").value || "").trim() || "Property " + (list.length + 1);
+  return Object.assign({ name }, i, a);
+}
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+function renderList() {
+  const tb = document.querySelector("#list tbody"); tb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr"); tr.style.borderBottom = "1px solid var(--line)";
+    tr.innerHTML = `<td>${esc(r.name)}</td><td>${usd(r.price)}</td><td>${usd(r.rent)}</td><td>${usd(r.pmt)}</td><td>${usd(r.noi)}</td>` +
+      `<td class="${r.cfm >= 0 ? "pos" : "neg"}"><strong>${usd(r.cfm)}</strong></td><td>${pct(r.cap)}</td><td>${pct(r.coc)}</td>` +
+      `<td>${r.dscr !== null ? r.dscr.toFixed(2) : r.loan > 0 ? "n/a" : "no loan"}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("pname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this property to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  if (v === null || v === undefined) return "";
+  let s = typeof v === "number" ? (Math.round(v * 100) / 100).toString() : String(v);
+  if (/^[=+\-@\t\r]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+const p100 = v => v === null ? null : Math.round(v * 10000) / 100;
+function toCSV(rows) {
+  const lines = [
+    ["Rental property cash flow report - made with Nora Studio's free Rental Property Cash Flow Calculator"],
+    ["Calculator: " + TOOL],
+    ["Track rent, expenses and cash flow all year: Rental Property Tracker by Nora Studio - " + TRACKER],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Property", "Purchase price", "Down payment %", "Interest rate %", "Loan term (yrs)", "Closing costs", "Monthly rent", "Vacancy %",
+     "Property tax/yr", "Insurance/yr", "HOA/mo", "Maintenance % of rent", "Management % of rent", "Other monthly",
+     "Loan amount", "Monthly mortgage", "Rent after vacancy/mo", "Operating expenses/mo", "NOI/yr", "Cash flow/mo", "Cash flow/yr",
+     "Cash invested", "Cap rate %", "Cash-on-cash %", "GRM", "DSCR", "Verdict"]
+  ];
+  rows.forEach(r => lines.push([r.name, r.price, r.down, r.rate, r.term, r.closing, r.rent, r.vac, r.ptax, r.ins, r.hoa, r.maint, r.mgmt, r.other,
+    r.loan, r.pmt, r.eff, r.opex, r.noi, r.cfm, r.cfy, r.cash, p100(r.cap), p100(r.coc), r.grm, r.dscr, r.verdict]));
+  lines.push([], ["Estimates only. Maintenance = % of scheduled rent; management = % of rent after vacancy; mortgage = principal + interest."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const rows = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "rental-cash-flow-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+document.querySelectorAll("input,select").forEach(el => el.addEventListener("input", run));
+run(); renderList();
+window.__rentalCalc = { payment, analyze, inputs, current, toCSV, run, get list() { return list; } };
+</script>
+</body>
+</html>
