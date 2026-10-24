@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reseller Profit Calculator 2026: eBay vs Poshmark vs Mercari Fees | Nora Studio</title>
+<meta name="description" content="Free reseller profit calculator. Enter what you paid and what it sells for to compare eBay, Poshmark, Mercari, Depop, Facebook Marketplace, Etsy and Whatnot fees, profit and ROI side by side, plus the most you should pay for an item.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/reseller-profit-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1.4fr;gap:22px;padding-bottom:36px}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+table.cmp{width:100%;border-collapse:collapse;font-size:14px}
+table.cmp th,table.cmp td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
+.big{font-size:28px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Reseller Profit Calculator</h1>
+  <p>Where should you sell it, and how much can you pay for it? Compare fees, profit and ROI on eBay, Poshmark, Mercari, Depop, Facebook Marketplace, Etsy and Whatnot in one view. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your item</h2>
+    <label for="iname">Item name <small>(to save and compare items)</small></label><input id="iname" type="text" maxlength="80" placeholder="e.g. Levi's 501 jeans">
+    <label for="price">Expected sale price <small>($)</small></label><input id="price" type="number" min="0" step="0.01" value="40">
+    <label for="ship">Shipping the buyer pays you <small>($)</small></label><input id="ship" type="number" min="0" step="0.01" value="8">
+    <label for="post">Postage you pay for the label <small>($)</small></label><input id="post" type="number" min="0" step="0.01" value="8">
+    <label for="cost">What you paid for the item <small>($)</small></label><input id="cost" type="number" min="0" step="0.01" value="6">
+    <label for="extra">Other costs <small>(cleaning, repair, supplies, $)</small></label><input id="extra" type="number" min="0" step="0.01" value="2">
+    <label for="target">Profit you want per item <small>(for "most to pay", $)</small></label><input id="target" type="number" min="0" step="0.01" value="15">
+    <label for="plat">Platform for the summary</label>
+    <select id="plat"></select>
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Profit on <span id="pl">eBay</span></h2>
+    <div id="profit" class="big">$0.00</div>
+    <div class="muted" id="roi">ROI 0% · fees $0.00</div>
+    <div class="muted" id="most" style="margin-top:4px">Most to pay: $0.00</div>
+    <h2 style="margin-top:20px">Every platform, same item</h2>
+    <div style="overflow-x:auto"><table class="cmp" id="cmp">
+      <thead><tr><th>Platform</th><th>Fees</th><th>You keep</th><th>Profit</th><th>ROI</th><th>Most to pay</th></tr></thead>
+      <tbody></tbody></table></div>
+    <p class="muted" style="margin-top:8px">Best shipped-platform profit highlighted. "You keep" = sale price + shipping paid - fees - postage. On Poshmark and Whatnot the buyer pays the platform's label, so shipping and postage are left out there.</p>
+    <button id="save" class="btn" type="button" style="margin-top:12px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this item to my list</button>
+  </div>
+</section>
+
+<section class="wrap" id="listwrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My items <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few items above to compare them side by side. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" class="cmp" style="display:none">
+      <thead><tr><th>Item</th><th>Price</th><th>Paid</th><th>Best platform</th><th>Best profit</th><th>eBay profit</th><th>Poshmark profit</th><th>Mercari profit</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current item if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Track every flip, not just one</h2>
+    <p>The Reseller Inventory &amp; Profit Tracker does this math for every item you buy and sell: platform fees, profit, ROI and days to sell, stock on hand by age, monthly P&amp;L and a Buy-or-Pass calculator. Excel + Google Sheets.</p>
+    <a href="https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02">Get it for $15</a>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Reseller fees, explained</h2>
+  <h3>Which platform has the lowest fees for resellers?</h3>
+  <p>For a typical $40 item, Depop (US: payment processing only, 3.3% + $0.45) and Mercari (10%) usually take the least, eBay takes about 13.6% of the item plus shipping plus $0.40, and Poshmark takes the most at 20% (a flat $2.95 under $15). The lowest fee is not always the most profit: the platform where the item actually sells at your price wins.</p>
+  <h3>How do I calculate profit on a flip?</h3>
+  <p>Profit = sale price + shipping the buyer paid - platform fees - postage - what you paid for the item - other costs such as cleaning or supplies. ROI is that profit divided by everything you spent on the item.</p>
+  <h3>What is the most I should pay for an item to resell?</h3>
+  <p>Start from the price it realistically sells for, subtract the platform's fees, postage, other costs and the profit you want. What's left is your maximum buy price. The "Most to pay" column does that for every platform.</p>
+  <h3>Does eBay charge fees on shipping?</h3>
+  <p>Yes. eBay's final value fee applies to the total the buyer pays, including shipping (and sales tax), so charging more for shipping does not dodge the fee. Mercari, Depop and Etsy also charge on shipping.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? v : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toFixed(2);
+// Same default rates as the Reseller Tracker's Platforms sheet (US, checked October 2026).
+// pct, fixed per order, % also on shipping, minimum fee, flat-fee threshold, flat fee, buyer pays platform label
+const PLATS = [
+  { name: "eBay", pct: 0.136, fix: 0.40, onShip: true, min: 0, thr: 0, flat: 0, label: false },
+  { name: "Poshmark", pct: 0.20, fix: 0, onShip: false, min: 0, thr: 15, flat: 2.95, label: true },
+  { name: "Mercari", pct: 0.10, fix: 0, onShip: true, min: 0, thr: 0, flat: 0, label: false },
+  { name: "Depop", pct: 0.033, fix: 0.45, onShip: true, min: 0, thr: 0, flat: 0, label: false },
+  { name: "Facebook Marketplace (shipped)", pct: 0.10, fix: 0, onShip: true, min: 0.80, thr: 0, flat: 0, label: false },
+  { name: "Etsy", pct: 0.095, fix: 0.45, onShip: true, min: 0, thr: 0, flat: 0, label: false },
+  { name: "Whatnot", pct: 0.109, fix: 0.30, onShip: false, min: 0, thr: 0, flat: 0, label: true },
+  { name: "Local / cash", pct: 0, fix: 0, onShip: false, min: 0, thr: 0, flat: 0, label: true }
+];
+function fee(p, price, ship) {
+  if (price <= 0) return 0;
+  if (price < p.thr) return p.flat;
+  return Math.max(p.min, p.pct * (price + (p.onShip ? ship : 0)) + p.fix);
+}
+function calc(p, price, ship, post, cost, extra, target) {
+  const s = p.label ? 0 : ship, po = p.label ? 0 : post;
+  const f = fee(p, price, s);
+  const keep = price + s - f - po;
+  const profit = keep - cost - extra;
+  const spent = cost + extra + po;
+  return { name: p.name, fee: f, keep, profit, roi: spent > 0 ? profit / spent : null, most: keep - extra - target };
+}
+function inputs() {
+  return { price: num("price"), ship: num("ship"), post: num("post"), cost: num("cost"), extra: num("extra"), target: num("target") };
+}
+function all(x) { return PLATS.map(p => calc(p, x.price, x.ship, x.post, x.cost, x.extra, x.target)); }
+const pctTxt = r => r === null ? "n/a" : (100 * r).toFixed(0) + "%";
+function run() {
+  const x = inputs(), rows = all(x);
+  const best = rows.reduce((b, r, i) => (PLATS[i].name !== "Local / cash" && r.profit > rows[b].profit ? i : b), 0);
+  const tb = document.querySelector("#cmp tbody"); tb.innerHTML = "";
+  rows.forEach((r, i) => {
+    const tr = document.createElement("tr"); if (i === best && x.price > 0) tr.className = "best";
+    tr.innerHTML = `<td>${r.name}</td><td>${usd(r.fee)}</td><td>${usd(r.keep)}</td><td class="${r.profit >= 0 ? "pos" : "neg"}">${usd(r.profit)}</td>` +
+      `<td>${pctTxt(r.roi)}</td><td>${r.most > 0 ? usd(r.most) : "pass"}</td>`;
+    tb.appendChild(tr);
+  });
+  const s = rows[+$("plat").value || 0];
+  $("pl").textContent = s.name;
+  $("profit").textContent = usd(s.profit); $("profit").className = "big " + (s.profit >= 0 ? "pos" : "neg");
+  $("roi").textContent = `ROI ${pctTxt(s.roi)} · fees ${usd(s.fee)} · you keep ${usd(s.keep)}`;
+  $("most").textContent = s.most > 0 ? `Most to pay for a ${usd(x.target)} profit: ${usd(s.most)}` : `At this price you can't reach a ${usd(x.target)} profit here: pass`;
+}
+PLATS.forEach((p, i) => { const o = document.createElement("option"); o.value = i; o.textContent = p.name; $("plat").appendChild(o); });
+
+// ---- Saved items list + CSV export ----
+const KEY = "nora-reseller-calc-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+function current() {
+  const x = inputs(), rows = all(x);
+  const best = rows.filter(r => r.name !== "Local / cash").reduce((b, r) => (r.profit > b.profit ? r : b), rows[0]);
+  const name = ($("iname").value || "").trim() || "Item " + (list.length + 1);
+  return Object.assign({ name, rows, best: best.name, bestProfit: best.profit }, x);
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const pr = (r, n) => r.rows.find(z => z.name === n).profit;
+function renderList() {
+  const tb = document.querySelector("#list tbody"); tb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${esc(r.name)}</td><td>${usd(r.price)}</td><td>${usd(r.cost)}</td><td>${esc(r.best)}</td>` +
+      `<td class="${r.bestProfit >= 0 ? "pos" : "neg"}"><strong>${usd(r.bestProfit)}</strong></td><td>${usd(pr(r, "eBay"))}</td><td>${usd(pr(r, "Poshmark"))}</td><td>${usd(pr(r, "Mercari"))}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("iname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this item to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  let s = typeof v === "number" ? (Math.round(v * 100) / 100).toString() : String(v);
+  if (/^[=+\-@]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(items) {
+  const lines = [
+    ["Reseller profit report - made with Nora Studio's free Reseller Profit Calculator"],
+    ["Calculator: https://norastudiohq.github.io/tools/reseller-profit-calculator/"],
+    ["Track every flip automatically: Reseller Inventory & Profit Tracker - https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02"],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Item", "Sale price", "Shipping paid", "Postage", "Paid for item", "Other costs", "Target profit", "Platform", "Fees", "You keep", "Profit", "ROI %", "Most to pay"]
+  ];
+  items.forEach(it => it.rows.forEach(r => lines.push([it.name, it.price, it.ship, it.post, it.cost, it.extra, it.target, r.name,
+    r.fee, r.keep, r.profit, r.roi === null ? "" : Math.round(r.roi * 1000) / 10, r.most])));
+  lines.push([], ["Estimates use default US fee rates checked October 2026. Platforms change fees often: check each platform's fee page."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const items = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(items)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "reseller-profit-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+document.querySelectorAll("input,select").forEach(el => el.addEventListener("input", run));
+run(); renderList();
+window.__resellerCalc = { PLATS, fee, calc, all, current, toCSV, get list() { return list; } };
+</script>
+</body>
+</html>
