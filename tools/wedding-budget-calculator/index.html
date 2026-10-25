@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wedding Budget Calculator 2026: Split Your Budget by Category &amp; Cost per Guest | Nora Studio</title>
+<meta name="description" content="Free wedding budget calculator. Enter your total budget and guest count to see how much to spend on the venue, catering, photography, attire, flowers and 12 more categories, your cost per guest, and what each extra guest costs. No signup.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/wedding-budget-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:36px}
+@media(max-width:760px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+.panel h3{font-size:15px;margin:18px 0 0;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);box-sizing:border-box}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row span:last-child{font-variant-numeric:tabular-nums;text-align:right}
+.big{font-size:30px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.verdict{border-radius:10px;padding:10px 14px;font-weight:700;margin:10px 0 4px}
+.verdict.pos{background:rgba(46,139,87,.12)}.verdict.neg{background:rgba(192,57,43,.12)}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+#cats{width:100%;border-collapse:collapse;font-size:14px}
+#cats td{padding:4px 4px;border-bottom:1px solid var(--line)}
+#cats td:nth-child(2){width:84px}#cats td:nth-child(3){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+#cats input{padding:6px 8px;font-size:15px}
+#list th,#list td{padding:6px;white-space:nowrap}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Wedding Budget Calculator</h1>
+  <p>Type your total budget and guest count. See how much to spend on each of 17 categories, your cost per guest, and what every extra guest really costs. Adjust any percentage to fit your priorities. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your wedding</h2>
+    <label for="wname">Scenario name <small>(to save and compare options)</small></label><input id="wname" type="text" maxlength="80" placeholder="e.g. Barn venue, 120 guests">
+    <div class="two">
+      <div><label for="budget">Total budget <small>($)</small></label><input id="budget" type="number" min="0" step="500" value="30000"></div>
+      <div><label for="guests">Guests <small>(people)</small></label><input id="guests" type="number" min="0" step="1" value="100"></div>
+    </div>
+    <h3>Split by category <small style="text-transform:none;letter-spacing:0">(% of budget, edit any)</small></h3>
+    <table id="cats"><tbody></tbody></table>
+    <p class="muted" id="pctsum" style="margin-top:8px"></p>
+    <button id="reset" type="button" style="margin-top:4px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline;padding:0">Reset to typical %</button>
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Your budget at a glance</h2>
+    <div class="muted">Cost per guest</div>
+    <div id="perguest" class="big">$0.00</div>
+    <div id="verdict" class="verdict pos">-</div>
+    <div style="margin-top:16px">
+      <div class="row"><span>Total budget</span><span id="tot">$0.00</span></div>
+      <div class="row"><span>Allocated to categories</span><span id="alloc">$0.00</span></div>
+      <div class="row"><strong id="leftlbl">Left to allocate</strong><strong id="left">$0.00</strong></div>
+      <div class="row"><span>Venue + catering & bar</span><span id="vc">$0.00</span></div>
+      <div class="row"><span>Catering & bar per guest</span><span id="cpg">$0.00</span></div>
+      <div class="row"><span>Each extra guest adds about</span><strong id="extra">$0.00</strong></div>
+      <div class="row"><span id="cutlbl">Cutting 10 guests frees up about</span><span id="cut10">$0.00</span></div>
+    </div>
+    <h3>Top 5 categories</h3>
+    <div id="top5"></div>
+    <button id="save" class="btn" type="button" style="margin-top:16px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this scenario to my list</button>
+    <p class="muted" style="margin-top:12px">Typical % are rough US averages for guidance; real costs vary a lot by city and season. "Each extra guest" counts the per-head categories: catering & bar, cake & desserts, stationery, rentals and favors. Venue, photography and most others don't change much with headcount.</p>
+  </div>
+</section>
+
+<section class="wrap" id="listwrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My scenarios <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few scenarios above (different budgets, guest counts or priorities) to compare them side by side. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" style="width:100%;border-collapse:collapse;font-size:14px;display:none">
+      <thead><tr style="text-align:left;border-bottom:2px solid var(--line)"><th>Scenario</th><th>Budget</th><th>Guests</th><th>Per guest</th><th>Venue</th><th>Catering & bar</th><th>Photography</th><th>Extra guest</th><th>Left</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current scenario if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Now track every payment until the big day</h2>
+    <p>The Wedding Budget Planner &amp; Tracker uses these same 17 categories, then logs deposits and balances due, flags overdue payments, tracks vendors, a 500-guest list with RSVPs and meals, and a 50-task checklist that counts back from your date. Excel + Google Sheets.</p>
+    <a href="https://www.etsy.com/listing/4601766172">Get it on Etsy</a>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Wedding budget questions, answered</h2>
+  <h3>How should I split my wedding budget?</h3>
+  <p>A common starting point is about 45% for the venue plus catering and bar, about 14% for photography and video, 8% for flowers and decor, 8% for attire, hair and makeup, 5% for music, and the rest across rings, planner, stationery, rentals, cake, transport, favors and the officiant, with a few percent held back for surprises. Move money toward what matters most to you and away from what doesn't.</p>
+  <h3>What is a normal cost per guest?</h3>
+  <p>Divide your total budget by your headcount. Many US weddings land somewhere between $150 and $400 per guest all-in, and catering alone often runs $50 to $150 per head. If your cost per guest looks high, the guest list is usually the biggest lever.</p>
+  <h3>How much does each extra guest cost?</h3>
+  <p>More than the meal. Each guest adds food and drinks, a share of the cake, an invitation and postage, a chair, linens and place setting, and a favor. This calculator adds those per-head categories up so you can see what trimming or growing the list really does.</p>
+  <h3>How much should I set aside for unexpected costs?</h3>
+  <p>Plan on 5% to 10%. Taxes, service charges, gratuities, overtime and last-minute fixes are the usual surprises. Keep the "Contingency / other" row, or raise it if your quotes don't yet include tax and tips.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const MAX = 1e12;
+// Same 17 categories and typical % as the paid planner (build_wedding.py). Change both together.
+const CATS = [["Venue", 20], ["Catering & bar", 25], ["Photography", 10], ["Videography", 4], ["Attire", 6],
+  ["Hair & makeup", 2], ["Flowers & decor", 8], ["Music & entertainment", 5], ["Wedding planner", 3],
+  ["Rings", 3], ["Cake & desserts", 2], ["Stationery", 2], ["Rentals", 2], ["Transportation", 2],
+  ["Favors & gifts", 1], ["Officiant & license", 1], ["Contingency / other", 4]];
+const PER_HEAD = ["Catering & bar", "Cake & desserts", "Stationery", "Rentals", "Favors & gifts"];
+const PLANNER = "https://www.etsy.com/listing/4601766172";
+const TOOL = "https://norastudiohq.github.io/tools/wedding-budget-calculator/";
+// Defensive parse: blank/text/negative/NaN -> 0, capped at hi.
+const parse = (s, hi) => { const v = parseFloat(s); return isFinite(v) && v > 0 ? Math.min(v, hi === undefined ? MAX : hi) : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const r2 = v => Math.round(v * 100) / 100;
+
+const tb = document.querySelector("#cats tbody");
+CATS.forEach(([n, p], k) => {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `<td><label for="p${k}" style="margin:0;font-weight:500">${n}</label></td>` +
+    `<td><input id="p${k}" type="number" min="0" max="100" step="0.5" value="${p}" aria-label="${n} percent"></td><td id="a${k}">$0.00</td>`;
+  tb.appendChild(tr);
+});
+
+// i = {budget, guests, pcts:[17 numbers]}
+function analyze(i) {
+  const amts = i.pcts.map(p => i.budget * p / 100);
+  const pctTotal = i.pcts.reduce((s, p) => s + p, 0);
+  const alloc = amts.reduce((s, a) => s + a, 0);
+  const by = n => amts[CATS.findIndex(c => c[0] === n)];
+  const perHead = PER_HEAD.reduce((s, n) => s + by(n), 0);
+  const g = i.guests;
+  return {
+    amts, pctTotal, alloc, left: i.budget - alloc,
+    perGuest: g > 0 ? i.budget / g : null,
+    venueCatering: by("Venue") + by("Catering & bar"),
+    cateringPerGuest: g > 0 ? by("Catering & bar") / g : null,
+    extraGuest: g > 0 ? perHead / g : null,
+    cut10: g > 0 ? perHead / g * Math.min(10, g) : null,
+    over: Math.round(pctTotal * 1000) > 100000, under: Math.round(pctTotal * 1000) < 100000
+  };
+}
+function inputs() {
+  return { budget: parse($("budget").value), guests: Math.floor(parse($("guests").value, 100000)),
+    pcts: CATS.map((c, k) => parse($("p" + k).value, 100)) };
+}
+const dash = v => v === null ? "n/a" : usd(v);
+function run() {
+  const i = inputs(), a = analyze(i);
+  a.amts.forEach((v, k) => ($("a" + k).textContent = usd(v)));
+  $("perguest").textContent = a.perGuest === null ? "Add guests" : usd(a.perGuest);
+  $("tot").textContent = usd(i.budget); $("alloc").textContent = usd(a.alloc);
+  $("left").textContent = usd(a.left); $("left").className = a.left < -0.005 ? "neg" : "";
+  $("leftlbl").textContent = a.left < -0.005 ? "Over budget by" : "Left to allocate";
+  if (a.left < -0.005) $("left").textContent = usd(-a.left);
+  $("vc").textContent = usd(a.venueCatering); $("cpg").textContent = dash(a.cateringPerGuest);
+  $("extra").textContent = dash(a.extraGuest); $("cut10").textContent = dash(a.cut10);
+  $("cutlbl").textContent = "Cutting " + (i.guests > 0 && i.guests < 10 ? i.guests : 10) + " guests frees up about";
+  const pt = Math.round(a.pctTotal * 100) / 100;
+  $("pctsum").textContent = "Your categories add up to " + pt + "%" + (a.over ? ": more than 100%, so the plan is over budget." : a.under ? ": " + r2(100 - pt) + "% is not assigned yet." : ".");
+  $("pctsum").className = a.over ? "neg" : "muted";
+  const v = $("verdict");
+  if (a.over) { v.className = "verdict neg"; v.textContent = "Over budget: your categories add up to " + pt + "%. Lower a few until the total is 100%."; }
+  else if (i.budget <= 0) { v.className = "verdict neg"; v.textContent = "Enter your total budget to see the split."; }
+  else { v.className = "verdict pos"; v.textContent = a.under ? "Within budget, with " + usd(a.left) + " still to assign." : "Every dollar has a job: your split adds up to 100%."; }
+  const top = CATS.map((c, k) => [c[0], a.amts[k], i.pcts[k]]).sort((x, y) => y[1] - x[1]).slice(0, 5);
+  $("top5").innerHTML = top.map(t => `<div class="row"><span>${t[0]} (${r2(t[2])}%)</span><span>${usd(t[1])}</span></div>`).join("");
+}
+$("reset").addEventListener("click", () => { CATS.forEach((c, k) => ($("p" + k).value = c[1])); run(); });
+
+// ---- Saved scenarios list + CSV export ----
+const KEY = "nora-wedding-budget-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+function current() {
+  const i = inputs(), a = analyze(i);
+  const name = ($("wname").value || "").trim() || "Scenario " + (list.length + 1);
+  return Object.assign({ name }, i, a);
+}
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+function renderList() {
+  const lb = document.querySelector("#list tbody"); lb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr"); tr.style.borderBottom = "1px solid var(--line)";
+    tr.innerHTML = `<td>${esc(r.name)}</td><td>${usd(r.budget)}</td><td>${r.guests}</td><td><strong>${dash(r.perGuest)}</strong></td>` +
+      `<td>${usd(r.amts[0])}</td><td>${usd(r.amts[1])}</td><td>${usd(r.amts[2])}</td><td>${dash(r.extraGuest)}</td>` +
+      `<td class="${r.left < -0.005 ? "neg" : ""}">${usd(r.left)}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    lb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("wname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this scenario to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  if (v === null || v === undefined) return "";
+  let s = typeof v === "number" ? r2(v).toString() : String(v);
+  if (/^[=+\-@\t\r]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(rows) {
+  const lines = [
+    ["Wedding budget plan - made with Nora Studio's free Wedding Budget Calculator"],
+    ["Calculator: " + TOOL],
+    ["Track payments, vendors, guests and your checklist: Wedding Budget Planner & Tracker by Nora Studio - " + PLANNER],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Scenario", "Total budget", "Guests", "Cost per guest", "Each extra guest", "Allocated", "Left to allocate", "Total %"]
+      .concat(CATS.map(c => c[0] + " %"), CATS.map(c => c[0] + " $"))
+  ];
+  rows.forEach(r => lines.push([r.name, r.budget, r.guests, r.perGuest, r.extraGuest, r.alloc, r.left, r.pctTotal].concat(r.pcts, r.amts)));
+  lines.push([], ["Typical % are rough US averages for guidance. Each extra guest = per-head categories (catering & bar, cake, stationery, rentals, favors) / guests."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const rows = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "wedding-budget-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+document.querySelectorAll("input").forEach(el => el.addEventListener("input", run));
+run(); renderList();
+window.__weddingCalc = { CATS, analyze, inputs, current, toCSV, run, get list() { return list; } };
+</script>
+</body>
+</html>
