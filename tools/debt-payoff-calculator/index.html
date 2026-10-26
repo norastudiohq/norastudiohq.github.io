@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debt Payoff Calculator 2026: Snowball vs Avalanche, Your Debt-Free Date | Nora Studio</title>
+<meta name="description" content="Free debt payoff calculator. Enter your debts and extra monthly payment to compare the debt snowball and avalanche methods side by side: your debt-free date, total interest, interest saved and the month each debt is paid off. No signup.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/debt-payoff-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;padding-bottom:36px}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+.panel h3{font-size:15px;margin:18px 0 6px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);box-sizing:border-box}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row span:last-child{font-variant-numeric:tabular-nums;text-align:right}
+.big{font-size:30px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.verdict{border-radius:10px;padding:10px 14px;font-weight:700;margin:10px 0 4px}
+.verdict.pos{background:rgba(46,139,87,.12)}.verdict.neg{background:rgba(192,57,43,.12)}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+.scroll{overflow-x:auto}
+#debts{width:100%;border-collapse:collapse;font-size:14px;min-width:460px}
+#debts th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:2px 4px}
+#debts td{padding:3px 4px}
+#debts input{padding:7px 8px;font-size:15px}
+#debts td:nth-child(1){width:34%}
+.cmp{width:100%;border-collapse:collapse;font-size:14px}
+.cmp th,.cmp td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+.cmp th:first-child,.cmp td:first-child{text-align:left}
+.cmp tr.best td{font-weight:700}
+#list th,#list td{padding:6px;white-space:nowrap}
+.link{background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline;padding:0;font-size:14px}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Debt Payoff Calculator: Snowball vs Avalanche</h1>
+  <p>List your debts and how much extra you can pay each month. See your debt-free date, total interest and how much you save with the debt snowball or the debt avalanche, compared with paying only the minimums. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your debts</h2>
+    <div class="scroll"><table id="debts">
+      <thead><tr><th>Debt</th><th>Balance ($)</th><th>APR (%)</th><th>Min. payment ($)</th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:8px 0 0"><button id="add" type="button" class="link">+ Add a debt</button> &nbsp; <button id="example" type="button" class="link">Load example</button> &nbsp; <button id="blank" type="button" class="link">Clear all</button></p>
+    <label for="extra">Extra payment each month <small>(on top of all minimums, $)</small></label><input id="extra" type="number" min="0" step="25" value="200">
+    <label for="pname">Plan name <small>(to save and compare plans)</small></label><input id="pname" type="text" maxlength="80" placeholder="e.g. $200 extra, snowball">
+    <p class="muted" style="margin-top:12px">Interest is charged monthly at APR / 12 on the balance and rounded to the cent, the way most cards and loans work. Each paid-off debt's minimum rolls into the next one. Up to 15 debts.</p>
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Your debt-free date</h2>
+    <div class="muted" id="bestlbl">With the best method</div>
+    <div id="date" class="big">-</div>
+    <div id="verdict" class="verdict pos">-</div>
+    <h3>Compare methods</h3>
+    <table class="cmp" id="cmp">
+      <thead><tr><th>Method</th><th>Debt-free in</th><th>Total interest</th><th>Interest saved</th></tr></thead>
+      <tbody></tbody></table>
+    <h3 id="orderh">Payoff order</h3>
+    <label for="method" style="margin-top:0">Show order for</label>
+    <select id="method"><option value="aval">Avalanche (highest APR first)</option><option value="snow">Snowball (smallest balance first)</option><option value="min">Minimums only</option></select>
+    <div id="order"></div>
+    <button id="save" class="btn" type="button" style="margin-top:16px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this plan to my list</button>
+  </div>
+</section>
+
+<section class="wrap" id="listwrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My plans <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few plans above (different extra payments or debts) to compare them side by side. Your list stays in this browser only.</p>
+    <div class="scroll"><table id="list" style="width:100%;border-collapse:collapse;font-size:14px;display:none">
+      <thead><tr style="text-align:left;border-bottom:2px solid var(--line)"><th>Plan</th><th>Debts</th><th>Total owed</th><th>Extra/mo</th><th>Snowball</th><th>Avalanche</th><th>Minimums only</th><th>Avalanche interest</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" class="link" style="margin-left:10px">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved plans, or the current plan with each debt's payoff month if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Turn this plan into a month-by-month payoff schedule</h2>
+    <p>The Debt Payoff Planner runs the same snowball and avalanche math for up to 15 debts, adds your own custom order, lays out every month's payment per debt, tracks what you've actually paid and shows your progress toward debt-free. Excel + Google Sheets, instant download.</p>
+    <a href="https://www.etsy.com/listing/4602849314">Get the Debt Payoff Planner</a>
+    <a href="https://www.etsy.com/listing/4603096018">Budget + Debt bundle</a>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Debt payoff questions, answered</h2>
+  <h3>Debt snowball vs avalanche: which is better?</h3>
+  <p>The avalanche (highest interest rate first) always costs the least interest, or ties. The snowball (smallest balance first) pays off your first debt sooner, and those quick wins keep many people going. If the two are close, as they often are, pick the one you'll stick with. This calculator shows the exact gap for your debts.</p>
+  <h3>How do I calculate my debt-free date?</h3>
+  <p>Each month, add interest to every balance (APR divided by 12), pay every minimum, and put all the extra money on one target debt. When a debt hits zero, its minimum joins the extra and rolls to the next. Count the months until every balance is zero. That's what this calculator does for you.</p>
+  <h3>Why does "minimums only" say it will never be paid off?</h3>
+  <p>If a minimum payment is less than the interest charged each month, the balance grows instead of shrinking. Raise that payment, add extra money, or look into a lower-rate option such as a balance transfer.</p>
+  <h3>How much extra should I pay each month?</h3>
+  <p>Any amount helps, because extra money goes straight to principal. Try a few amounts and save each one to your list: you'll see how many months and how much interest every extra $50 or $100 saves.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const MAX = 1e9, MAXDEBTS = 15, HORIZON = 600;
+const PLANNER = "https://www.etsy.com/listing/4602849314";
+const TOOL = "https://norastudiohq.github.io/tools/debt-payoff-calculator/";
+const EXAMPLE = [["Visa card", 4850, 24.99, 145], ["Store card", 1200, 28.99, 40], ["Car loan", 11400, 7.5, 315], ["Medical bill", 650, 0, 50]];
+const NAMES = { snow: "Snowball", aval: "Avalanche", min: "Minimums only" };
+// Defensive parse: blank/text/negative/NaN -> 0, capped at hi.
+const parse = (s, hi) => { const v = parseFloat(s); return isFinite(v) && v > 0 ? Math.min(v, hi === undefined ? MAX : hi) : 0; };
+// Excel-style ROUND to cents: half away from zero on the 15-digit value (mirrors debt_sim.py).
+const r2 = x => (x < 0 ? -1 : 1) * Math.round(Number((Math.abs(x) * 100).toPrecision(15))) / 100;
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// debts: [{name, balance, apr, min}] (only rows with balance > 0). strategy: snow | aval | min.
+// Same algorithm as projects/products/_build/debt_sim.py and the paid planner. Change all together.
+function simulate(debts, extra, strategy) {
+  const idx = debts.map((d, i) => i);
+  const order = strategy === "aval"
+    ? idx.slice().sort((a, b) => debts[b].apr - debts[a].apr || debts[a].balance - debts[b].balance || a - b)
+    : idx.slice().sort((a, b) => debts[a].balance - debts[b].balance || debts[b].apr - debts[a].apr || a - b);
+  const bal = debts.map(d => r2(d.balance)), payoff = debts.map(() => null), paid = debts.map(() => 0);
+  const budget = strategy === "min" ? 0 : debts.reduce((s, d) => s + d.min, 0) + extra;
+  let interest = 0, total = 0, months = null;
+  if (!debts.length) return { months: 0, interest: 0, paid: 0, payoff: [], order: [], interestBy: [] };
+  for (let m = 1; m <= HORIZON; m++) {
+    const due = [], mins = [];
+    order.forEach(i => {
+      if (bal[i] < 0.005) { due[i] = 0; mins[i] = 0; return; }
+      const it = r2(bal[i] * debts[i].apr / 100 / 12);
+      interest += it; due[i] = bal[i] + it; mins[i] = Math.min(due[i], debts[i].min);
+    });
+    const pool = Math.max(0, budget - order.reduce((s, i) => s + mins[i], 0));
+    let used = 0;
+    order.forEach(i => {
+      if (bal[i] < 0.005) return;
+      const ex = Math.min(due[i] - mins[i], Math.max(0, pool - used));
+      used += ex; const pay = mins[i] + ex;
+      paid[i] += pay; total += pay;
+      bal[i] = r2(due[i] - pay);
+      if (bal[i] < 0.005 && payoff[i] === null) payoff[i] = m;
+    });
+    if (bal.every(b => b < 0.005)) { months = m; break; }
+  }
+  return { months, interest: r2(interest), paid: r2(total), payoff, order,
+    interestBy: debts.map((d, i) => r2(paid[i] - d.balance + bal[i])), left: r2(bal.reduce((s, b) => s + b, 0)) };
+}
+
+const tb = document.querySelector("#debts tbody");
+function addRow(d) {
+  if (tb.children.length >= MAXDEBTS) return;
+  const k = tb.children.length, tr = document.createElement("tr");
+  d = d || ["", "", "", ""];
+  tr.innerHTML = `<td><input type="text" maxlength="60" aria-label="Debt ${k + 1} name" placeholder="Debt ${k + 1}" value="${esc(d[0])}"></td>` +
+    `<td><input type="number" min="0" step="50" aria-label="Debt ${k + 1} balance" value="${d[1]}"></td>` +
+    `<td><input type="number" min="0" max="100" step="0.01" aria-label="Debt ${k + 1} APR" value="${d[2]}"></td>` +
+    `<td><input type="number" min="0" step="5" aria-label="Debt ${k + 1} minimum payment" value="${d[3]}"></td>`;
+  tr.querySelectorAll("input").forEach(el => el.addEventListener("input", run));
+  tb.appendChild(tr);
+  $("add").style.display = tb.children.length >= MAXDEBTS ? "none" : "";
+}
+function setRows(rows) { tb.innerHTML = ""; rows.forEach(addRow); for (let k = rows.length; k < 3; k++) addRow(); run(); }
+
+function inputs() {
+  const debts = [];
+  [...tb.children].forEach((tr, k) => {
+    const v = [...tr.querySelectorAll("input")].map(x => x.value);
+    const balance = r2(parse(v[1])), apr = parse(v[2], 100), min = r2(parse(v[3]));
+    if (balance > 0) debts.push({ name: (v[0] || "").trim().slice(0, 60) || "Debt " + (k + 1), balance, apr, min });
+  });
+  return { debts, extra: r2(parse($("extra").value)) };
+}
+function analyze(i) {
+  const r = {};
+  ["snow", "aval", "min"].forEach(s => (r[s] = simulate(i.debts, i.extra, s)));
+  const owed = r2(i.debts.reduce((s, d) => s + d.balance, 0));
+  return { res: r, owed, minSum: r2(i.debts.reduce((s, d) => s + d.min, 0)) };
+}
+const fmtMonths = m => m === null ? "Never" : m === 0 ? "-" : ((m >= 12 ? Math.floor(m / 12) + " yr " : "") + (m % 12 ? (m % 12) + " mo" : "")).trim();
+function dateAfter(m) {
+  if (m === null) return null;
+  const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + m);
+  return d.toLocaleString("en-US", { month: "long", year: "numeric" });
+}
+function run() {
+  const i = inputs(), a = analyze(i), r = a.res, v = $("verdict");
+  const minInt = r.min.months === null ? null : r.min.interest;
+  const rows = ["aval", "snow", "min"].map(s => {
+    const x = r[s], saved = s === "min" ? null : (minInt === null ? null : r2(minInt - x.interest));
+    return `<tr class="${s === "aval" && i.debts.length ? "best" : ""}"><td>${NAMES[s]}</td><td>${fmtMonths(x.months)}</td>` +
+      `<td>${x.months === null ? "Grows" : usd(x.interest)}</td><td>${s === "min" || !i.debts.length ? "-" : saved === null ? "All of it" : usd(saved)}</td></tr>`;
+  });
+  document.querySelector("#cmp tbody").innerHTML = rows.join("");
+  if (!i.debts.length) {
+    $("date").textContent = "-"; v.className = "verdict neg"; v.textContent = "Enter at least one debt with a balance.";
+  } else if (r.aval.months === null) {
+    $("date").textContent = "Not within 50 years"; v.className = "verdict neg";
+    v.textContent = "Your payments don't cover the interest. Raise a minimum or add extra each month.";
+  } else {
+    $("date").textContent = dateAfter(r.aval.months);
+    const gap = r2(r.snow.interest - r.aval.interest), mGap = (r.snow.months || 0) - r.aval.months;
+    v.className = "verdict pos";
+    v.textContent = (minInt === null ? "Paying minimums only would never clear this debt. "
+        : "That's " + fmtMonths(r.min.months - r.aval.months).replace(/^-$/, "0 mo") + " sooner and " + usd(r2(minInt - r.aval.interest)) + " less interest than minimums only. ") +
+      (gap < 0.005 && mGap <= 0 ? "Snowball and avalanche tie here, so pick the one you'll stick with."
+        : "Avalanche saves " + usd(gap) + " more than snowball" + (mGap > 0 ? " and finishes " + mGap + " mo sooner." : "."));
+  }
+  const s = $("method").value, x = r[s];
+  $("order").innerHTML = x.order.map((k, n) => `<div class="row"><span>${n + 1}. ${esc(i.debts[k].name)}</span><span>${x.payoff[k] === null ? "not paid off" : "paid off " + dateAfter(x.payoff[k]) + " (month " + x.payoff[k] + ")"}</span></div>`).join("") +
+    (i.debts.length ? `<div class="row"><span>Monthly payment</span><span>${usd(s === "min" ? a.minSum : r2(a.minSum + i.extra))}</span></div>` : "");
+}
+$("add").addEventListener("click", () => { addRow(); run(); });
+$("example").addEventListener("click", () => setRows(EXAMPLE));
+$("blank").addEventListener("click", () => setRows([]));
+$("method").addEventListener("change", run);
+$("extra").addEventListener("input", run);
+
+// ---- Saved plans list + CSV export ----
+const KEY = "nora-debt-payoff-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+function current() {
+  const i = inputs(), a = analyze(i);
+  const name = ($("pname").value || "").trim() || "Plan " + (list.length + 1);
+  return { name, debts: i.debts, extra: i.extra, owed: a.owed, minSum: a.minSum,
+    snow: { months: a.res.snow.months, interest: a.res.snow.interest, payoff: a.res.snow.payoff },
+    aval: { months: a.res.aval.months, interest: a.res.aval.interest, payoff: a.res.aval.payoff },
+    min: { months: a.res.min.months, interest: a.res.min.interest, payoff: a.res.min.payoff } };
+}
+const cellRes = x => fmtMonths(x.months) + (x.months === null ? "" : " / " + usd(x.interest));
+function renderList() {
+  const lb = document.querySelector("#list tbody"); lb.innerHTML = "";
+  list.forEach((p, i) => {
+    const tr = document.createElement("tr"); tr.style.borderBottom = "1px solid var(--line)";
+    tr.innerHTML = `<td>${esc(p.name)}</td><td>${p.debts.length}</td><td>${usd(p.owed)}</td><td>${usd(p.extra)}</td>` +
+      `<td>${cellRes(p.snow)}</td><td><strong>${cellRes(p.aval)}</strong></td><td>${cellRes(p.min)}</td><td>${p.aval.months === null ? "-" : usd(p.aval.interest)}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(p.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    lb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("pname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this plan to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  if (v === null || v === undefined) return "";
+  let s = typeof v === "number" ? r2(v).toString() : String(v);
+  if (/^[=+\-@\t\r]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+const mo = m => m === null ? "never (50+ yrs)" : m;
+function toCSV(plans) {
+  const lines = [
+    ["Debt payoff plan - made with Nora Studio's free Debt Payoff Calculator"],
+    ["Calculator: " + TOOL],
+    ["Month-by-month schedule, custom order and progress tracking: Debt Payoff Planner by Nora Studio - " + PLANNER],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Plan", "Debts", "Total owed", "Minimums/mo", "Extra/mo", "Snowball months", "Snowball interest", "Avalanche months", "Avalanche interest", "Minimums-only months", "Minimums-only interest"]
+  ];
+  plans.forEach(p => lines.push([p.name, p.debts.length, p.owed, p.minSum, p.extra, mo(p.snow.months), p.snow.interest, mo(p.aval.months), p.aval.interest, mo(p.min.months), p.min.months === null ? "" : p.min.interest]));
+  plans.forEach(p => {
+    lines.push([], ["Debts in plan: " + p.name], ["Debt", "Balance", "APR %", "Min payment", "Snowball payoff month", "Avalanche payoff month", "Minimums-only payoff month"]);
+    p.debts.forEach((d, k) => lines.push([d.name, d.balance, d.apr, d.min, mo(p.snow.payoff[k]), mo(p.aval.payoff[k]), mo(p.min.payoff[k])]));
+  });
+  lines.push([], ["Interest is charged monthly at APR/12 and rounded to the cent. Each paid-off minimum rolls into the next debt. Estimates only, not financial advice."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const rows = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "debt-payoff-plan-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+setRows(EXAMPLE); renderList();
+window.__debtCalc = { simulate, inputs, analyze, current, toCSV, run, setRows, r2, get list() { return list; } };
+</script>
+</body>
+</html>
