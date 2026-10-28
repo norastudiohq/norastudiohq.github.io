@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poshmark Fee Calculator 2026: Earnings, Profit &amp; Lowest Offer | Nora Studio</title>
+<meta name="description" content="Free Poshmark fee calculator for 2026. See the Poshmark fee ($2.95 under $15, 20% from $15), what you earn, your profit after cost, the lowest offer to accept and the price to list at for the payout you want.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/poshmark-fee-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1.4fr;gap:22px;padding-bottom:36px}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+table.cmp{width:100%;border-collapse:collapse;font-size:14px}
+table.cmp th,table.cmp td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
+.big{font-size:28px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a.buy{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.cta p a{color:#fff;text-decoration:underline}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Poshmark Fee Calculator 2026</h1>
+  <p>What will you actually earn on Poshmark? Enter the sale price to see the Poshmark fee, your payout, your profit after what you paid, the lowest offer worth accepting and the price to list at. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your sale</h2>
+    <label for="iname">Item name <small>(to save and compare items)</small></label><input id="iname" type="text" maxlength="80" placeholder="e.g. Lululemon Align leggings">
+    <label for="price">Sale price or accepted offer <small>($)</small></label><input id="price" type="number" min="0" step="0.01" value="35">
+    <label for="disc">Shipping discount you cover <small>(if you offered discounted shipping, $)</small></label><input id="disc" type="number" min="0" step="0.01" value="0">
+    <label for="cost">What you paid for the item <small>($)</small></label><input id="cost" type="number" min="0" step="0.01" value="8">
+    <label for="extra">Other costs <small>(cleaning, supplies, $)</small></label><input id="extra" type="number" min="0" step="0.01" value="1">
+    <label for="target">Profit you want <small>(for the lowest offer, $)</small></label><input id="target" type="number" min="0" step="0.01" value="15">
+    <label for="want">Payout you want <small>(to find the price to list at, $)</small></label><input id="want" type="number" min="0" step="0.01" value="30">
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Your Poshmark payout</h2>
+    <div id="earn" class="big">$0.00</div>
+    <div class="muted" id="feeline">Poshmark fee $0.00</div>
+    <div class="muted" id="profitline" style="margin-top:4px">Profit $0.00</div>
+    <div class="muted" id="lowline" style="margin-top:4px"></div>
+    <div class="muted" id="listline" style="margin-top:4px"></div>
+    <h2 style="margin-top:20px">If you accept an offer</h2>
+    <div style="overflow-x:auto"><table class="cmp" id="offers">
+      <thead><tr><th>Offer</th><th>Price</th><th>Poshmark fee</th><th>You earn</th><th>Profit</th></tr></thead>
+      <tbody></tbody></table></div>
+    <p class="muted" style="margin-top:8px">The buyer pays the Poshmark shipping label, so postage is not in your costs unless you offered a shipping discount. Rows at or above your target profit are highlighted.</p>
+    <button id="save" class="btn" type="button" style="margin-top:12px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this item to my list</button>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My items <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few items above to compare them. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" class="cmp" style="display:none">
+      <thead><tr><th>Item</th><th>Price</th><th>Fee</th><th>You earn</th><th>Paid</th><th>Profit</th><th>Lowest offer</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current item if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>Poshmark fees at common prices</h2>
+    <div style="overflow-x:auto"><table class="cmp" id="ladder">
+      <thead><tr><th>Sale price</th><th>Poshmark fee</th><th>You earn</th><th>Fee as % of price</th></tr></thead>
+      <tbody></tbody></table></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Selling on more than Poshmark?</h2>
+    <p>The Reseller Inventory &amp; Profit Tracker does this math for every item you buy and sell, on Poshmark, eBay, Mercari, Depop and more: fees, profit, ROI and days to sell, stock on hand by age, monthly P&amp;L and a Buy-or-Pass calculator. Excel + Google Sheets.</p>
+    <a class="buy" href="https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02">Get it for $15</a>
+    <p style="margin-top:14px">Compare the same item on every platform with the free <a href="../reseller-profit-calculator/">Reseller Profit Calculator</a>. Driving to thrift stores? Estimate your write-off with the free <a href="../mileage-deduction-calculator/">2026 Mileage Deduction Calculator</a>.</p>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Poshmark fees, explained</h2>
+  <h3>How much does Poshmark take in 2026?</h3>
+  <p>In the US, Poshmark charges a flat $2.95 on sales under $15 and 20% of the sale price on sales of $15 or more. There is no listing fee and no monthly fee, and the buyer pays for the prepaid shipping label. A $35 sale costs a $7.00 fee, so you earn $28.00.</p>
+  <h3>Why is the fee so high on cheap items?</h3>
+  <p>The $2.95 flat fee is a big share of a small sale: on a $10 item it is 29.5%, and you earn $7.05. A $15 sale costs $3.00 (20%), so a $14 item and a $15 item earn almost the same ($11.05 vs $12.00). Bundling cheap items into one sale is the usual fix.</p>
+  <h3>What is the lowest offer I should accept?</h3>
+  <p>Work back from the profit you want: add it to what you paid, your other costs and any shipping discount you cover, then find the price whose payout reaches that number. The calculator does this for you in the "Lowest offer" line.</p>
+  <h3>What price should I list at to earn a set amount?</h3>
+  <p>For payouts above $12.05, divide the payout you want by 0.8 (for $30, list at $37.50). For smaller payouts, add $2.95. Buyers often offer 10-30% below the listing price, so leave room.</p>
+  <h3>Does Poshmark charge fees on shipping?</h3>
+  <p>No. The fee is on the sale price. If you offer a shipping discount, the part of the label you cover comes out of your earnings.</p>
+  <p class="muted" style="margin-top:22px">Fee rates for Poshmark US, checked October 2026. Other countries use different rates. Poshmark can change its fees: check your sale summary for the exact amount.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toFixed(2);
+const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+// Poshmark US (checked October 2026): flat $2.95 under $15, otherwise 20% of the sale price.
+const THR = 15, FLAT = 2.95, PCT = 0.20;
+function fee(price) { if (price <= 0) return 0; return price < THR ? FLAT : r2(PCT * price); }
+function earn(price) { return price <= 0 ? 0 : r2(price - fee(price)); }
+// Smallest price (whole cents) whose payout is at least `need`.
+function priceFor(need) {
+  need = r2(need);
+  if (need <= 0) return 0;
+  const p1 = r2(need + FLAT);
+  if (p1 < THR) return p1;
+  let p = Math.max(THR, Math.ceil(r2(need / (1 - PCT)) * 100 - 1e-6) / 100);
+  while (earn(p) < need) p = r2(p + 0.01);
+  while (p - 0.01 >= THR && earn(r2(p - 0.01)) >= need) p = r2(p - 0.01);   // fee rounds to cents
+  return p;
+}
+function calc(x) {
+  const f = fee(x.price), e = r2(earn(x.price) - x.disc);
+  return { fee: f, earn: e, profit: r2(e - x.cost - x.extra),
+    low: priceFor(x.target + x.cost + x.extra + x.disc), list: priceFor(x.want + x.disc) };
+}
+function inputs() { return { price: num("price"), disc: num("disc"), cost: num("cost"), extra: num("extra"), target: num("target"), want: num("want") }; }
+const OFFERS = [1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7];
+function offers(x) {
+  return OFFERS.map(k => { const p = r2(x.price * k), e = r2(earn(p) - x.disc);
+    return { k, price: p, fee: fee(p), earn: e, profit: r2(e - x.cost - x.extra) }; });
+}
+const LADDER = [5, 10, 14, 15, 20, 25, 30, 40, 50, 75, 100];
+function run() {
+  const x = inputs(), c = calc(x);
+  $("earn").textContent = usd(c.earn);
+  $("feeline").textContent = `Poshmark fee ${usd(c.fee)}` + (x.price > 0 ? ` (${(100 * c.fee / x.price).toFixed(1)}% of the price)` : "");
+  $("profitline").innerHTML = `Profit after cost: <strong class="${c.profit >= 0 ? "pos" : "neg"}">${usd(c.profit)}</strong>`;
+  $("lowline").textContent = x.target + x.cost + x.extra + x.disc > 0 ? `Lowest offer for a ${usd(x.target)} profit: ${usd(c.low)}` : "";
+  $("listline").textContent = x.want > 0 ? `To earn ${usd(x.want)}, list at ${usd(c.list)} or more` : "";
+  const tb = document.querySelector("#offers tbody"); tb.innerHTML = "";
+  offers(x).forEach(o => {
+    const tr = document.createElement("tr"); if (x.price > 0 && o.profit >= x.target) tr.className = "best";
+    tr.innerHTML = `<td>${o.k === 1 ? "Full price" : Math.round((1 - o.k) * 100) + "% off"}</td><td>${usd(o.price)}</td><td>${usd(o.fee)}</td><td>${usd(o.earn)}</td><td class="${o.profit >= 0 ? "pos" : "neg"}">${usd(o.profit)}</td>`;
+    tb.appendChild(tr);
+  });
+}
+(function ladder() {
+  const tb = document.querySelector("#ladder tbody");
+  LADDER.forEach(p => { const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${usd(p)}</td><td>${usd(fee(p))}</td><td>${usd(earn(p))}</td><td>${(100 * fee(p) / p).toFixed(1)}%</td>`; tb.appendChild(tr); });
+})();
+
+// ---- Saved items list + CSV export ----
+const KEY = "nora-poshmark-calc-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+function current() {
+  const x = inputs(), c = calc(x);
+  const name = ($("iname").value || "").trim() || "Item " + (list.length + 1);
+  return Object.assign({ name }, x, c);
+}
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+function renderList() {
+  const tb = document.querySelector("#list tbody"); tb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${esc(r.name)}</td><td>${usd(r.price)}</td><td>${usd(r.fee)}</td><td>${usd(r.earn)}</td><td>${usd(r.cost)}</td>` +
+      `<td class="${r.profit >= 0 ? "pos" : "neg"}"><strong>${usd(r.profit)}</strong></td><td>${usd(r.low)}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("iname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this item to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  let s = typeof v === "number" ? (Math.round(v * 100) / 100).toString() : String(v);
+  if (/^[=+\-@]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(items) {
+  const lines = [
+    ["Poshmark earnings report - made with Nora Studio's free Poshmark Fee Calculator"],
+    ["Calculator: https://norastudiohq.github.io/tools/poshmark-fee-calculator/"],
+    ["Track every flip on every platform: Reseller Inventory & Profit Tracker - https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02"],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Item", "Sale price", "Shipping discount", "Paid for item", "Other costs", "Poshmark fee", "You earn", "Profit", "Target profit", "Lowest offer"]
+  ];
+  items.forEach(it => lines.push([it.name, it.price, it.disc, it.cost, it.extra, it.fee, it.earn, it.profit, it.target, it.low]));
+  lines.push([], ["Poshmark US fees checked October 2026: $2.95 under $15, 20% from $15. Check your sale summary for the exact amount."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const items = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(items)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "poshmark-earnings-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+document.querySelectorAll("input").forEach(el => el.addEventListener("input", run));
+run(); renderList();
+window.__poshCalc = { fee, earn, priceFor, calc, offers, current, toCSV, get list() { return list; } };
+</script>
+</body>
+</html>
