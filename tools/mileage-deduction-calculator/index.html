@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mileage Deduction Calculator 2026: IRS Rate 72.5¢ and 76¢ from July 1 | Nora Studio</title>
+<meta name="description" content="Free 2026 mileage deduction calculator with the IRS mid-year rate change built in: 72.5 cents per business mile through June 30, 76 cents from July 1, 2026. Add parking and tolls and see a rough tax saving. No signup.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/mileage-deduction-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:36px}
+@media(max-width:760px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+.panel h3{font-size:15px;margin:18px 0 0;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);box-sizing:border-box}
+input[type=checkbox]{width:auto;margin-right:8px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row span:last-child{font-variant-numeric:tabular-nums;text-align:right}
+.big{font-size:30px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.verdict{border-radius:10px;padding:10px 14px;font-weight:700;margin:10px 0 4px}
+.verdict.pos{background:rgba(46,139,87,.12)}.verdict.neg{background:rgba(192,57,43,.12)}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+#list th,#list td{padding:6px;white-space:nowrap}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>2026 Mileage Deduction Calculator</h1>
+  <p>The IRS raised the 2026 business mileage rate in the middle of the year: 72.5 cents a mile through June 30, then 76 cents from July 1. Enter your business miles for each half (or just your yearly total) and see your deduction at the right rate, plus parking and tolls. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your 2026 business driving</h2>
+    <label for="mname">Name <small>(vehicle or business, to save and compare)</small></label><input id="mname" type="text" maxlength="80" placeholder="e.g. Reselling - Honda CR-V">
+    <label for="mode">I know my miles</label>
+    <select id="mode"><option value="split">Split by half of the year (most accurate)</option><option value="total">Only as a yearly total (we split it by days)</option></select>
+    <div id="splitbox" class="two">
+      <div><label for="m1">Jan 1 - Jun 30 <small>(miles)</small></label><input id="m1" type="number" min="0" step="1" value="2400"></div>
+      <div><label for="m2">Jul 1 - Dec 31 <small>(miles)</small></label><input id="m2" type="number" min="0" step="1" value="2600"></div>
+    </div>
+    <div id="totalbox" style="display:none"><label for="mt">Business miles in 2026 <small>(total)</small></label><input id="mt" type="number" min="0" step="1" value="5000"></div>
+    <label for="park">Business parking and tolls <small>($, allowed on top of the mileage rate)</small></label><input id="park" type="number" min="0" step="1" value="120">
+    <h3>Rough tax saving <small style="text-transform:none;letter-spacing:0">(optional)</small></h3>
+    <label for="bracket">Federal income tax bracket</label>
+    <select id="bracket"><option value="0">0%</option><option value="10">10%</option><option value="12" selected>12%</option><option value="22">22%</option><option value="24">24%</option><option value="32">32%</option><option value="35">35%</option><option value="37">37%</option></select>
+    <label style="font-weight:500;display:flex;align-items:center"><input id="se" type="checkbox" checked>I'm self-employed (also saves self-employment tax)</label>
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Your deduction</h2>
+    <div class="muted">Total 2026 vehicle deduction</div>
+    <div id="total" class="big">$0.00</div>
+    <div id="verdict" class="verdict pos">-</div>
+    <div style="margin-top:16px">
+      <div class="row"><span id="l1">Jan-Jun miles x $0.725</span><span id="d1">$0.00</span></div>
+      <div class="row"><span id="l2">Jul-Dec miles x $0.76</span><span id="d2">$0.00</span></div>
+      <div class="row"><span>Mileage deduction</span><strong id="dm">$0.00</strong></div>
+      <div class="row"><span>Parking and tolls</span><span id="dp">$0.00</span></div>
+      <div class="row"><span>Total business miles</span><span id="mi">0</span></div>
+      <div class="row"><span>Blended rate per mile</span><span id="br">$0.0000</span></div>
+      <div class="row"><span>Rough tax saving</span><strong id="sv">$0.00</strong></div>
+    </div>
+    <button id="save" class="btn" type="button" style="margin-top:16px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this to my list</button>
+    <p class="muted" style="margin-top:12px">Rates: IRS Notice 2026-10 (72.5 cents) and IRS Announcement 2026-11 (76 cents for business miles driven on or after July 1, 2026). The tax saving is a rough guide: bracket x deduction, plus 15.3% self-employment tax on 92.35% of it if you're self-employed. It ignores state tax and the SE-tax deduction. Not tax advice; check with a tax professional.</p>
+  </div>
+</section>
+
+<section class="wrap" id="listwrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My list <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few entries above (one per vehicle or business) to see them side by side. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" style="width:100%;border-collapse:collapse;font-size:14px;display:none">
+      <thead><tr style="text-align:left;border-bottom:2px solid var(--line)"><th>Name</th><th>Jan-Jun mi</th><th>Jul-Dec mi</th><th>Mileage $</th><th>Parking/tolls</th><th>Total</th><th>Tax saving</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current entry if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>The IRS wants a log, not a guess</h2>
+    <p>To claim business miles you need a record of each trip: date, purpose and miles. The Mileage Log &amp; Business Expense Tracker prices every trip at the right 2026 rate by its date, adds parking, tolls and other expenses, and totals it all on a dashboard. Excel + Google Sheets, $9.</p>
+    <a href="https://buy.stripe.com/5kQ9AVbu8eUO9b7bEC5AQ06">Buy the Mileage Log</a>
+    <p style="margin-top:10px">Reselling? The <a href="https://www.etsy.com/listing/4604462259">Reseller Tax Season Bundle</a> adds an inventory and profit tracker for eBay, Poshmark and Mercari.</p>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>2026 mileage deduction questions, answered</h2>
+  <h3>What is the 2026 IRS mileage rate?</h3>
+  <p>For business driving it is 72.5 cents per mile for miles driven from January 1 through June 30, 2026, and 76 cents per mile for miles driven on or after July 1, 2026. The IRS raised it mid-year, which it rarely does, so a single-rate calculation gets the second half of the year wrong.</p>
+  <h3>Which rate do I use for a trip in July?</h3>
+  <p>The rate follows the date you drove. A trip on June 30 counts at 72.5 cents, a trip on July 1 at 76 cents. That's why this calculator asks for miles in each half of the year.</p>
+  <h3>What if I only know my total miles?</h3>
+  <p>Choose "only as a yearly total" and the calculator splits your miles by days: 181 of 365 days fall before July 1. That's an estimate. For your return, use your actual log, which should show each trip's date, purpose and miles.</p>
+  <h3>Can I deduct parking and tolls too?</h3>
+  <p>Yes. Business parking fees and tolls are generally deductible on top of the standard mileage rate. Gas, repairs, insurance and depreciation are not; the rate already covers them. Commuting from home to a regular workplace doesn't count as business miles.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const MAX = 1e7;
+// Same 2026 rates as the paid Mileage Log (build_mileage.py B3/D3, change date Jul 1). Change both together.
+const RATE1 = 0.725, RATE2 = 0.76, DAYS1 = 181, DAYS = 365, SE = 0.9235 * 0.153;
+const LOG = "https://buy.stripe.com/5kQ9AVbu8eUO9b7bEC5AQ06";
+const TOOL = "https://norastudiohq.github.io/tools/mileage-deduction-calculator/";
+// Defensive parse: blank/text/negative/NaN -> 0, capped.
+const parse = (s, hi) => { const v = parseFloat(s); return isFinite(v) && v > 0 ? Math.min(v, hi === undefined ? MAX : hi) : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+const num = v => (Math.round(v * 10) / 10).toLocaleString("en-US");
+
+// i = {mode, m1, m2, mt, park, bracket, se}
+function analyze(i) {
+  let m1 = i.m1, m2 = i.m2;
+  if (i.mode === "total") { m1 = i.mt * DAYS1 / DAYS; m2 = i.mt - m1; }
+  const d1 = m1 * RATE1, d2 = m2 * RATE2, miles = m1 + m2, mileage = d1 + d2, total = mileage + i.park;
+  const saving = total * (i.bracket / 100 + (i.se ? SE : 0));
+  return { m1, m2, miles, d1, d2, mileage, park: i.park, total, saving,
+    blended: miles > 0 ? mileage / miles : 0, oneRate: miles * RATE1, gain: mileage - miles * RATE1 };
+}
+function inputs() {
+  return { mode: $("mode").value === "total" ? "total" : "split", m1: parse($("m1").value), m2: parse($("m2").value),
+    mt: parse($("mt").value), park: parse($("park").value), bracket: parse($("bracket").value, 37), se: $("se").checked };
+}
+function run() {
+  const i = inputs(), a = analyze(i);
+  $("splitbox").style.display = i.mode === "total" ? "none" : "";
+  $("totalbox").style.display = i.mode === "total" ? "" : "none";
+  $("l1").textContent = num(a.m1) + " Jan-Jun miles x $0.725"; $("d1").textContent = usd(a.d1);
+  $("l2").textContent = num(a.m2) + " Jul-Dec miles x $0.76"; $("d2").textContent = usd(a.d2);
+  $("dm").textContent = usd(a.mileage); $("dp").textContent = usd(a.park);
+  $("total").textContent = usd(a.total); $("mi").textContent = num(a.miles);
+  $("br").textContent = "$" + a.blended.toFixed(4); $("sv").textContent = usd(a.saving);
+  const v = $("verdict");
+  if (a.miles <= 0) { v.className = "verdict neg"; v.textContent = "Enter your 2026 business miles to see your deduction."; }
+  else if (a.gain > 0.004) { v.className = "verdict pos"; v.textContent = "The July rate increase adds " + usd(a.gain) + " compared with using 72.5 cents for every mile."; }
+  else { v.className = "verdict pos"; v.textContent = "All your miles fall before July 1, so they all count at 72.5 cents."; }
+}
+
+// ---- Saved list + CSV export ----
+const KEY = "nora-mileage-deduction-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+function current() {
+  const i = inputs(), a = analyze(i);
+  const name = ($("mname").value || "").trim() || "Entry " + (list.length + 1);
+  return Object.assign({ name }, i, a);
+}
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+function renderList() {
+  const lb = document.querySelector("#list tbody"); lb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr"); tr.style.borderBottom = "1px solid var(--line)";
+    tr.innerHTML = `<td>${esc(r.name)}</td><td>${num(r.m1)}</td><td>${num(r.m2)}</td><td>${usd(r.mileage)}</td><td>${usd(r.park)}</td>` +
+      `<td><strong>${usd(r.total)}</strong></td><td>${usd(r.saving)}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    lb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("mname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  if (v === null || v === undefined) return "";
+  let s = typeof v === "number" ? r2(v).toString() : String(v);
+  if (/^[=+\-@\t\r]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(rows) {
+  const lines = [
+    ["2026 mileage deduction - made with Nora Studio's free Mileage Deduction Calculator"],
+    ["Calculator: " + TOOL],
+    ["Log every trip at the right rate by date: Mileage Log & Business Expense Tracker by Nora Studio - " + LOG],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Name", "Jan-Jun miles", "Jul-Dec miles", "Total miles", "Jan-Jun deduction ($0.725)", "Jul-Dec deduction ($0.76)", "Mileage deduction", "Parking and tolls", "Total deduction", "Tax bracket %", "Self-employed", "Rough tax saving"]
+  ];
+  rows.forEach(r => lines.push([r.name, r.m1, r.m2, r.miles, r.d1, r.d2, r.mileage, r.park, r.total, r.bracket, r.se ? "Yes" : "No", r.saving]));
+  lines.push([], ["2026 IRS business rates: 72.5 cents per mile Jan 1 - Jun 30 (Notice 2026-10), 76 cents from Jul 1 (Announcement 2026-11). Rough guide, not tax advice."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const rows = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "mileage-deduction-2026-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+document.querySelectorAll("input,select").forEach(el => { el.addEventListener("input", run); el.addEventListener("change", run); });
+run(); renderList();
+window.__mileageCalc = { RATE1, RATE2, analyze, inputs, current, toCSV, run, get list() { return list; } };
+</script>
+</body>
+</html>
