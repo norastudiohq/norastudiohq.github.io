@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>eBay Fee Calculator 2026: Final Value Fee, Payout &amp; Profit | Nora Studio</title>
+<meta name="description" content="Free eBay fee calculator for 2026. See the final value fee by category (13.6% for most, 15.3% books and media, 13.25% trading cards, 8% sneakers $150+), the $0.30/$0.40 per-order fee, the fee on shipping and sales tax, your payout, profit and lowest offer.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/ebay-fee-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1.4fr;gap:22px;padding-bottom:36px}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.chk{display:flex;gap:8px;align-items:center}.chk input{width:auto;margin:0}
+table.cmp{width:100%;border-collapse:collapse;font-size:14px}
+table.cmp th,table.cmp td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
+.big{font-size:28px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a.buy{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.cta p a{color:#fff;text-decoration:underline}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>eBay Fee Calculator 2026</h1>
+  <p>What will you actually keep from an eBay sale? Pick the category, enter the price, shipping and sales tax rate to see the final value fee, the per-order fee, your payout, your profit, the lowest offer worth accepting and the price to list at. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your sale</h2>
+    <label for="iname">Item name <small>(to save and compare items)</small></label><input id="iname" type="text" maxlength="80" placeholder="e.g. Vintage Levi's 501">
+    <label for="cat">eBay category</label>
+    <select id="cat">
+      <option value="most">Most categories (13.6%)</option>
+      <option value="media">Books, Movies &amp; TV, Music (15.3%)</option>
+      <option value="cards">Trading cards, comics, coins (13.25%)</option>
+      <option value="sneakers">Athletic sneakers (8% at $150+)</option>
+      <option value="bags">Women's bags &amp; handbags (15%)</option>
+      <option value="jewelry">Jewelry, not watches (15%)</option>
+      <option value="watches">Watches, parts &amp; accessories (15%)</option>
+      <option value="guitars">Guitars &amp; basses (6.7%)</option>
+    </select>
+    <label for="price">Sale price or accepted offer <small>($)</small></label><input id="price" type="number" min="0" step="0.01" value="40">
+    <label for="sc">Shipping you charge the buyer <small>($, 0 = free shipping)</small></label><input id="sc" type="number" min="0" step="0.01" value="0">
+    <label for="label">Your shipping label cost <small>($)</small></label><input id="label" type="number" min="0" step="0.01" value="7.50">
+    <label for="tax">Buyer's sales tax rate <small>(%, eBay charges its fee on tax too)</small></label><input id="tax" type="number" min="0" step="0.01" value="7">
+    <label for="cost">What you paid for the item <small>($)</small></label><input id="cost" type="number" min="0" step="0.01" value="10">
+    <label for="extra">Other costs <small>(packaging, supplies, $)</small></label><input id="extra" type="number" min="0" step="0.01" value="1">
+    <label for="target">Profit you want <small>(for the lowest offer, $)</small></label><input id="target" type="number" min="0" step="0.01" value="15">
+    <label for="want">Payout you want <small>(to find the price to list at, $)</small></label><input id="want" type="number" min="0" step="0.01" value="30">
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Your eBay payout</h2>
+    <div id="earn" class="big">$0.00</div>
+    <div class="muted" id="feeline">eBay fees $0.00</div>
+    <div class="muted" id="splitline" style="margin-top:4px"></div>
+    <div class="muted" id="taxline" style="margin-top:4px"></div>
+    <div class="muted" id="profitline" style="margin-top:4px">Profit $0.00</div>
+    <div class="muted" id="lowline" style="margin-top:4px"></div>
+    <div class="muted" id="listline" style="margin-top:4px"></div>
+    <h2 style="margin-top:20px">If you accept an offer</h2>
+    <div style="overflow-x:auto"><table class="cmp" id="offers">
+      <thead><tr><th>Offer</th><th>Price</th><th>eBay fees</th><th>You earn</th><th>Profit</th></tr></thead>
+      <tbody></tbody></table></div>
+    <p class="muted" style="margin-top:8px">Rows at or above your target profit are highlighted. Payout is after eBay fees and your label, before income tax.</p>
+    <button id="save" class="btn" type="button" style="margin-top:12px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this item to my list</button>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My items <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few items above to compare them. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" class="cmp" style="display:none">
+      <thead><tr><th>Item</th><th>Category</th><th>Price</th><th>eBay fees</th><th>You earn</th><th>Paid</th><th>Profit</th><th>Lowest offer</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current item if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>eBay fees at common prices <small class="muted" id="ladcap"></small></h2>
+    <div style="overflow-x:auto"><table class="cmp" id="ladder">
+      <thead><tr><th>Sale price</th><th>Final value fee</th><th>Per-order fee</th><th>Total fees</th><th>% of price</th><th>You earn</th></tr></thead>
+      <tbody></tbody></table></div>
+    <p class="muted" style="margin-top:8px">Uses the category, shipping, label and tax rate you entered above.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Selling on more than eBay?</h2>
+    <p>The Reseller Inventory &amp; Profit Tracker does this math for every item you buy and sell, on eBay, Poshmark, Mercari, Depop and more: fees, profit, ROI and days to sell, stock on hand by age, monthly P&amp;L and a Buy-or-Pass calculator. Excel + Google Sheets.</p>
+    <a class="buy" href="https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02">Get it for $15</a>
+    <p style="margin-top:14px">Compare the same item on every platform with the free <a href="../reseller-profit-calculator/">Reseller Profit Calculator</a>, or check the <a href="../poshmark-fee-calculator/">Poshmark</a> and <a href="../mercari-fee-calculator/">Mercari</a> fee calculators. Driving to thrift stores? Estimate your write-off with the free <a href="../mileage-deduction-calculator/">2026 Mileage Deduction Calculator</a>.</p>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>eBay fees, explained</h2>
+  <h3>How much does eBay take in 2026?</h3>
+  <p>For most categories, a final value fee of 13.6% of the total amount of the sale (up to $7,500, then 2.35% on the rest) plus a per-order fee of $0.30 on orders of $10 or less and $0.40 on orders over $10. On a $40 item with free shipping and 7% sales tax, that is $5.82 + $0.40 = $6.22, so after a $7.50 label you keep $26.28.</p>
+  <h3>Does eBay charge fees on shipping and sales tax?</h3>
+  <p>Yes. eBay's "total amount of the sale" includes the item price, handling, shipping the buyer pays, sales tax and other fees. That is why this calculator asks for a tax rate. The tax itself goes to the state, so it is not part of your payout, but the fee on it is. We apply your rate to price plus shipping; some states do not tax shipping, so your exact fee can be a few cents lower.</p>
+  <h3>Which categories have different fees?</h3>
+  <p>Books, movies and music pay 15.3%. Trading cards, comic books and coins pay 13.25%. Athletic sneakers pay 8% with no per-order fee when the sale is $150 or more, and 13.6% below that. Women's handbags pay 15% up to $2,000 and jewelry 15% up to $5,000 (9% above). Watches pay 15% up to $1,000, 6.5% from $1,000 to $7,500 and 3% above. Guitars and basses pay 6.7%.</p>
+  <h3>Is free shipping or charging shipping better on eBay?</h3>
+  <p>The fee is on the total either way, so fees barely change: charging $7.50 shipping on a $40 item, or listing at $47.50 with free shipping, costs about the same. Choose whatever sells faster in your category.</p>
+  <h3>What is the lowest offer I should accept?</h3>
+  <p>Add the profit you want to what you paid and your other costs, then find the price whose payout reaches that number. The calculator does this for you in the "Lowest offer" line.</p>
+  <h3>What is not included?</h3>
+  <p>Insertion fees (most sellers get 250 free listings a month, then $0.35), promoted listing ad fees, eBay Store subscription discounts, the international fee and extra fees for sellers below performance standards. Add promoted listing costs under "Other costs" if you use them.</p>
+  <p class="muted" style="margin-top:22px">Fee rates for eBay US non-Store sellers, checked October 2026 on eBay's "Selling fees" help page. eBay can change its fees: check the fee breakdown on your order for the exact amount.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e6) : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toFixed(2);
+const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+// eBay US basic (non-Store) fees, checked October 2026 on ebay.com/help "Selling fees" (id=4822).
+// Final value fee is on the total amount of the sale (item + shipping charged + sales tax); per-order fee $0.30 if total <= $10, else $0.40.
+const CATS = {
+  most:     { name: "Most categories", fvf: t => 0.136 * Math.min(t, 7500) + 0.0235 * Math.max(t - 7500, 0) },
+  media:    { name: "Books/Movies/Music", fvf: t => 0.153 * Math.min(t, 7500) + 0.0235 * Math.max(t - 7500, 0) },
+  cards:    { name: "Trading cards/coins", fvf: t => 0.1325 * Math.min(t, 7500) + 0.0235 * Math.max(t - 7500, 0) },
+  sneakers: { name: "Athletic sneakers", fvf: t => t >= 150 ? 0.08 * t : 0.136 * t, noOrderFee: t => t >= 150 },
+  bags:     { name: "Women's handbags", fvf: t => t <= 2000 ? 0.15 * t : 0.09 * t },
+  jewelry:  { name: "Jewelry", fvf: t => t <= 5000 ? 0.15 * t : 0.09 * t },
+  watches:  { name: "Watches", fvf: t => 0.15 * Math.min(t, 1000) + 0.065 * Math.max(Math.min(t, 7500) - 1000, 0) + 0.03 * Math.max(t - 7500, 0) },
+  guitars:  { name: "Guitars & basses", fvf: t => 0.067 * Math.min(t, 7500) + 0.0235 * Math.max(t - 7500, 0) }
+};
+function parts(price, x) {
+  if (price <= 0) return { total: 0, tax: 0, fvf: 0, order: 0, fee: 0 };
+  const c = CATS[x.cat] || CATS.most, base = r2(price + x.sc), tax = r2(base * x.tax / 100), total = r2(base + tax);
+  const fvf = r2(c.fvf(total)), order = c.noOrderFee && c.noOrderFee(total) ? 0 : (total <= 10 ? 0.30 : 0.40);
+  return { total, tax, fvf, order, fee: r2(fvf + order) };
+}
+const fee = (price, x) => parts(price, x).fee;
+function earn(price, x) { if (price <= 0) return 0; return r2(price + x.sc - fee(price, x) - x.label); }
+// Smallest price (whole cents) whose payout is at least `need`. Payout only drops when the per-order fee steps from
+// $0.30 to $0.40 (order total crosses $10); category threshold steps only lower the fee. So it rises on [0.01, p10]
+// and on (p10, inf): binary-search each piece.
+function firstCents(lo, hi, need, x) {
+  if (lo > hi || earn(hi / 100, x) < need) return null;
+  while (lo < hi) { const m = Math.floor((lo + hi) / 2); if (earn(m / 100, x) >= need) hi = m; else lo = m + 1; }
+  return lo;
+}
+function priceFor(need, x) {
+  need = r2(need);
+  if (need <= 0) return 0;
+  let p10 = 0; for (let c = 1000; c >= 1; c--) { if (parts(c / 100, x).total <= 10) { p10 = c; break; } }
+  const a = p10 >= 1 ? firstCents(1, p10, need, x) : null;
+  if (a !== null) return a / 100;
+  let hi = Math.max(p10 + 1, Math.ceil((need + x.label) * 100));
+  while (earn(hi / 100, x) < need && hi < 1e9) hi *= 2;
+  const b = firstCents(p10 + 1, hi, need, x);
+  return b === null ? 0 : b / 100;
+}
+function calc(x) {
+  const p = parts(x.price, x), e = earn(x.price, x), need = x.target + x.cost + x.extra;
+  return { fee: p.fee, fvf: p.fvf, order: p.order, taxAmt: p.tax, total: p.total, earn: e, profit: r2(e - x.cost - x.extra),
+    low: need > 0 ? priceFor(need, x) : 0, list: priceFor(x.want, x) };
+}
+function inputs() { return { cat: CATS[$("cat").value] ? $("cat").value : "most", price: num("price"), sc: num("sc"), label: num("label"),
+  tax: Math.min(num("tax"), 25), cost: num("cost"), extra: num("extra"), target: num("target"), want: num("want") }; }
+const OFFERS = [1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7];
+function offers(x) {
+  return OFFERS.map(k => { const p = r2(x.price * k), e = earn(p, x);
+    return { k, price: p, fee: fee(p, x), earn: e, profit: r2(e - x.cost - x.extra) }; });
+}
+const LADDER = [10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200, 500];
+function ladder(x) {
+  return LADDER.map(p => { const q = parts(p, x); return { price: p, fvf: q.fvf, order: q.order, fee: q.fee, pct: q.fee / p * 100, earn: earn(p, x) }; });
+}
+function run() {
+  const x = inputs(), c = calc(x);
+  $("earn").textContent = usd(c.earn);
+  $("feeline").textContent = `eBay fees ${usd(c.fee)}` + (x.price > 0 ? ` (${(c.fee / x.price * 100).toFixed(1)}% of your price)` : "");
+  $("splitline").textContent = x.price > 0 ? `Final value fee ${usd(c.fvf)} on a ${usd(c.total)} order total` + (c.order ? ` + per-order fee ${usd(c.order)}` : ", no per-order fee") : "";
+  $("taxline").textContent = x.price > 0 && c.taxAmt > 0 ? `Includes ${usd(c.taxAmt)} sales tax the buyer pays; the fee on it costs you ${usd(r2(c.fvf - (CATS[x.cat].fvf(r2(c.total - c.taxAmt)))))}` : "";
+  $("profitline").innerHTML = `Profit after cost: <strong class="${c.profit >= 0 ? "pos" : "neg"}">${usd(c.profit)}</strong>`;
+  $("lowline").textContent = x.target + x.cost + x.extra > 0 ? `Lowest offer for a ${usd(x.target)} profit: ${usd(c.low)}` : "";
+  $("listline").textContent = x.want > 0 ? `To earn ${usd(x.want)}, list at ${usd(c.list)} or more` : "";
+  const tb = document.querySelector("#offers tbody"); tb.innerHTML = "";
+  offers(x).forEach(o => {
+    const tr = document.createElement("tr"); if (x.price > 0 && o.profit >= x.target) tr.className = "best";
+    tr.innerHTML = `<td>${o.k === 1 ? "Full price" : Math.round((1 - o.k) * 100) + "% off"}</td><td>${usd(o.price)}</td><td>${usd(o.fee)}</td><td>${usd(o.earn)}</td><td class="${o.profit >= 0 ? "pos" : "neg"}">${usd(o.profit)}</td>`;
+    tb.appendChild(tr);
+  });
+  $("ladcap").textContent = `(${CATS[x.cat].name}, ${usd(x.sc)} shipping charged, ${x.tax}% tax)`;
+  const lb = document.querySelector("#ladder tbody"); lb.innerHTML = "";
+  ladder(x).forEach(r => { const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${usd(r.price)}</td><td>${usd(r.fvf)}</td><td>${usd(r.order)}</td><td>${usd(r.fee)}</td><td>${r.pct.toFixed(1)}%</td><td class="${r.earn >= 0 ? "" : "neg"}">${usd(r.earn)}</td>`; lb.appendChild(tr); });
+}
+
+// ---- Saved items list + CSV export ----
+const KEY = "nora-ebay-calc-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+function current() {
+  const x = inputs(), c = calc(x);
+  const name = ($("iname").value || "").trim() || "Item " + (list.length + 1);
+  return Object.assign({ name, catName: CATS[x.cat].name }, x, c);
+}
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+function renderList() {
+  const tb = document.querySelector("#list tbody"); tb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${esc(r.name)}</td><td>${esc(r.catName || "")}</td><td>${usd(r.price)}</td><td>${usd(r.fee)}</td><td>${usd(r.earn)}</td><td>${usd(r.cost)}</td>` +
+      `<td class="${r.profit >= 0 ? "pos" : "neg"}"><strong>${usd(r.profit)}</strong></td><td>${usd(r.low)}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("iname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this item to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  let s = typeof v === "number" ? (Math.round(v * 100) / 100).toString() : String(v);
+  if (/^[=+\-@]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(items) {
+  const lines = [
+    ["eBay earnings report - made with Nora Studio's free eBay Fee Calculator"],
+    ["Calculator: https://norastudiohq.github.io/tools/ebay-fee-calculator/"],
+    ["Track every flip on every platform: Reseller Inventory & Profit Tracker - https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02"],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Item", "Category", "Sale price", "Shipping charged", "Label cost", "Sales tax %", "Paid for item", "Other costs", "Final value fee", "Per-order fee", "eBay fees", "You earn", "Profit", "Target profit", "Lowest offer"]
+  ];
+  items.forEach(it => lines.push([it.name, it.catName, it.price, it.sc, it.label, it.tax, it.cost, it.extra, it.fvf, it.order, it.fee, it.earn, it.profit, it.target, it.low]));
+  lines.push([], ["eBay US basic fees checked October 2026: final value fee on item + shipping + sales tax, plus $0.30 (orders $10 or less) or $0.40 per order. Check your order's fee breakdown for the exact amount."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const items = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(items)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "ebay-earnings-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+document.querySelectorAll("input,select").forEach(el => { el.addEventListener("input", run); el.addEventListener("change", run); });
+run(); renderList();
+window.__ebayCalc = { CATS, parts, fee, earn, priceFor, calc, offers, ladder, current, toCSV, get list() { return list; } };
+</script>
+</body>
+</html>
