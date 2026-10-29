@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mercari Fee Calculator 2026: Earnings, Profit &amp; Lowest Offer | Nora Studio</title>
+<meta name="description" content="Free Mercari fee calculator for 2026. See the 10% Mercari selling fee (on item price plus buyer-paid shipping), what you earn when you or the buyer pays shipping, your profit, the lowest offer to accept and the price to list at.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/mercari-fee-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1.4fr;gap:22px;padding-bottom:36px}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.chk{display:flex;gap:8px;align-items:center}.chk input{width:auto;margin:0}
+table.cmp{width:100%;border-collapse:collapse;font-size:14px}
+table.cmp th,table.cmp td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
+.big{font-size:28px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a.buy{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.cta p a{color:#fff;text-decoration:underline}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Mercari Fee Calculator 2026</h1>
+  <p>What will you actually earn on Mercari? Enter the sale price and shipping to see the Mercari fee, your payout, your profit after what you paid, the lowest offer worth accepting and the price to list at. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your sale</h2>
+    <label for="iname">Item name <small>(to save and compare items)</small></label><input id="iname" type="text" maxlength="80" placeholder="e.g. Nintendo Switch game">
+    <label for="price">Sale price or accepted offer <small>($)</small></label><input id="price" type="number" min="0" step="0.01" value="40">
+    <label for="ship">Shipping label cost <small>($)</small></label><input id="ship" type="number" min="0" step="0.01" value="7.50">
+    <label class="chk"><input id="buyer" type="checkbox"> Buyer pays shipping</label>
+    <label for="cost">What you paid for the item <small>($)</small></label><input id="cost" type="number" min="0" step="0.01" value="10">
+    <label for="extra">Other costs <small>(packaging, supplies, $)</small></label><input id="extra" type="number" min="0" step="0.01" value="1">
+    <label class="chk"><input id="instant" type="checkbox"> Cash out with Instant Pay <small>($3 per cash-out)</small></label>
+    <label for="target">Profit you want <small>(for the lowest offer, $)</small></label><input id="target" type="number" min="0" step="0.01" value="15">
+    <label for="want">Payout you want <small>(to find the price to list at, $)</small></label><input id="want" type="number" min="0" step="0.01" value="30">
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Your Mercari payout</h2>
+    <div id="earn" class="big">$0.00</div>
+    <div class="muted" id="feeline">Mercari fee $0.00</div>
+    <div class="muted" id="shipline" style="margin-top:4px"></div>
+    <div class="muted" id="profitline" style="margin-top:4px">Profit $0.00</div>
+    <div class="muted" id="lowline" style="margin-top:4px"></div>
+    <div class="muted" id="listline" style="margin-top:4px"></div>
+    <div class="muted" id="otherline" style="margin-top:4px"></div>
+    <h2 style="margin-top:20px">If you accept an offer</h2>
+    <div style="overflow-x:auto"><table class="cmp" id="offers">
+      <thead><tr><th>Offer</th><th>Price</th><th>Mercari fee</th><th>You earn</th><th>Profit</th></tr></thead>
+      <tbody></tbody></table></div>
+    <p class="muted" style="margin-top:8px">Rows at or above your target profit are highlighted. When the buyer pays shipping, Mercari still takes 10% of the shipping they pay.</p>
+    <button id="save" class="btn" type="button" style="margin-top:12px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this item to my list</button>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My items <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few items above to compare them. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" class="cmp" style="display:none">
+      <thead><tr><th>Item</th><th>Price</th><th>Shipping</th><th>Fee</th><th>You earn</th><th>Paid</th><th>Profit</th><th>Lowest offer</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current item if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>Mercari fees at common prices <small class="muted" id="ladship"></small></h2>
+    <div style="overflow-x:auto"><table class="cmp" id="ladder">
+      <thead><tr><th>Sale price</th><th>Fee, you pay shipping</th><th>You earn</th><th>Fee, buyer pays shipping</th><th>You earn</th></tr></thead>
+      <tbody></tbody></table></div>
+    <p class="muted" style="margin-top:8px">Uses the shipping label cost you entered above, before Instant Pay.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Selling on more than Mercari?</h2>
+    <p>The Reseller Inventory &amp; Profit Tracker does this math for every item you buy and sell, on Mercari, eBay, Poshmark, Depop and more: fees, profit, ROI and days to sell, stock on hand by age, monthly P&amp;L and a Buy-or-Pass calculator. Excel + Google Sheets.</p>
+    <a class="buy" href="https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02">Get it for $15</a>
+    <p style="margin-top:14px">Compare the same item on every platform with the free <a href="../reseller-profit-calculator/">Reseller Profit Calculator</a>, or check Poshmark with the <a href="../poshmark-fee-calculator/">Poshmark Fee Calculator</a>. Driving to thrift stores? Estimate your write-off with the free <a href="../mileage-deduction-calculator/">2026 Mileage Deduction Calculator</a>.</p>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Mercari fees, explained</h2>
+  <h3>How much does Mercari take in 2026?</h3>
+  <p>In the US, Mercari charges sellers a 10% selling fee on the item price plus any shipping the buyer pays. There is no separate payment processing fee, no listing fee and no monthly fee. A $40 sale where you pay $7.50 shipping costs a $4.00 fee, so you earn $28.50.</p>
+  <h3>Does Mercari charge a fee on shipping?</h3>
+  <p>Only when the buyer pays it. Then the 10% applies to the price plus shipping: a $40 item with $7.50 buyer-paid shipping costs a $4.75 fee and you earn $35.25. When you pay shipping, the fee is on the price only, but the label comes out of your earnings.</p>
+  <h3>Should I offer free shipping on Mercari?</h3>
+  <p>Free shipping costs you the label minus 10% of it, because buyer-paid shipping carries the fee too. Many buyers filter for free shipping, so a slightly higher price with free shipping often sells faster. The "If the buyer paid shipping" line shows the difference for your item.</p>
+  <h3>What is the lowest offer I should accept?</h3>
+  <p>Add the profit you want to what you paid, your other costs and any shipping you cover, then find the price whose payout reaches that number. The calculator does this for you in the "Lowest offer" line.</p>
+  <h3>How much is Instant Pay?</h3>
+  <p>A standard direct deposit to your bank is free. Instant Pay to a debit card costs $3 per cash-out, so it matters most on small sales or when you cash out often.</p>
+  <h3>Does the buyer pay a fee too?</h3>
+  <p>Yes, buyers pay a separate Buyer Protection fee at checkout. It does not come out of your earnings.</p>
+  <p class="muted" style="margin-top:22px">Fee rates for Mercari US, checked October 2026 on Mercari's help center: 10% of item price plus buyer-paid shipping, for listings created or updated on or after January 6, 2025. Mercari can change its fees: check your sale summary for the exact amount.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toFixed(2);
+const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+// Mercari US (checked October 2026, help center article 169): 10% of item price + buyer-paid shipping; no processing fee; Instant Pay $3.
+const PCT = 0.10, INSTANT = 3;
+function fee(price, ship, buyer) { if (price <= 0) return 0; return r2(PCT * (price + (buyer ? ship : 0))); }
+function earn(price, ship, buyer, instant) {
+  if (price <= 0) return 0;
+  return r2(price - fee(price, ship, buyer) - (buyer ? 0 : ship) - (instant ? INSTANT : 0));
+}
+// Smallest price (whole cents) whose payout is at least `need`. earn() never drops when the price rises a cent.
+function priceFor(need, ship, buyer, instant) {
+  need = r2(need);
+  if (need <= 0) return 0;
+  const sb = buyer ? ship : 0, ss = buyer ? 0 : ship, ip = instant ? INSTANT : 0;
+  let p = Math.max(0.01, Math.ceil(r2((need + ss + ip + PCT * sb) / (1 - PCT)) * 100 - 1e-6) / 100);
+  while (earn(p, ship, buyer, instant) < need) p = r2(p + 0.01);
+  while (p - 0.01 >= 0.01 && earn(r2(p - 0.01), ship, buyer, instant) >= need) p = r2(p - 0.01);
+  return p;
+}
+function calc(x) {
+  const f = fee(x.price, x.ship, x.buyer), e = earn(x.price, x.ship, x.buyer, x.instant), need = x.target + x.cost + x.extra;
+  return { fee: f, earn: e, profit: r2(e - x.cost - x.extra),
+    low: need > 0 ? priceFor(need, x.ship, x.buyer, x.instant) : 0,
+    list: priceFor(x.want, x.ship, x.buyer, x.instant),
+    other: earn(x.price, x.ship, !x.buyer, x.instant) };
+}
+function inputs() { return { price: num("price"), ship: num("ship"), buyer: $("buyer").checked, instant: $("instant").checked,
+  cost: num("cost"), extra: num("extra"), target: num("target"), want: num("want") }; }
+const OFFERS = [1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7];
+function offers(x) {
+  return OFFERS.map(k => { const p = r2(x.price * k), e = earn(p, x.ship, x.buyer, x.instant);
+    return { k, price: p, fee: fee(p, x.ship, x.buyer), earn: e, profit: r2(e - x.cost - x.extra) }; });
+}
+const LADDER = [10, 15, 20, 25, 30, 40, 50, 75, 100, 150, 200];
+function ladder(ship) {
+  return LADDER.map(p => ({ price: p, feeS: fee(p, ship, false), earnS: earn(p, ship, false, false), feeB: fee(p, ship, true), earnB: earn(p, ship, true, false) }));
+}
+function run() {
+  const x = inputs(), c = calc(x);
+  $("earn").textContent = usd(c.earn);
+  $("feeline").textContent = `Mercari fee ${usd(c.fee)}` + (x.price > 0 ? ` (10% of ${usd(x.buyer ? x.price + x.ship : x.price)})` : "");
+  const bits = [];
+  if (x.price > 0 && x.ship > 0) bits.push(x.buyer ? `Buyer pays the ${usd(x.ship)} label` : `You pay the ${usd(x.ship)} label`);
+  if (x.price > 0 && x.instant) bits.push(`Instant Pay ${usd(INSTANT)}`);
+  $("shipline").textContent = bits.join(", ");
+  $("profitline").innerHTML = `Profit after cost: <strong class="${c.profit >= 0 ? "pos" : "neg"}">${usd(c.profit)}</strong>`;
+  $("lowline").textContent = x.target + x.cost + x.extra > 0 ? `Lowest offer for a ${usd(x.target)} profit: ${usd(c.low)}` : "";
+  $("listline").textContent = x.want > 0 ? `To earn ${usd(x.want)}, list at ${usd(c.list)} or more` : "";
+  $("otherline").textContent = x.price > 0 && x.ship > 0 ? `If ${x.buyer ? "you" : "the buyer"} paid shipping instead, you would earn ${usd(c.other)}` : "";
+  const tb = document.querySelector("#offers tbody"); tb.innerHTML = "";
+  offers(x).forEach(o => {
+    const tr = document.createElement("tr"); if (x.price > 0 && o.profit >= x.target) tr.className = "best";
+    tr.innerHTML = `<td>${o.k === 1 ? "Full price" : Math.round((1 - o.k) * 100) + "% off"}</td><td>${usd(o.price)}</td><td>${usd(o.fee)}</td><td>${usd(o.earn)}</td><td class="${o.profit >= 0 ? "pos" : "neg"}">${usd(o.profit)}</td>`;
+    tb.appendChild(tr);
+  });
+  $("ladship").textContent = `(with ${usd(x.ship)} shipping)`;
+  const lb = document.querySelector("#ladder tbody"); lb.innerHTML = "";
+  ladder(x.ship).forEach(r => { const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${usd(r.price)}</td><td>${usd(r.feeS)}</td><td class="${r.earnS >= 0 ? "" : "neg"}">${usd(r.earnS)}</td><td>${usd(r.feeB)}</td><td>${usd(r.earnB)}</td>`; lb.appendChild(tr); });
+}
+
+// ---- Saved items list + CSV export ----
+const KEY = "nora-mercari-calc-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+function current() {
+  const x = inputs(), c = calc(x);
+  const name = ($("iname").value || "").trim() || "Item " + (list.length + 1);
+  return Object.assign({ name }, x, c);
+}
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+function renderList() {
+  const tb = document.querySelector("#list tbody"); tb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${esc(r.name)}</td><td>${usd(r.price)}</td><td>${usd(r.ship)} (${r.buyer ? "buyer" : "you"})</td><td>${usd(r.fee)}</td><td>${usd(r.earn)}</td><td>${usd(r.cost)}</td>` +
+      `<td class="${r.profit >= 0 ? "pos" : "neg"}"><strong>${usd(r.profit)}</strong></td><td>${usd(r.low)}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("iname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this item to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  let s = typeof v === "number" ? (Math.round(v * 100) / 100).toString() : String(v);
+  if (/^[=+\-@]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(items) {
+  const lines = [
+    ["Mercari earnings report - made with Nora Studio's free Mercari Fee Calculator"],
+    ["Calculator: https://norastudiohq.github.io/tools/mercari-fee-calculator/"],
+    ["Track every flip on every platform: Reseller Inventory & Profit Tracker - https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02"],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Item", "Sale price", "Shipping label", "Shipping paid by", "Instant Pay", "Paid for item", "Other costs", "Mercari fee", "You earn", "Profit", "Target profit", "Lowest offer"]
+  ];
+  items.forEach(it => lines.push([it.name, it.price, it.ship, it.buyer ? "Buyer" : "You", it.instant ? "Yes" : "No", it.cost, it.extra, it.fee, it.earn, it.profit, it.target, it.low]));
+  lines.push([], ["Mercari US fees checked October 2026: 10% of item price plus buyer-paid shipping; Instant Pay $3. Check your sale summary for the exact amount."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const items = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(items)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "mercari-earnings-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+document.querySelectorAll("input").forEach(el => { el.addEventListener("input", run); el.addEventListener("change", run); });
+run(); renderList();
+window.__mercariCalc = { fee, earn, priceFor, calc, offers, ladder, current, toCSV, get list() { return list; } };
+</script>
+</body>
+</html>
