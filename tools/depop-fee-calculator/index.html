@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Depop Fee Calculator 2026: Payout, Profit &amp; Boosted Listing Cost | Nora Studio</title>
+<meta name="description" content="Free Depop fee calculator for 2026. See the US 3.3% + $0.45 processing fee on the whole order, the 12% Boosted Listings fee, your payout, your profit and the price to list at. No selling fee for US sellers.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/depop-fee-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1.4fr;gap:22px;padding-bottom:36px}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.chk{display:flex;gap:8px;align-items:center}.chk input{width:auto;margin:0}
+table.cmp{width:100%;border-collapse:collapse;font-size:14px}
+table.cmp th,table.cmp td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
+.big{font-size:28px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a.buy{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.cta p a{color:#fff;text-decoration:underline}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Depop Fee Calculator 2026</h1>
+  <p>What do you actually keep from a Depop sale? Enter the price and shipping to see the processing fee, what a boosted sale costs, your payout, your profit after what you paid, and the price to list at. For US sellers. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your sale</h2>
+    <label for="iname">Item name <small>(to save and compare items)</small></label><input id="iname" type="text" maxlength="80" placeholder="e.g. Vintage band tee">
+    <label for="price">Sale price <small>($)</small></label><input id="price" type="number" min="0" step="0.01" value="40">
+    <label for="ship">Shipping <small>($)</small></label><input id="ship" type="number" min="0" step="0.01" value="7.50">
+    <label class="chk"><input id="buyer" type="checkbox" checked> Buyer pays shipping</label>
+    <label class="chk"><input id="boost" type="checkbox"> This sale came from a Boosted Listing</label>
+    <label class="chk"><input id="dlabel" type="checkbox" checked> Used a Depop shipping label</label>
+    <label for="tax">Buyer's sales tax <small>(%, part of the order total)</small></label><input id="tax" type="number" min="0" step="0.01" value="7">
+    <label for="cost">What you paid for the item <small>($)</small></label><input id="cost" type="number" min="0" step="0.01" value="10">
+    <label for="extra">Other costs <small>(packaging, supplies, $)</small></label><input id="extra" type="number" min="0" step="0.01" value="1">
+    <label for="target">Profit you want <small>(for the lowest price, $)</small></label><input id="target" type="number" min="0" step="0.01" value="15">
+    <label for="want">Payout you want <small>(to find the price to list at, $)</small></label><input id="want" type="number" min="0" step="0.01" value="30">
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Your Depop payout</h2>
+    <div id="earn" class="big">$0.00</div>
+    <div class="muted" id="feeline">Depop fees $0.00</div>
+    <div class="muted" id="partline" style="margin-top:4px"></div>
+    <div class="muted" id="shipline" style="margin-top:4px"></div>
+    <div class="muted" id="profitline" style="margin-top:4px">Profit $0.00</div>
+    <div class="muted" id="evenline" style="margin-top:4px"></div>
+    <div class="muted" id="lowline" style="margin-top:4px"></div>
+    <div class="muted" id="listline" style="margin-top:4px"></div>
+    <h2 style="margin-top:20px">If it sells for</h2>
+    <div style="overflow-x:auto"><table class="cmp" id="ladder">
+      <thead><tr><th>Sale price</th><th>Processing</th><th>You get</th><th>Profit</th><th>Boosted: you get</th><th>Boosted: profit</th></tr></thead>
+      <tbody></tbody></table></div>
+    <p class="muted" style="margin-top:8px">Rows at or above your target profit are highlighted (without boosting). Uses your shipping, tax, label and costs from the left.</p>
+    <button id="save" class="btn" type="button" style="margin-top:12px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this item to my list</button>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My items <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few items above to compare them. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" class="cmp" style="display:none">
+      <thead><tr><th>Item</th><th>Price</th><th>Shipping</th><th>Fees</th><th>You get</th><th>Paid</th><th>Profit</th><th>Break-even</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current item if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Selling on more than Depop?</h2>
+    <p>The Reseller Inventory &amp; Profit Tracker does this math for every item you buy and sell, on Depop, eBay, Poshmark, Mercari, Whatnot and more: fees, profit, ROI and days to sell, stock on hand by age, monthly P&amp;L and a Buy-or-Pass calculator. Excel + Google Sheets.</p>
+    <a class="buy" href="https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02">Get it for $15</a>
+    <p style="margin-top:14px">Compare the same item on every platform with the free <a href="../reseller-profit-calculator/">Reseller Profit Calculator</a>, or check the <a href="../ebay-fee-calculator/">eBay</a>, <a href="../poshmark-fee-calculator/">Poshmark</a>, <a href="../mercari-fee-calculator/">Mercari</a> and <a href="../whatnot-fee-calculator/">Whatnot</a> fee calculators. Driving to thrift stores? Estimate your write-off with the free <a href="../mileage-deduction-calculator/">2026 Mileage Deduction Calculator</a>.</p>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Depop fees, explained</h2>
+  <h3>How much does Depop take in 2026?</h3>
+  <p>US sellers pay no Depop selling fee. The cost you do pay is payment processing: 3.3% plus $0.45 per sale, on the item price plus shipping and any tax. On a $40 sale with $7.50 buyer-paid shipping and 7% tax, that is $2.13, so $37.87 to you.</p>
+  <h3>How much do Boosted Listings cost?</h3>
+  <p>For US and UK sellers, new listings boosted from 23 March 2026 pay 12% when a boosted listing sells. You pay nothing if it does not sell. The fee is on the item price, and on the shipping cost too if you did not use a Depop shipping label. In the example above, a boosted sale with a Depop label adds $4.80 and leaves you $33.07.</p>
+  <h3>Does Depop charge fees on shipping and tax?</h3>
+  <p>The processing fee does, because it covers the whole order. That is why the percentage on a cheap item looks higher than 3.3%, and why the fixed $0.45 matters most on small sales. Read the "Fees" line above for the real share of your price.</p>
+  <h3>What if I sell outside the US?</h3>
+  <p>This calculator is for US sellers. UK and Australian sellers also pay no selling fee, but processing differs: 2.9% + &pound;0.30 in the UK and 2.6% + A$0.30 in Australia. Sellers elsewhere pay a 10% selling fee plus PayPal's processing fee.</p>
+  <h3>Do I get the fees back on a refund?</h3>
+  <p>Yes. Depop says that when a sale is refunded, its fees, including processing and boosting fees, are reversed too. Sales through Depop Payments reverse automatically.</p>
+  <p class="muted" style="margin-top:22px">Rates for Depop US, checked October 2026 on Depop's Help Centre article "Seller fees and charges". Depop can change its fees: check Depop Balance in your account for the exact amount. Sales tax varies by state and is an estimate here. Not affiliated with Depop.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; };
+const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toFixed(2);
+const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+// Depop US (checked October 2026, Help Centre "Seller fees and charges"): no selling fee; processing 3.3% + $0.45 on price + shipping + tax;
+// Boosted Listings 12% on price, plus shipping when no Depop label was used.
+const PROC = 0.033, FIX = 0.45, BOOST = 0.12;
+function parts(price, x) {
+  if (price <= 0) return { proc: 0, boostFee: 0, fee: 0, taxAmt: 0, total: 0, earn: 0 };
+  const sb = x.buyer ? x.ship : 0, taxAmt = r2((price + sb) * x.tax / 100), total = r2(price + sb + taxAmt);
+  const proc = r2(total * PROC + FIX), boostFee = x.boost ? r2((price + (x.dlabel ? 0 : sb)) * BOOST) : 0, fee = r2(proc + boostFee);
+  return { proc, boostFee, fee, taxAmt, total, earn: r2(price - fee - (x.buyer ? 0 : x.ship)) };
+}
+// Smallest price (whole cents) whose payout is at least `need`. Rounded fees can make the payout dip a cent as the
+// price rises, so this scans up from just under the estimate rather than stepping back from a hit.
+function priceFor(need, x) {
+  need = r2(need);
+  if (need <= 0) return 0;
+  const m = 1 + x.tax / 100, sb = x.buyer ? x.ship : 0, ss = x.buyer ? 0 : x.ship;
+  const b = x.boost ? BOOST : 0, k = 1 - b - PROC * m;
+  const est = (need + ss + FIX + PROC * sb * m + (x.dlabel ? 0 : b * sb)) / k;
+  if (est > 2e7) return null;
+  let p = Math.max(0.01, r2(est - 0.25));
+  while (parts(p, x).earn < need) p = r2(p + 0.01);
+  return p;
+}
+function calc(x) {
+  const c = parts(x.price, x), basis = x.cost + x.extra;
+  return Object.assign(c, { profit: r2(c.earn - basis),
+    even: basis > 0 || !x.buyer ? priceFor(Math.max(basis, 0.01), x) : 0,
+    low: x.target + basis > 0 ? priceFor(x.target + basis, x) : 0,
+    list: priceFor(x.want, x) });
+}
+function inputs() { return { price: num("price"), ship: num("ship"), buyer: $("buyer").checked, boost: $("boost").checked, dlabel: $("dlabel").checked,
+  tax: Math.min(num("tax"), 100), cost: num("cost"), extra: num("extra"), target: num("target"), want: num("want") }; }
+const LADDER = [5, 10, 15, 20, 30, 40, 50, 75, 100, 200];
+function ladder(x) {
+  const on = Object.assign({}, x, { boost: true }), off = Object.assign({}, x, { boost: false }), basis = x.cost + x.extra;
+  return LADDER.map(p => { const a = parts(p, off), b = parts(p, on); return { price: p, proc: a.proc, earn: a.earn, profit: r2(a.earn - basis), bEarn: b.earn, bProfit: r2(b.earn - basis) }; });
+}
+const show = v => usd(v);
+function run() {
+  const x = inputs(), c = calc(x);
+  $("earn").textContent = usd(c.earn);
+  $("feeline").textContent = `Depop fees ${usd(c.fee)}` + (x.price > 0 ? ` (${(c.fee / x.price * 100).toFixed(1)}% of the price)` : "");
+  $("partline").textContent = x.price > 0 ? `Selling fee $0.00, processing ${usd(c.proc)} (3.3% of ${usd(c.total)} + $0.45)` + (x.boost ? `, boosting ${usd(c.boostFee)} (12%)` : "") : "";
+  $("shipline").textContent = x.price > 0 && x.ship > 0 ? (x.buyer ? `Buyer pays the ${usd(x.ship)} shipping` : `You pay the ${usd(x.ship)} shipping`) : "";
+  $("profitline").innerHTML = `Profit after cost: <strong class="${c.profit >= 0 ? "pos" : "neg"}">${usd(c.profit)}</strong>`;
+  $("evenline").textContent = x.cost + x.extra > 0 || !x.buyer ? `Break-even price: ${show(c.even)}` : "";
+  $("lowline").textContent = x.target + x.cost + x.extra > 0 ? `Lowest price for a ${usd(x.target)} profit: ${show(c.low)}` : "";
+  $("listline").textContent = x.want > 0 ? `To get ${usd(x.want)}, sell at ${show(c.list)} or more` : "";
+  const lb = document.querySelector("#ladder tbody"); lb.innerHTML = "";
+  ladder(x).forEach(r => { const tr = document.createElement("tr"); if (r.profit >= x.target && r.profit > 0) tr.className = "best";
+    tr.innerHTML = `<td>${usd(r.price)}</td><td>${usd(r.proc)}</td><td class="${r.earn >= 0 ? "" : "neg"}">${usd(r.earn)}</td><td class="${r.profit >= 0 ? "pos" : "neg"}">${usd(r.profit)}</td><td class="${r.bEarn >= 0 ? "" : "neg"}">${usd(r.bEarn)}</td><td class="${r.bProfit >= 0 ? "pos" : "neg"}">${usd(r.bProfit)}</td>`; lb.appendChild(tr); });
+}
+
+// ---- Saved items list + CSV export ----
+const KEY = "nora-depop-calc-list";
+let list = [];
+try { list = JSON.parse(localStorage.getItem(KEY) || "[]"); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+const store = () => { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} };
+function current() {
+  const x = inputs(), c = calc(x);
+  const name = ($("iname").value || "").trim() || "Item " + (list.length + 1);
+  return Object.assign({ name }, x, c);
+}
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+function renderList() {
+  const tb = document.querySelector("#list tbody"); tb.innerHTML = "";
+  list.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${esc(r.name)}</td><td>${usd(r.price)}</td><td>${usd(r.ship)} (${r.buyer ? "buyer" : "you"})</td><td>${usd(r.fee)}</td><td>${usd(r.earn)}</td><td>${usd(r.cost)}</td>` +
+      `<td class="${r.profit >= 0 ? "pos" : "neg"}"><strong>${usd(r.profit)}</strong></td><td>${usd(r.even)}</td>` +
+      `<td><button type="button" data-i="${i}" aria-label="Remove ${esc(r.name)}" style="background:none;border:0;cursor:pointer;color:var(--muted)">✕</button></td>`;
+    tb.appendChild(tr);
+  });
+  $("list").style.display = list.length ? "table" : "none";
+  $("empty").style.display = list.length ? "none" : "block";
+  $("count").textContent = list.length ? `(${list.length})` : "";
+}
+$("save").addEventListener("click", () => {
+  if (list.length >= 200) return;
+  list.push(current()); store(); renderList();
+  $("iname").value = ""; $("save").textContent = "Saved ✓  Save another"; setTimeout(() => ($("save").textContent = "Save this item to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+
+const cell = v => {
+  let s = v === null ? "" : typeof v === "number" ? (Math.round(v * 100) / 100).toString() : String(v);
+  if (/^[=+\-@]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(items) {
+  const lines = [
+    ["Depop earnings report - made with Nora Studio's free Depop Fee Calculator"],
+    ["Calculator: https://norastudiohq.github.io/tools/depop-fee-calculator/"],
+    ["Track every flip on every platform: Reseller Inventory & Profit Tracker - https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02"],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Item", "Sale price", "Shipping", "Shipping paid by", "Boosted", "Depop label", "Sales tax %", "Paid for item", "Other costs", "Processing", "Boosting", "Depop fees", "You get", "Profit", "Break-even price", "Target profit", "Lowest price"]
+  ];
+  items.forEach(it => lines.push([it.name, it.price, it.ship, it.buyer ? "Buyer" : "You", it.boost ? "Yes" : "No", it.dlabel ? "Yes" : "No", it.tax, it.cost, it.extra, it.proc, it.boostFee, it.fee, it.earn, it.profit, it.even, it.target, it.low]));
+  lines.push([], ["Depop US fees checked October 2026: no selling fee, processing 3.3% + $0.45 on the order total, 12% on boosted sales. Check Depop Balance for the exact amount."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const items = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(items)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "depop-earnings-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+document.querySelectorAll("input").forEach(el => { el.addEventListener("input", run); el.addEventListener("change", run); });
+run(); renderList();
+window.__depopCalc = { parts, priceFor, calc, ladder, current, toCSV, get list() { return list; } };
+</script>
+</body>
+</html>
