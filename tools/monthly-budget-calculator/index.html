@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>50/30/20 Monthly Budget Calculator: Needs, Wants &amp; Savings | Nora Studio</title>
+<meta name="description" content="Free 50/30/20 budget calculator. Enter your monthly take-home pay, plan 24 categories, and see needs, wants and savings as dollars and percentages against the 50/30/20 targets. Save scenarios and download as a spreadsheet. No signup.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/monthly-budget-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:36px}
+@media(max-width:760px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+.panel h3{font-size:15px;margin:18px 0 0;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);box-sizing:border-box}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row span:last-child{font-variant-numeric:tabular-nums;text-align:right}
+.big{font-size:30px;font-weight:700;margin:6px 0 2px}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.verdict{border-radius:10px;padding:10px 14px;font-weight:700;margin:10px 0 4px}
+.verdict.pos{background:rgba(46,139,87,.12)}.verdict.neg{background:rgba(192,57,43,.12)}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px}.cta p{margin:0 0 14px;opacity:.95}
+.cta a{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+#cats{width:100%;border-collapse:collapse;font-size:14px}
+#cats td{padding:4px 4px;border-bottom:1px solid var(--line)}
+#cats td:nth-child(2){width:124px}#cats td:nth-child(3){width:96px}
+#cats input,#cats select{padding:6px 8px;font-size:15px}
+#cats input{text-align:right;font-variant-numeric:tabular-nums}
+.bucket{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.bucket .nm{font-weight:600}
+.bucket .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+.bar{grid-column:1/3;height:7px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;border-radius:4px}
+#list th,#list td{padding:6px;white-space:nowrap}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>50/30/20 Monthly Budget Calculator</h1>
+  <p>Type your monthly take-home pay, then plan each category. See your needs, wants and savings as dollars and as percentages, next to the 50/30/20 targets, and exactly how much is still unassigned. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your month</h2>
+    <label for="bname">Scenario name <small>(to save and compare plans)</small></label><input id="bname" type="text" maxlength="80" placeholder="e.g. Current plan">
+    <div class="two">
+      <div><label for="pay">Monthly take-home pay <small>($ after tax)</small></label><input id="pay" type="number" min="0" step="50" value="5000"></div>
+      <div><label for="extra">Other monthly income <small>($)</small></label><input id="extra" type="number" min="0" step="50" value="0"></div>
+    </div>
+    <h3>Targets <small style="text-transform:none;letter-spacing:0">(% of income, edit any)</small></h3>
+    <div class="two">
+      <div><label for="tneeds">Needs %</label><input id="tneeds" type="number" min="0" max="100" step="1" value="50"></div>
+      <div><label for="twants">Wants %</label><input id="twants" type="number" min="0" max="100" step="1" value="30"></div>
+    </div>
+    <label for="tsave">Savings &amp; debt payoff %</label><input id="tsave" type="number" min="0" max="100" step="1" value="20">
+    <p class="muted" id="tsum" style="margin-top:8px"></p>
+
+    <h3>Your plan <small style="text-transform:none;letter-spacing:0">(move any category between buckets)</small></h3>
+    <table id="cats"><tbody></tbody></table>
+    <button id="reset" type="button" style="margin-top:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline;padding:0">Reset to the example plan</button>
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Where your money goes</h2>
+    <div class="muted">Still unassigned</div>
+    <div id="unassigned" class="big">$0.00</div>
+    <div id="verdict" class="verdict pos">-</div>
+
+    <div style="margin-top:14px" id="buckets"></div>
+
+    <div style="margin-top:16px">
+      <div class="row"><span>Total income</span><span id="income">$0.00</span></div>
+      <div class="row"><span>Total planned</span><span id="planned">$0.00</span></div>
+      <div class="row"><strong>Left over each month</strong><strong id="left">$0.00</strong></div>
+      <div class="row"><span>Left over per year</span><span id="leftyr">$0.00</span></div>
+      <div class="row"><span>Months of expenses in a $10,000 fund</span><span id="runway">0.0</span></div>
+    </div>
+
+    <h3>Biggest 5 categories</h3>
+    <div id="top5"></div>
+    <button id="save" class="btn" type="button" style="margin-top:16px;border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Save this plan to my list</button>
+    <p class="muted" style="margin-top:12px">50/30/20 is a guideline, not a rule: 50% of take-home pay on needs, 30% on wants, 20% on savings and paying down debt. Strict versions count minimum debt payments as needs and only the extra as the 20%, so move any category to the bucket that matches how you think about it.</p>
+  </div>
+</section>
+
+<section class="wrap" id="listwrap" style="padding-bottom:30px">
+  <div class="panel">
+    <h2>My plans <small class="muted" id="count"></small></h2>
+    <p class="muted" id="empty">Save a few plans above (a tighter month, a raise, rent going up) to compare them side by side. Your list stays in this browser only.</p>
+    <div style="overflow-x:auto"><table id="list" style="width:100%;border-collapse:collapse;font-size:14px;display:none">
+      <thead><tr style="text-align:left;border-bottom:2px solid var(--line)"><th>Plan</th><th>Income</th><th>Needs</th><th>Needs %</th><th>Wants</th><th>Wants %</th><th>Savings &amp; debt</th><th>Savings %</th><th>Left over</th><th></th></tr></thead>
+      <tbody></tbody></table></div>
+    <p style="margin:14px 0 0"><button id="csv" class="btn" type="button" style="border:0;cursor:pointer;font:600 15px system-ui,sans-serif">Download as spreadsheet (CSV)</button>
+    <button id="clear" type="button" style="margin-left:10px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline">Clear list</button></p>
+    <p class="muted" style="margin-top:8px">Opens in Excel, Google Sheets or Numbers. Downloads your saved list, or the current plan if the list is empty.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Now track what you actually spend</h2>
+    <p>The Monthly Budget Planner uses these same 27 categories, then logs every transaction against them, shows budget vs actual per category per month, runs savings goals with target dates, and flags any row that needs fixing. Excel + Google Sheets.</p>
+    <a href="https://www.etsy.com/listing/4602543630">Get it on Etsy</a>
+    <p style="margin-top:10px">Paying off a card or a loan too? The <a href="https://www.etsy.com/listing/4603096018">Personal Finance Bundle</a> adds the Debt Payoff Planner (2 files, save money on the pair).</p>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Budget questions, answered</h2>
+  <h3>What is the 50/30/20 rule?</h3>
+  <p>Split your take-home pay three ways: about 50% on needs, about 30% on wants, and about 20% on savings and paying down debt. Needs are the things you cannot skip, like housing, utilities, groceries, insurance and getting to work. Wants are everything you choose, like dining out, subscriptions and travel. The last 20% builds an emergency fund, goes into retirement, or kills debt faster.</p>
+  <h3>Do I use gross pay or take-home pay?</h3>
+  <p>Take-home pay, the amount that actually lands in your account after tax and payroll deductions. If your employer already moves money into a retirement plan before you see it, that saving is happening outside this calculation, so count it as a bonus rather than part of your 20%.</p>
+  <h3>Is 50/30/20 realistic with high rent?</h3>
+  <p>Often not. In expensive areas needs alone can run 60% or more, which is why the targets here are editable. If needs will not fit under 50%, the useful question is which single number can move: a cheaper housing cost, a roommate, a shorter commute, or more income. Lowering the wants bucket for a month works; lowering it forever usually does not.</p>
+  <h3>Where do minimum debt payments go?</h3>
+  <p>Strict 50/30/20 treats minimum payments as needs, because missing them has real consequences, and counts only the extra you pay above the minimum in the 20%. This calculator starts with debt in the savings and debt bucket because that is how most people think about it, and the dropdown next to each category lets you move it.</p>
+  <h3>What if I have nothing left over?</h3>
+  <p>That is the normal starting point, and it is still useful information: it tells you the plan has no slack, so any surprise becomes debt. Look at the biggest 5 categories first, since a 10% cut to your largest line beats a 50% cut to your smallest. Then give the leftover a job on purpose, even if it is only $25 a month, so it does not quietly get spent.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const MAX = 1e12;
+const TOOL = "https://norastudiohq.github.io/tools/monthly-budget-calculator/";
+const PLANNER = "https://www.etsy.com/listing/4602543630";
+const BUCKETS = ["Needs", "Wants", "Savings & debt"];
+// Same 24 spending categories and example amounts as the paid Monthly Budget Planner
+// (projects/products/_build/build_budget.py, cats list minus the 3 Income rows). Change both together.
+const CATS = [
+  ["Rent / mortgage", 0, 1450], ["Utilities", 0, 160], ["Phone & internet", 0, 110],
+  ["Insurance", 0, 140], ["Groceries", 0, 520], ["Transportation & gas", 0, 200],
+  ["Health", 0, 60], ["Kids", 0, 0], ["Household", 0, 60],
+  ["Subscriptions", 1, 45], ["Dining out", 1, 180], ["Personal care", 1, 50],
+  ["Shopping", 1, 120], ["Entertainment", 1, 80], ["Pets", 1, 40],
+  ["Gifts", 1, 40], ["Travel", 1, 100], ["Miscellaneous", 1, 50],
+  ["Credit card", 2, 150], ["Student loan", 2, 0], ["Car loan", 2, 320],
+  ["Emergency fund", 2, 300], ["Retirement", 2, 250], ["Sinking funds", 2, 100]
+];
+const KEY = "nora-budget-plans-v1";
+const r2 = n => Math.round((n + Number.EPSILON) * 100) / 100;
+const num = (v, max) => { const n = parseFloat(v); return !isFinite(n) || n < 0 ? 0 : Math.min(n, max === undefined ? MAX : max); };
+const usd = n => (n < 0 ? "-$" : "$") + Math.abs(r2(n)).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = n => (isFinite(n) ? r2(n).toFixed(1) : "0.0") + "%";
+
+function buildRows() {
+  const tb = document.querySelector("#cats tbody");
+  tb.innerHTML = "";
+  CATS.forEach((c, i) => {
+    const tr = document.createElement("tr");
+    const opts = BUCKETS.map((b, bi) => '<option value="' + bi + '"' + (bi === c[1] ? " selected" : "") + ">" + b + "</option>").join("");
+    tr.innerHTML = '<td>' + c[0] + '</td>' +
+      '<td><select id="b' + i + '" aria-label="' + c[0] + ' bucket">' + opts + '</select></td>' +
+      '<td><input id="a' + i + '" type="number" min="0" step="5" value="' + c[2] + '" aria-label="' + c[0] + ' amount"></td>';
+    tb.appendChild(tr);
+  });
+}
+
+function inputs() {
+  return {
+    name: ($("bname").value || "").slice(0, 80),
+    pay: num($("pay").value), extra: num($("extra").value),
+    tneeds: num($("tneeds").value, 100), twants: num($("twants").value, 100), tsave: num($("tsave").value, 100),
+    buckets: CATS.map((c, i) => { const v = parseInt($("b" + i).value, 10); return v >= 0 && v <= 2 ? v : c[1]; }),
+    amts: CATS.map((c, i) => num($("a" + i).value))
+  };
+}
+
+function analyze(x) {
+  const income = x.pay + x.extra;
+  const sums = [0, 0, 0];
+  x.amts.forEach((a, i) => { sums[x.buckets[i]] += a; });
+  const planned = sums[0] + sums[1] + sums[2];
+  const targetsPct = [x.tneeds, x.twants, x.tsave];
+  const targets = targetsPct.map(p => income * p / 100);
+  const shares = sums.map(s => (income > 0 ? s / income * 100 : 0));
+  const top5 = CATS.map((c, i) => ({ name: c[0], bucket: BUCKETS[x.buckets[i]], amt: x.amts[i] }))
+    .filter(r => r.amt > 0).sort((a, b) => b.amt - a.amt).slice(0, 5);
+  return {
+    income, sums, planned, targets, targetsPct, shares, top5,
+    left: income - planned,
+    targetPctTotal: targetsPct[0] + targetsPct[1] + targetsPct[2],
+    runway: planned > 0 ? 10000 / (sums[0] + sums[1]) : 0
+  };
+}
+
+function run() {
+  const x = inputs(), a = analyze(x);
+  $("unassigned").textContent = usd(a.left);
+  $("unassigned").className = "big " + (a.left < -0.004 ? "neg" : "pos");
+  $("income").textContent = usd(a.income);
+  $("planned").textContent = usd(a.planned);
+  $("left").textContent = usd(a.left);
+  $("leftyr").textContent = usd(a.left * 12);
+  $("runway").textContent = isFinite(a.runway) && a.runway > 0 ? r2(a.runway).toFixed(1) : "0.0";
+
+  const ts = a.targetPctTotal;
+  $("tsum").textContent = Math.abs(ts - 100) < 0.005
+    ? "Targets add up to 100%."
+    : "Targets add up to " + pct(ts) + ". They do not have to, but 100% means every dollar has a job.";
+
+  const v = $("verdict");
+  if (a.income <= 0) { v.className = "verdict neg"; v.textContent = "Type your monthly take-home pay to start."; }
+  else if (a.left < -0.004) { v.className = "verdict neg"; v.textContent = "Over by " + usd(-a.left) + " a month. Something has to come down."; }
+  else if (a.left < a.income * 0.005) { v.className = "verdict pos"; v.textContent = "Every dollar is assigned. No slack for surprises."; }
+  else { v.className = "verdict pos"; v.textContent = usd(a.left) + " a month has no job yet (" + pct(a.left / a.income * 100) + " of income)."; }
+
+  const colors = ["#c0392b", "#d98324", "#2e8b57"];
+  $("buckets").innerHTML = BUCKETS.map((b, i) => {
+    const over = a.sums[i] - a.targets[i];
+    const w = a.income > 0 ? Math.min(100, a.sums[i] / a.income * 100) : 0;
+    const note = a.income <= 0 ? "" :
+      (over > 0.004 ? usd(over) + " over the " + pct(a.targetsPct[i]) + " target"
+        : over < -0.004 ? usd(-over) + " under the " + pct(a.targetsPct[i]) + " target"
+          : "exactly on the " + pct(a.targetsPct[i]) + " target");
+    return '<div class="bucket"><span class="nm">' + b + '</span><span class="amt">' + usd(a.sums[i]) +
+      '</span><span class="muted">' + pct(a.shares[i]) + ' of income &middot; target ' + usd(a.targets[i]) + '</span>' +
+      '<span class="muted" style="text-align:right">' + note + '</span>' +
+      '<span class="bar"><i style="width:' + w + '%;background:' + colors[i] + '"></i></span></div>';
+  }).join("");
+
+  $("top5").innerHTML = a.top5.length
+    ? a.top5.map(r => '<div class="row"><span>' + r.name + ' <small class="muted">' + r.bucket + '</small></span><span>' + usd(r.amt) + '</span></div>').join("")
+    : '<p class="muted" style="margin:6px 0 0">Give a category an amount to see this.</p>';
+}
+
+function current() {
+  const x = inputs(), a = analyze(x);
+  return {
+    name: x.name || "Plan " + (list.length + 1),
+    income: r2(a.income), needs: r2(a.sums[0]), wants: r2(a.sums[1]), save: r2(a.sums[2]),
+    needsPct: r2(a.shares[0]), wantsPct: r2(a.shares[1]), savePct: r2(a.shares[2]),
+    planned: r2(a.planned), left: r2(a.left),
+    buckets: x.buckets.slice(), amts: x.amts.map(r2)
+  };
+}
+
+let list = [];
+try { const raw = localStorage.getItem(KEY); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p)) list = p.slice(0, 40); } } catch (e) { }
+function store() { try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { } }
+
+function renderList() {
+  const tb = document.querySelector("#list tbody"), t = $("list");
+  $("count").textContent = list.length ? "(" + list.length + ")" : "";
+  $("empty").style.display = list.length ? "none" : "block";
+  t.style.display = list.length ? "" : "none";
+  tb.innerHTML = list.map((r, i) =>
+    '<tr style="border-bottom:1px solid var(--line)"><td>' + esc(r.name) + '</td><td>' + usd(r.income) + '</td><td>' + usd(r.needs) +
+    '</td><td>' + pct(r.needsPct) + '</td><td>' + usd(r.wants) + '</td><td>' + pct(r.wantsPct) + '</td><td>' + usd(r.save) +
+    '</td><td>' + pct(r.savePct) + '</td><td>' + usd(r.left) +
+    '</td><td><button type="button" data-i="' + i + '" style="background:none;border:0;color:var(--muted);cursor:pointer">remove</button></td></tr>').join("");
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+$("save").addEventListener("click", () => {
+  if (list.length >= 40) { alert("That's 40 saved plans, the most this list holds. Remove one first."); return; }
+  list.push(current()); store(); renderList();
+  $("bname").value = ""; $("save").textContent = "Saved ✓  Save another";
+  setTimeout(() => ($("save").textContent = "Save this plan to my list"), 1600);
+});
+document.querySelector("#list tbody").addEventListener("click", e => {
+  const i = e.target.getAttribute && e.target.getAttribute("data-i");
+  if (i !== null && i !== undefined) { list.splice(+i, 1); store(); renderList(); }
+});
+$("clear").addEventListener("click", () => { list = []; store(); renderList(); });
+$("reset").addEventListener("click", () => {
+  CATS.forEach((c, i) => { $("b" + i).value = c[1]; $("a" + i).value = c[2]; });
+  $("tneeds").value = 50; $("twants").value = 30; $("tsave").value = 20;
+  run();
+});
+
+const cell = v => {
+  if (v === null || v === undefined) return "";
+  let s = typeof v === "number" ? r2(v).toString() : String(v);
+  if (/^[=+\-@\t\r]/.test(s) && typeof v !== "number") s = "'" + s;          // block spreadsheet formula injection
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(rows) {
+  const lines = [
+    ["Monthly budget plan - made with Nora Studio's free 50/30/20 Monthly Budget Calculator"],
+    ["Calculator: " + TOOL],
+    ["Track what you actually spend: Monthly Budget Planner by Nora Studio - " + PLANNER],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    [],
+    ["Plan", "Total income", "Needs $", "Needs %", "Wants $", "Wants %", "Savings & debt $", "Savings & debt %", "Total planned", "Left over"]
+      .concat(CATS.map(c => c[0] + " $"), CATS.map(c => c[0] + " bucket"))
+  ];
+  rows.forEach(r => lines.push([r.name, r.income, r.needs, r.needsPct, r.wants, r.wantsPct, r.save, r.savePct, r.planned, r.left]
+    .concat(r.amts, r.buckets.map(b => BUCKETS[b]))));
+  lines.push([], ["50/30/20 is a guideline: 50% of take-home pay on needs, 30% on wants, 20% on savings and paying down debt."]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+$("csv").addEventListener("click", () => {
+  const rows = list.length ? list : [current()];
+  const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "monthly-budget-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+
+buildRows();
+document.querySelectorAll("input, select").forEach(el => el.addEventListener("input", run));
+run(); renderList();
+window.__budgetCalc = { CATS, BUCKETS, analyze, inputs, current, toCSV, run, get list() { return list; } };
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"50/30/20 Monthly Budget Calculator","url":"https://norastudiohq.github.io/tools/monthly-budget-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free 50/30/20 budget calculator. Enter your monthly take-home pay, plan 24 categories, and see needs, wants and savings as dollars and percentages against the 50/30/20 targets. Save scenarios and download as a spreadsheet. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"50/30/20 Monthly Budget Calculator","item":"https://norastudiohq.github.io/tools/monthly-budget-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the 50/30/20 rule?","acceptedAnswer":{"@type":"Answer","text":"Split your take-home pay three ways: about 50% on needs, about 30% on wants, and about 20% on savings and paying down debt. Needs are the things you cannot skip, like housing, utilities, groceries, insurance and getting to work. Wants are everything you choose, like dining out, subscriptions and travel. The last 20% builds an emergency fund, goes into retirement, or kills debt faster."}},{"@type":"Question","name":"Do I use gross pay or take-home pay?","acceptedAnswer":{"@type":"Answer","text":"Take-home pay, the amount that actually lands in your account after tax and payroll deductions. If your employer already moves money into a retirement plan before you see it, that saving is happening outside this calculation, so count it as a bonus rather than part of your 20%."}},{"@type":"Question","name":"Is 50/30/20 realistic with high rent?","acceptedAnswer":{"@type":"Answer","text":"Often not. In expensive areas needs alone can run 60% or more, which is why the targets here are editable. If needs will not fit under 50%, the useful question is which single number can move: a cheaper housing cost, a roommate, a shorter commute, or more income. Lowering the wants bucket for a month works; lowering it forever usually does not."}},{"@type":"Question","name":"Where do minimum debt payments go?","acceptedAnswer":{"@type":"Answer","text":"Strict 50/30/20 treats minimum payments as needs, because missing them has real consequences, and counts only the extra you pay above the minimum in the 20%. This calculator starts with debt in the savings and debt bucket because that is how most people think about it, and the dropdown next to each category lets you move it."}},{"@type":"Question","name":"What if I have nothing left over?","acceptedAnswer":{"@type":"Answer","text":"That is the normal starting point, and it is still useful information: it tells you the plan has no slack, so any surprise becomes debt. Look at the biggest 5 categories first, since a 10% cut to your largest line beats a 50% cut to your smallest. Then give the leftover a job on purpose, even if it is only $25 a month, so it does not quietly get spent."}}]}]}
+</script>
+</body>
+</html>
