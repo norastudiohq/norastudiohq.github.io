@@ -1,5 +1,0 @@
-# Whatnot Fee Calculator tests (2026-10-30 PM, node via projects/products/_build/test_whatnot_tool.js, all PASS)
-Rule (read in Chrome on whatnot.com/seller/fees, 2026-10-30): commission on item final sale price only, starts at 8% (31 categories in Whatnot's rate widget: Coins & Money 4%, all others 8%; tiers from $15K per 4 weeks vary by category); processing 2.9% of total order value + $0.30 per order.
-Defaults price 40, ship 7.50 buyer, tax 7, rate 8, cost 10, extra 1, target 15, want 30 -> tax 3.33, total 50.83, comm 3.20, proc 1.77, fees 4.97, earn 35.03, profit 24.03, break-even 12.98, lowest 29.85, list 34.35.
-You pay shipping -> total 42.80, proc 1.54, earn 27.76. $1 win -> comm 0.08, proc 0.56, earn 0.36. Rate 4 -> comm 1.60, earn 36.63. Whatnot's own $10 at 8% = $0.80.
-Brute force: priceFor(n) for n = $0.01..$150 under 6 shipping/tax/rate combos equals the true smallest cent (two rounded fees mean earn() is NOT monotone, so it scans up). Rate 100 -> null, shown as "not reachable".

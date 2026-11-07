@@ -1,0 +1,8 @@
+TESTS.md
+**/TESTS.md
+qa-results.txt
+**/qa-results.txt
+qa_*.js
+**/qa_*.js
+qa_*.ps1
+**/qa_*.ps1
