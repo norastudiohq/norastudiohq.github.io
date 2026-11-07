@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Quote Calculator: Estimate Total with Tax and Deposit | Nora Studio</title>
+<meta name="description" content="Free quote and estimate calculator. Add up to 12 line items, set any tax or VAT rate, take a percent or flat discount, and see the total due plus the deposit and balance. Copy the quote as text or download it as a spreadsheet. No signup.">
+<link rel="canonical" href="https://norastudiohq.github.io/tools/quote-estimate-calculator/">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.calc{display:grid;grid-template-columns:1.25fr 1fr;gap:22px;padding-bottom:36px}
+@media(max-width:860px){.calc{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.panel h2{font-size:19px;margin:0 0 14px}
+.panel h3{font-size:15px;margin:18px 0 0;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--muted)}
+input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row span:last-child,.row strong:last-child{font-variant-numeric:tabular-nums;text-align:right}
+.big{font-size:30px;font-weight:700;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.pos{color:#2e8b57}.neg{color:#c0392b}
+.verdict{border-radius:10px;padding:10px 14px;font-weight:700;margin:10px 0 4px}
+.verdict.pos{background:rgba(46,139,87,.12)}.verdict.neg{background:rgba(192,57,43,.12)}
+.muted{color:var(--muted);font-size:13px}
+.cta{background:var(--accent);color:#fff;border-radius:14px;padding:22px;margin-bottom:36px}
+.cta h2{margin:0 0 6px;font-size:21px;color:#fff}.cta p{margin:0 0 14px;opacity:.95}
+.cta a{display:inline-block;background:#fff;color:var(--accent);font-weight:700;padding:11px 20px;border-radius:8px;text-decoration:none;margin-right:10px}
+.faq h3{font-size:17px;margin:22px 0 6px}.faq p{color:var(--muted);margin:0}
+.qhead,.qrow{display:grid;grid-template-columns:1fr 70px 104px 96px;gap:6px;align-items:center}
+.qhead{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding-bottom:4px}
+.qhead span+span{text-align:right}
+.qrow{padding:4px 0;border-bottom:1px solid var(--line)}
+.qrow input{padding:6px 8px;font-size:15px}
+.qrow input.q,.qrow input.p{text-align:right;font-variant-numeric:tabular-nums}
+.qrow .lt{font-variant-numeric:tabular-nums;text-align:right;font-size:15px;font-weight:600;white-space:nowrap}
+.qrow.bad input{border-color:#c0392b}
+@media(max-width:560px){
+  .qhead{display:none}
+  .qrow{grid-template-columns:1fr 1fr 1fr;gap:6px 8px;padding:10px 0}
+  .qrow .d{grid-column:1/4}
+  .qrow .lt{padding-right:2px}
+}
+.tools{margin:16px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.tools button{width:auto;border:0;cursor:pointer;font:600 15px system-ui,sans-serif}
+.linkish{background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline;padding:0;font:400 14px system-ui,sans-serif}
+</style>
+</head>
+<body>
+<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<main>
+<section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
+  <h1>Free Quote &amp; Estimate Calculator</h1>
+  <p>Type your line items, set your tax or VAT rate, add a discount or a deposit, and get the total due, the deposit due and the balance. Copy the finished quote as plain text straight into an email, or download it as a spreadsheet. Free, no signup, nothing leaves your browser.</p>
+</section>
+
+<section class="wrap calc">
+  <div class="panel">
+    <h2>Your quote</h2>
+    <div class="two">
+      <div><label for="qfrom">Your business <small>(optional)</small></label><input id="qfrom" type="text" maxlength="80" placeholder="e.g. Smith &amp; Sons Plumbing"></div>
+      <div><label for="qclient">Quote for <small>(optional)</small></label><input id="qclient" type="text" maxlength="80" placeholder="e.g. Jane Doe"></div>
+    </div>
+    <div class="two">
+      <div><label for="qnum">Quote number <small>(optional)</small></label><input id="qnum" type="text" maxlength="30" placeholder="e.g. 1042"></div>
+      <div><label for="qdate">Date <small>(optional)</small></label><input id="qdate" type="text" maxlength="30" placeholder="e.g. 7 Nov 2026"></div>
+    </div>
+
+    <h3>Line items</h3>
+    <div class="qhead"><span>Description</span><span>Qty</span><span>Unit price</span><span>Line total</span></div>
+    <div id="items"></div>
+    <p style="margin:10px 0 0"><button id="addrow" type="button" class="linkish">Add another line</button>
+    <span class="muted" id="rowcount" style="margin-left:10px"></span></p>
+
+    <h3>Tax, discount and deposit</h3>
+    <label for="tax">Tax / VAT rate <small>(%, use 0 for none)</small></label><input id="tax" type="text" inputmode="decimal" placeholder="0" value="0">
+    <div class="two">
+      <div><label for="discmode">Discount type</label><select id="discmode"><option value="pct" selected>Percent off</option><option value="flat">Flat amount off</option></select></div>
+      <div><label for="discval">Discount <small id="disclabel">(%)</small></label><input id="discval" type="text" inputmode="decimal" placeholder="0" value="0"></div>
+    </div>
+    <label for="deposit">Deposit asked up front <small>(% of the total, 0 for none)</small></label><input id="deposit" type="text" inputmode="decimal" placeholder="0" value="0">
+    <label for="notes">Notes or terms <small>(optional, shown on the copied quote)</small></label><input id="notes" type="text" maxlength="200" placeholder="e.g. Valid for 30 days. Deposit due before work starts.">
+  </div>
+
+  <div class="panel" aria-live="polite">
+    <h2>Total due</h2>
+    <div class="muted">Total the customer owes</div>
+    <div id="total" class="big">$0.00</div>
+    <div id="verdict" class="verdict pos">-</div>
+
+    <div style="margin-top:14px">
+      <div class="row"><span id="linecount">0 lines</span><span id="subtotal">$0.00</span></div>
+      <div class="row"><span id="disclabel2">Discount</span><span id="discount">$0.00</span></div>
+      <div class="row"><span id="taxlabel">Tax</span><span id="taxamt">$0.00</span></div>
+      <div class="row"><strong>Total due</strong><strong id="total2">$0.00</strong></div>
+      <div class="row"><span id="deplabel">Deposit due</span><span id="depamt">$0.00</span></div>
+      <div class="row"><strong>Balance due on completion</strong><strong id="balance">$0.00</strong></div>
+      <div class="row"><span>Average per line</span><span id="avgline">$0.00</span></div>
+    </div>
+
+    <div class="tools">
+      <button id="copy" class="btn" type="button">Copy as text</button>
+      <button id="csv" class="btn" type="button">Download CSV</button>
+    </div>
+    <p style="margin:12px 0 0"><button id="clear" type="button" class="linkish">Clear this quote</button></p>
+    <p class="muted" style="margin-top:12px" id="savednote">Saved locally in your browser only - nothing is uploaded. Close the tab and come back, and this quote will still be here.</p>
+  </div>
+</section>
+
+<section class="wrap" style="padding-bottom:30px">
+  <div class="panel doc" style="max-width:none">
+    <h2>How this calculator handles odd numbers</h2>
+    <p class="muted" style="font-size:15px">So you can trust the total, here is exactly what it does with input that is not a clean number.</p>
+    <ul class="muted" style="font-size:15px;margin:10px 0 0;padding-left:22px">
+      <li><strong>Blank rows stay blank.</strong> A line counts only when it has a quantity above zero <em>and</em> a unit price. Until then the line total is empty rather than $0.00, so an unfinished quote does not look like a pile of zeroes. A unit price of 0 is allowed, so you can show an item as included at no charge.</li>
+      <li><strong>Dollar signs and thousands commas are fine.</strong> Type <code>$1,250.50</code> and it reads 1250.50.</li>
+      <li><strong>Letters and negative numbers are ignored, not guessed.</strong> A quantity or price that is not a plain positive number (text, a minus sign, a negative quantity) makes that line count as nothing, and the row border turns red so you can see it. It never adds a wrong amount to your subtotal. To show money going the other way, use the discount box instead of a negative quantity.</li>
+      <li><strong>The discount can never be bigger than the subtotal.</strong> A flat discount larger than the work is capped at the subtotal, and a percentage is capped at 100%, so the total never goes below $0.00.</li>
+      <li><strong>Tax is charged after the discount.</strong> Subtotal, minus discount, then tax on what is left. That is the usual order on a trade quote, but check your own local rule if you discount often.</li>
+      <li><strong>Everything is rounded to the nearest cent</strong>, with a half cent rounding up, at each step: line total, subtotal, discount, tax, total and deposit. The deposit and the balance always add back up to exactly the total.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Now send it on your own letterhead</h2>
+    <p>This page gives you the numbers. The quote and invoice template puts them on a branded Word document: your logo, your customer block, 12 item rows with quantity times price line totals, subtotal, tax and total, saved as a reusable template so every quote you send looks the same. Word, and it prints to one page.</p>
+    <a href="../../index.html#products">See the templates</a>
+  </div>
+</section>
+
+<section class="wrap faq doc">
+  <h2>Quote and estimate questions, answered</h2>
+  <h3>What is the difference between a quote and an estimate?</h3>
+  <p>A quote is a fixed price you are offering to stand behind: if the customer accepts it, that is the number on the invoice. An estimate is your best guess at what the job will cost, and everyone understands it can move once the walls are open or the scope grows. Use the same calculation for both, but say in writing which one you are sending, and if it is an estimate, say what would make it change.</p>
+  <h3>Do I add tax before or after the discount?</h3>
+  <p>In most places the discount comes off first and tax is charged on the discounted amount, because tax follows the price actually paid. This calculator works that way: subtotal, minus discount, then tax on the remainder. Sales tax and VAT rules differ by country and sometimes by state, so if you discount a lot it is worth confirming your local rule once and then sticking to it.</p>
+  <h3>How much deposit should I ask for?</h3>
+  <p>For trade and service work, somewhere between 25% and 50% up front is normal, and the usual reason is materials: the deposit should at least cover what you have to buy before you start. For a small job, many people take nothing up front and invoice on completion. Whatever you pick, write it on the quote, because a deposit nobody agreed to in advance is the most common reason a first invoice gets argued over.</p>
+  <h3>Should my quote show the tax separately?</h3>
+  <p>Yes. Show the subtotal, the tax amount with its rate, and the total as three separate lines. A customer who sees only one big number has no way to check your maths, and a business customer reclaiming tax needs the amount broken out. The copied text and the CSV from this page both keep the three lines separate.</p>
+  <h3>How long should a quote stay valid?</h3>
+  <p>Thirty days is the common default, and it protects you when material prices move. Put the expiry on the quote itself, in the notes line, rather than leaving it open ended. If a customer comes back after it has expired, you can still honour the old price as a goodwill gesture, which reads much better than being forced into it.</p>
+</section>
+</main>
+<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../refunds.html">Refunds</a></span></footer>
+<script>
+const $ = id => document.getElementById(id);
+const MAXROWS = 12;          // same 12 item rows as the paid Word quote template
+const START_ROWS = 4;
+const MAX = 1e12;
+const TOOL = "https://norastudiohq.github.io/tools/quote-estimate-calculator/";
+const PRODUCTS = "https://norastudiohq.github.io/#products";
+const KEY = "nora-quote-v1";
+// Example quote shown on a first visit: [description, qty, unit price]
+const EXAMPLE = [
+  ["Labour, on site", "8", "65"],
+  ["Materials, supplied", "3", "42.50"],
+  ["Call-out fee", "1", "45"],
+  ["", "", ""]
+];
+
+// Round to cents, half a cent up. The usual (n + Number.EPSILON) trick is not enough:
+// 2.5 * 19.99 lands at 49.974999999999994, which is ~6e-15 below the true 49.975, so the
+// nudge misses and you get 49.97. Trimming to 12 significant digits first kills the binary
+// noise before rounding, so 49.975 -> 49.98, 3 * 0.145 -> 0.44 and 1 * 0.615 -> 0.62.
+const r2 = n => {
+  if (!isFinite(n)) return 0;
+  const c = Math.round(Number((Math.abs(n) * 100).toPrecision(12)));
+  return (n < 0 ? -c : c) / 100;
+};
+const usd = n => (n < 0 ? "-$" : "$") + Math.abs(r2(n)).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// rates, not money: keep 3 decimals (6.625%), never cent-rounded
+const pct = n => (!isFinite(n) || n < 0 ? 0 : Math.round(n * 1000) / 1000) + "%";
+
+// Plain positive decimal only. "$1,250.50" and " 12 " are fine; "-3", "abc", "1e9", "3/4" are not.
+function parseNum(txt, cap) {
+  if (txt === null || txt === undefined) return null;
+  let s = String(txt).trim();
+  if (!s) return null;
+  s = s.replace(/[$£€\s]/g, "").replace(/,/g, "");
+  if (!/^(\d+(\.\d*)?|\.\d+)$/.test(s)) return null;
+  const n = parseFloat(s);
+  if (!isFinite(n) || n < 0) return null;
+  return Math.min(n, cap === undefined ? MAX : cap);
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+let shown = START_ROWS;
+
+function buildRows() {
+  const box = $("items");
+  let h = "";
+  for (let i = 0; i < MAXROWS; i++) {
+    h += '<div class="qrow" id="r' + i + '">' +
+      '<input class="d" id="d' + i + '" type="text" maxlength="200" placeholder="What you are charging for" aria-label="Line ' + (i + 1) + ' description">' +
+      '<input class="q" id="q' + i + '" type="text" inputmode="decimal" placeholder="Qty" aria-label="Line ' + (i + 1) + ' quantity">' +
+      '<input class="p" id="p' + i + '" type="text" inputmode="decimal" placeholder="$0.00" aria-label="Line ' + (i + 1) + ' unit price">' +
+      '<span class="lt" id="t' + i + '"></span></div>';
+  }
+  box.innerHTML = h;
+}
+
+function lines() {
+  const out = [];
+  for (let i = 0; i < MAXROWS; i++) {
+    const dRaw = ($("d" + i).value || ""), qRaw = ($("q" + i).value || ""), pRaw = ($("p" + i).value || "");
+    const qty = parseNum(qRaw), price = parseNum(pRaw);
+    const active = qty !== null && qty > 0 && price !== null;
+    const bad = (String(qRaw).trim() !== "" && qty === null) || (String(pRaw).trim() !== "" && price === null);
+    out.push({
+      i: i, desc: String(dRaw).slice(0, 200), qRaw: qRaw, pRaw: pRaw,
+      qty: qty, price: price, active: active, bad: bad,
+      total: active ? r2(qty * price) : null
+    });
+  }
+  return out;
+}
+
+function inputs() {
+  return {
+    from: ($("qfrom").value || "").slice(0, 80),
+    client: ($("qclient").value || "").slice(0, 80),
+    qnum: ($("qnum").value || "").slice(0, 30),
+    qdate: ($("qdate").value || "").slice(0, 30),
+    notes: ($("notes").value || "").slice(0, 200),
+    tax: parseNum($("tax").value, 100) || 0,
+    discMode: $("discmode").value === "flat" ? "flat" : "pct",
+    discVal: parseNum($("discval").value) || 0,
+    deposit: parseNum($("deposit").value, 100) || 0,
+    lines: lines()
+  };
+}
+
+function analyze(x) {
+  const items = x.lines.filter(l => l.active);
+  const subtotal = r2(items.reduce((s, l) => s + l.total, 0));
+  const discPct = x.discMode === "pct" ? Math.min(x.discVal, 100) : 0;
+  let discount = x.discMode === "pct" ? r2(subtotal * discPct / 100) : r2(x.discVal);
+  if (discount > subtotal) discount = subtotal;            // a discount never makes the total negative
+  const taxable = r2(subtotal - discount);
+  const tax = r2(taxable * x.tax / 100);
+  const total = r2(taxable + tax);
+  const deposit = r2(total * Math.min(x.deposit, 100) / 100);
+  const balance = r2(total - deposit);
+  return {
+    items: items, count: items.length, bad: x.lines.filter(l => l.bad).length,
+    subtotal: subtotal, discount: discount, discPct: discPct, taxable: taxable,
+    tax: tax, taxRate: x.tax, total: total,
+    depositPct: Math.min(x.deposit, 100), deposit: deposit, balance: balance,
+    avg: items.length ? r2(subtotal / items.length) : 0
+  };
+}
+
+function run() {
+  const x = inputs(), a = analyze(x);
+  x.lines.forEach(l => {
+    $("t" + l.i).textContent = l.active ? usd(l.total) : "";
+    const row = $("r" + l.i);
+    if (row) row.className = "qrow" + (l.bad ? " bad" : "");
+  });
+  $("total").textContent = usd(a.total);
+  $("total").className = "big " + (a.total > 0 ? "pos" : "");
+  $("subtotal").textContent = usd(a.subtotal);
+  $("linecount").textContent = a.count === 1 ? "1 line" : a.count + " lines";
+  $("disclabel2").textContent = x.discMode === "pct" ? "Discount (" + pct(a.discPct) + ")" : "Discount (flat)";
+  $("discount").textContent = a.discount > 0 ? "-" + usd(a.discount) : usd(0);
+  $("taxlabel").textContent = "Tax (" + pct(a.taxRate) + ")";
+  $("taxamt").textContent = usd(a.tax);
+  $("total2").textContent = usd(a.total);
+  $("deplabel").textContent = "Deposit due (" + pct(a.depositPct) + ")";
+  $("depamt").textContent = usd(a.deposit);
+  $("balance").textContent = usd(a.balance);
+  $("avgline").textContent = usd(a.avg);
+  $("disclabel").textContent = x.discMode === "pct" ? "(%)" : "($)";
+  $("rowcount").textContent = shown >= MAXROWS ? "All " + MAXROWS + " lines are showing." : shown + " of " + MAXROWS + " lines showing.";
+
+  const v = $("verdict");
+  if (a.bad > 0) { v.className = "verdict neg"; v.textContent = a.bad === 1 ? "One line has a quantity or price that is not a positive number, so it counts as nothing." : a.bad + " lines have a quantity or price that is not a positive number, so they count as nothing."; }
+  else if (a.count === 0) { v.className = "verdict neg"; v.textContent = "Add a description, a quantity and a unit price to start."; }
+  else if (a.deposit > 0) { v.className = "verdict pos"; v.textContent = usd(a.deposit) + " up front, then " + usd(a.balance) + " on completion."; }
+  else { v.className = "verdict pos"; v.textContent = a.count + (a.count === 1 ? " line" : " lines") + ", " + usd(a.total) + " due on completion."; }
+  save();
+}
+
+/* ---------- plain text quote ---------- */
+function toText(x, a) {
+  if (!x) { x = inputs(); a = analyze(x); }
+  const L = [];
+  L.push("QUOTE" + (x.qnum ? " #" + x.qnum : ""));
+  if (x.qdate) L.push("Date: " + x.qdate);
+  if (x.from) L.push("From: " + x.from);
+  if (x.client) L.push("For: " + x.client);
+  L.push("");
+  if (a.items.length) {
+    a.items.forEach(l => L.push("- " + (l.desc || "Item " + (l.i + 1)) + " (" + l.qty + " x " + usd(l.price) + "): " + usd(l.total)));
+  } else {
+    L.push("- No line items yet");
+  }
+  L.push("");
+  L.push("Subtotal: " + usd(a.subtotal));
+  if (a.discount > 0) L.push("Discount" + (x.discMode === "pct" ? " (" + pct(a.discPct) + ")" : "") + ": -" + usd(a.discount));
+  L.push("Tax (" + pct(a.taxRate) + "): " + usd(a.tax));
+  L.push("Total due: " + usd(a.total));
+  if (a.deposit > 0) {
+    L.push("Deposit due now (" + pct(a.depositPct) + "): " + usd(a.deposit));
+    L.push("Balance due on completion: " + usd(a.balance));
+  }
+  if (x.notes) { L.push(""); L.push(x.notes); }
+  L.push("");
+  L.push("Totals worked out with Nora Studio's free quote calculator: " + TOOL);
+  return L.join("\n");
+}
+
+/* ---------- CSV ---------- */
+const cell = v => {
+  if (v === null || v === undefined) return "";
+  let s = typeof v === "number" ? r2(v).toString() : String(v);
+  if (/^[=+\-@\t\r]/.test(s) && typeof v !== "number") s = "'" + s;   // block spreadsheet formula injection
+  return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+};
+function toCSV(x, a) {
+  if (!x) { x = inputs(); a = analyze(x); }
+  const lines = [
+    ["Quote - made with Nora Studio's free Quote & Estimate Calculator"],
+    ["Calculator: " + TOOL],
+    ["Send it on your own letterhead: quote & invoice templates by Nora Studio - " + PRODUCTS],
+    ["Generated", new Date().toISOString().slice(0, 10)],
+    ["From", x.from], ["Quote for", x.client], ["Quote number", x.qnum], ["Date", x.qdate],
+    [],
+    ["Description", "Qty", "Unit price", "Line total"]
+  ];
+  a.items.forEach(l => lines.push([l.desc, l.qty, l.price, l.total]));
+  lines.push([]);
+  lines.push(["Subtotal", "", "", a.subtotal]);
+  lines.push([x.discMode === "pct" ? "Discount (" + pct(a.discPct) + ")" : "Discount (flat)", "", "", -a.discount]);
+  lines.push(["Tax (" + pct(a.taxRate) + ")", "", "", a.tax]);
+  lines.push(["Total due", "", "", a.total]);
+  lines.push(["Deposit due (" + pct(a.depositPct) + ")", "", "", a.deposit]);
+  lines.push(["Balance due on completion", "", "", a.balance]);
+  if (x.notes) lines.push([], ["Notes", x.notes]);
+  return lines.map(l => l.map(cell).join(",")).join("\r\n");
+}
+
+/* ---------- localStorage ---------- */
+function state() {
+  const rows = [];
+  for (let i = 0; i < MAXROWS; i++) rows.push([$("d" + i).value || "", $("q" + i).value || "", $("p" + i).value || ""]);
+  return {
+    v: 1, shown: shown, rows: rows,
+    from: $("qfrom").value || "", client: $("qclient").value || "", qnum: $("qnum").value || "",
+    qdate: $("qdate").value || "", notes: $("notes").value || "",
+    tax: $("tax").value || "", discmode: $("discmode").value, discval: $("discval").value || "",
+    deposit: $("deposit").value || ""
+  };
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state())); return true; } catch (e) { return false; } }
+function apply(s) {
+  if (!s || typeof s !== "object") return false;
+  const rows = Array.isArray(s.rows) ? s.rows : [];
+  for (let i = 0; i < MAXROWS; i++) {
+    const r = Array.isArray(rows[i]) ? rows[i] : ["", "", ""];
+    $("d" + i).value = r[0] === undefined || r[0] === null ? "" : String(r[0]).slice(0, 200);
+    $("q" + i).value = r[1] === undefined || r[1] === null ? "" : String(r[1]).slice(0, 40);
+    $("p" + i).value = r[2] === undefined || r[2] === null ? "" : String(r[2]).slice(0, 40);
+  }
+  const txt = (k, id, max) => { $(id).value = typeof s[k] === "string" || typeof s[k] === "number" ? String(s[k]).slice(0, max) : ""; };
+  txt("from", "qfrom", 80); txt("client", "qclient", 80); txt("qnum", "qnum", 30);
+  txt("qdate", "qdate", 30); txt("notes", "notes", 200);
+  $("tax").value = typeof s.tax === "string" || typeof s.tax === "number" ? String(s.tax).slice(0, 40) : "0";
+  $("discval").value = typeof s.discval === "string" || typeof s.discval === "number" ? String(s.discval).slice(0, 40) : "0";
+  $("deposit").value = typeof s.deposit === "string" || typeof s.deposit === "number" ? String(s.deposit).slice(0, 40) : "0";
+  $("discmode").value = s.discmode === "flat" ? "flat" : "pct";
+  const n = parseInt(s.shown, 10);
+  shown = n >= 1 && n <= MAXROWS ? n : START_ROWS;
+  showRows();
+  return true;
+}
+function restore() {
+  let raw = null;
+  try { raw = localStorage.getItem(KEY); } catch (e) { return false; }
+  if (!raw) return false;
+  try { return apply(JSON.parse(raw)); } catch (e) { return false; }
+}
+function showRows() {
+  for (let i = 0; i < MAXROWS; i++) { const r = $("r" + i); if (r) r.style.display = i < shown ? "" : "none"; }
+}
+function loadExample() {
+  for (let i = 0; i < MAXROWS; i++) {
+    const e = EXAMPLE[i] || ["", "", ""];
+    $("d" + i).value = e[0]; $("q" + i).value = e[1]; $("p" + i).value = e[2];
+  }
+  $("qfrom").value = ""; $("qclient").value = ""; $("qnum").value = ""; $("qdate").value = ""; $("notes").value = "";
+  $("tax").value = "0"; $("discmode").value = "pct"; $("discval").value = "0"; $("deposit").value = "0";
+  shown = START_ROWS; showRows();
+}
+function clearAll() {
+  for (let i = 0; i < MAXROWS; i++) { $("d" + i).value = ""; $("q" + i).value = ""; $("p" + i).value = ""; }
+  $("qfrom").value = ""; $("qclient").value = ""; $("qnum").value = ""; $("qdate").value = ""; $("notes").value = "";
+  $("tax").value = "0"; $("discmode").value = "pct"; $("discval").value = "0"; $("deposit").value = "0";
+  shown = START_ROWS; showRows(); run();
+}
+
+/* ---------- wiring ---------- */
+buildRows();
+if (!restore()) { loadExample(); }
+showRows();
+
+$("addrow").addEventListener("click", () => {
+  if (shown < MAXROWS) shown++;
+  showRows(); run();
+});
+$("clear").addEventListener("click", () => { clearAll(); });
+$("copy").addEventListener("click", () => {
+  const x = inputs(), txt = toText(x, analyze(x));
+  const done = () => { $("copy").textContent = "Copied ✓"; setTimeout(() => ($("copy").textContent = "Copy as text"), 1600); };
+  let wrote = false;
+  try {
+    if (typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, () => { fallbackCopy(txt); done(); });
+      wrote = true;
+    }
+  } catch (e) { }
+  if (!wrote) { fallbackCopy(txt); done(); }
+});
+function fallbackCopy(txt) {
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = txt; ta.setAttribute("readonly", "");
+    ta.style.position = "fixed"; ta.style.left = "-9999px";
+    document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+  } catch (e) { }
+}
+$("csv").addEventListener("click", () => {
+  const x = inputs();
+  const blob = new Blob(["﻿" + toCSV(x, analyze(x))], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "quote-nora-studio.csv"; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+document.querySelectorAll("input, select").forEach(el => el.addEventListener("input", run));
+document.querySelectorAll("select").forEach(el => el.addEventListener("change", run));
+run();
+window.__quoteCalc = {
+  MAXROWS, START_ROWS, KEY, parseNum, r2, usd, pct, lines, inputs, analyze, toText, toCSV,
+  state, save, restore, apply, clearAll, loadExample, run, showRows,
+  get shown() { return shown; }, set shown(v) { shown = v; }
+};
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Free Quote & Estimate Calculator","url":"https://norastudiohq.github.io/tools/quote-estimate-calculator/","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free quote and estimate calculator. Add up to 12 line items, set any tax or VAT rate, take a percent or flat discount, and see the total due plus the deposit and balance. Copy the quote as text or download it as a spreadsheet. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Free Quote & Estimate Calculator","item":"https://norastudiohq.github.io/tools/quote-estimate-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between a quote and an estimate?","acceptedAnswer":{"@type":"Answer","text":"A quote is a fixed price you are offering to stand behind: if the customer accepts it, that is the number on the invoice. An estimate is your best guess at what the job will cost, and everyone understands it can move once the walls are open or the scope grows. Use the same calculation for both, but say in writing which one you are sending, and if it is an estimate, say what would make it change."}},{"@type":"Question","name":"Do I add tax before or after the discount?","acceptedAnswer":{"@type":"Answer","text":"In most places the discount comes off first and tax is charged on the discounted amount, because tax follows the price actually paid. This calculator works that way: subtotal, minus discount, then tax on the remainder. Sales tax and VAT rules differ by country and sometimes by state, so if you discount a lot it is worth confirming your local rule once and then sticking to it."}},{"@type":"Question","name":"How much deposit should I ask for?","acceptedAnswer":{"@type":"Answer","text":"For trade and service work, somewhere between 25% and 50% up front is normal, and the usual reason is materials: the deposit should at least cover what you have to buy before you start. For a small job, many people take nothing up front and invoice on completion. Whatever you pick, write it on the quote, because a deposit nobody agreed to in advance is the most common reason a first invoice gets argued over."}},{"@type":"Question","name":"Should my quote show the tax separately?","acceptedAnswer":{"@type":"Answer","text":"Yes. Show the subtotal, the tax amount with its rate, and the total as three separate lines. A customer who sees only one big number has no way to check your maths, and a business customer reclaiming tax needs the amount broken out. The copied text and the CSV from this page both keep the three lines separate."}},{"@type":"Question","name":"How long should a quote stay valid?","acceptedAnswer":{"@type":"Answer","text":"Thirty days is the common default, and it protects you when material prices move. Put the expiry on the quote itself, in the notes line, rather than leaving it open ended. If a customer comes back after it has expired, you can still honour the old price as a goodwill gesture, which reads much better than being forced into it."}}]}]}
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+Quote & Estimate Calculator - QA gate
+Date: 2026-11-07
+Script: projects/site/tools/quote-estimate-calculator/qa_quote_tool.js
+Target: projects/site/tools/quote-estimate-calculator/index.html (LOCAL FILE, not the live site)
+Runner: node v24.18.1 on Windows 11
+Command: node qa_quote_tool.js index.html
+
+NOT VERIFIED: the page has never been opened in a real browser or on the live site.
+The harness extracts the page's own inline script and drives its real functions
+against a stubbed DOM. Layout, the clipboard write, the CSV download and the
+375px mobile view are all unproven.
+
+Decisions this run locked in (documented in the page's own help text):
+- Blank rows: a line counts only with qty > 0 AND a parsed unit price; otherwise the
+  line total renders empty, never $0.00. A unit price of 0 IS a real line.
+- Negative / non-numeric qty or price: the line is ignored entirely (contributes 0),
+  the row border turns red. Negatives are never silently clamped into the subtotal.
+- Discount: percent capped at 100%, flat capped at the subtotal, so the total can
+  never go below $0.00. Tax is charged on the subtotal AFTER the discount.
+- Rounding: half a cent up at every step. The (n + Number.EPSILON) trick used by the
+  older tools is NOT sufficient - 2.5 x 19.99 = 49.974999999999994 and the nudge
+  returns 49.97. This page trims to 12 significant digits first, giving 49.98,
+  3 x 0.145 = 0.44 and 1 x 0.615 = 0.62. That bug was found by this QA run.
+
+--- output ---
+--- structure ---
+--- parseNum: what counts as a number ---
+--- the example quote ---
+--- blank rows stay blank ---
+--- garbage input must not poison the subtotal ---
+--- thousands and dollar signs on a real line ---
+--- decimals and cent rounding ---
+--- tax / VAT ---
+--- discount: percent vs flat ---
+--- deposit ---
+--- Copy as text ---
+--- CSV ---
+--- save and restore (localStorage) ---
+--- run(): the render path must never throw ---
+--- page and content ---
+
+SUMMARY: 251 passed, 0 failed  (251/251)
