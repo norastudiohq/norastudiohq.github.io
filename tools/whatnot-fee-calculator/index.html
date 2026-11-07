@@ -115,7 +115,12 @@ table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
 const $ = id => document.getElementById(id);
 const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; };
 const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toFixed(2);
-const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+// Round to cents, half a cent up (what Excel's ROUND does, and what the rest of our products assert
+// against). The (v + Number.EPSILON) nudge is NOT enough and is banned: 2.5 * 19.99 lands at
+// 49.974999999999994, about 6e-15 below the true 49.975, so the nudge never reaches the boundary and
+// you get 49.97. Trimming to 12 significant digits first kills the binary noise, so 49.975 -> 49.98
+// and 8.165 -> 8.17. Same name and signature as before, so nothing else on the page changes.
+const r2 = v => { const s = v < 0 ? -1 : 1; return s * Math.round(Number((Math.abs(v) * 100).toPrecision(12))) / 100; };
 // Whatnot US (checked October 2026, whatnot.com/seller/fees): commission on item price only; processing 2.9% of total order value + $0.30 per order.
 const PROC = 0.029, FIX = 0.30;
 function parts(price, x) {

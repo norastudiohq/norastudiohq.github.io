@@ -122,7 +122,12 @@ const TOOL = "https://norastudiohq.github.io/tools/mileage-deduction-calculator/
 // Defensive parse: blank/text/negative/NaN -> 0, capped.
 const parse = (s, hi) => { const v = parseFloat(s); return isFinite(v) && v > 0 ? Math.min(v, hi === undefined ? MAX : hi) : 0; };
 const usd = v => (v < 0 ? "-$" : "$") + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const r2 = v => Math.round((v + Number.EPSILON) * 100) / 100;
+// Round to cents, half a cent up (what Excel's ROUND does, and what the rest of our products assert
+// against). The (v + Number.EPSILON) nudge is NOT enough and is banned: 2.5 * 19.99 lands at
+// 49.974999999999994, about 6e-15 below the true 49.975, so the nudge never reaches the boundary and
+// you get 49.97. Trimming to 12 significant digits first kills the binary noise, so 49.975 -> 49.98
+// and 8.165 -> 8.17. Same name and signature as before, so nothing else on the page changes.
+const r2 = v => { const s = v < 0 ? -1 : 1; return s * Math.round(Number((Math.abs(v) * 100).toPrecision(12))) / 100; };
 const num = v => (Math.round(v * 10) / 10).toLocaleString("en-US");
 
 // i = {mode, m1, m2, mt, park, bracket, se}
