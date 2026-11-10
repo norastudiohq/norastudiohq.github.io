@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Debt Payoff Calculator 2026: Snowball vs Avalanche, Your Debt-Free Date | Nora Studio</title>
+<title>Debt Payoff Calculator 2026: Snowball vs Avalanche, Your Debt-Free Date | Misty Studio</title>
 <meta name="description" content="Free debt payoff calculator. Enter your debts and extra monthly payment to compare the debt snowball and avalanche methods side by side: your debt-free date, total interest, interest saved and the month each debt is paid off. No signup.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/debt-payoff-calculator/">
 <link rel="stylesheet" href="../../style.css">
@@ -43,7 +43,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>Debt Payoff Calculator: Snowball vs Avalanche</h1>
@@ -113,7 +113,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
   <p>Any amount helps, because extra money goes straight to principal. Try a few amounts and save each one to your list: you'll see how many months and how much interest every extra $50 or $100 saves.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const MAX = 1e9, MAXDEBTS = 15, HORIZON = 600;
@@ -278,9 +278,9 @@ const cell = v => {
 const mo = m => m === null ? "never (50+ yrs)" : m;
 function toCSV(plans) {
   const lines = [
-    ["Debt payoff plan - made with Nora Studio's free Debt Payoff Calculator"],
+    ["Debt payoff plan - made with Misty Studio's free Debt Payoff Calculator"],
     ["Calculator: " + TOOL],
-    ["Month-by-month schedule, custom order and progress tracking: Debt Payoff Planner by Nora Studio - " + PLANNER],
+    ["Month-by-month schedule, custom order and progress tracking: Debt Payoff Planner by Misty Studio - " + PLANNER],
     ["Generated", new Date().toISOString().slice(0, 10)],
     [],
     ["Plan", "Debts", "Total owed", "Minimums/mo", "Extra/mo", "Snowball months", "Snowball interest", "Avalanche months", "Avalanche interest", "Minimums-only months", "Minimums-only interest"]
@@ -297,7 +297,7 @@ $("csv").addEventListener("click", () => {
   const rows = list.length ? list : [current()];
   const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "debt-payoff-plan-nora-studio.csv"; document.body.appendChild(a); a.click();
+  a.download = "debt-payoff-plan-misty-studio.csv"; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 });
 
@@ -305,7 +305,7 @@ setRows(EXAMPLE); renderList();
 window.__debtCalc = { simulate, inputs, analyze, current, toCSV, run, setRows, r2, get list() { return list; } };
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Debt Payoff Calculator: Snowball vs Avalanche","url":"https://norastudiohq.github.io/tools/debt-payoff-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free debt payoff calculator. Enter your debts and extra monthly payment to compare the debt snowball and avalanche methods side by side: your debt-free date, total interest, interest saved and the month each debt is paid off. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Debt Payoff Calculator: Snowball vs Avalanche","item":"https://norastudiohq.github.io/tools/debt-payoff-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Debt snowball vs avalanche: which is better?","acceptedAnswer":{"@type":"Answer","text":"The avalanche (highest interest rate first) always costs the least interest, or ties. The snowball (smallest balance first) pays off your first debt sooner, and those quick wins keep many people going. If the two are close, as they often are, pick the one you'll stick with. This calculator shows the exact gap for your debts."}},{"@type":"Question","name":"How do I calculate my debt-free date?","acceptedAnswer":{"@type":"Answer","text":"Each month, add interest to every balance (APR divided by 12), pay every minimum, and put all the extra money on one target debt. When a debt hits zero, its minimum joins the extra and rolls to the next. Count the months until every balance is zero. That's what this calculator does for you."}},{"@type":"Question","name":"Why does \"minimums only\" say it will never be paid off?","acceptedAnswer":{"@type":"Answer","text":"If a minimum payment is less than the interest charged each month, the balance grows instead of shrinking. Raise that payment, add extra money, or look into a lower-rate option such as a balance transfer."}},{"@type":"Question","name":"How much extra should I pay each month?","acceptedAnswer":{"@type":"Answer","text":"Any amount helps, because extra money goes straight to principal. Try a few amounts and save each one to your list: you'll see how many months and how much interest every extra $50 or $100 saves."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Debt Payoff Calculator: Snowball vs Avalanche","url":"https://norastudiohq.github.io/tools/debt-payoff-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free debt payoff calculator. Enter your debts and extra monthly payment to compare the debt snowball and avalanche methods side by side: your debt-free date, total interest, interest saved and the month each debt is paid off. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Debt Payoff Calculator: Snowball vs Avalanche","item":"https://norastudiohq.github.io/tools/debt-payoff-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Debt snowball vs avalanche: which is better?","acceptedAnswer":{"@type":"Answer","text":"The avalanche (highest interest rate first) always costs the least interest, or ties. The snowball (smallest balance first) pays off your first debt sooner, and those quick wins keep many people going. If the two are close, as they often are, pick the one you'll stick with. This calculator shows the exact gap for your debts."}},{"@type":"Question","name":"How do I calculate my debt-free date?","acceptedAnswer":{"@type":"Answer","text":"Each month, add interest to every balance (APR divided by 12), pay every minimum, and put all the extra money on one target debt. When a debt hits zero, its minimum joins the extra and rolls to the next. Count the months until every balance is zero. That's what this calculator does for you."}},{"@type":"Question","name":"Why does \"minimums only\" say it will never be paid off?","acceptedAnswer":{"@type":"Answer","text":"If a minimum payment is less than the interest charged each month, the balance grows instead of shrinking. Raise that payment, add extra money, or look into a lower-rate option such as a balance transfer."}},{"@type":"Question","name":"How much extra should I pay each month?","acceptedAnswer":{"@type":"Answer","text":"Any amount helps, because extra money goes straight to principal. Try a few amounts and save each one to your list: you'll see how many months and how much interest every extra $50 or $100 saves."}}]}]}
 </script>
 </body>
 </html>

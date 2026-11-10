@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Selling Fee Comparison 2026: eBay vs Poshmark vs Mercari vs Depop vs Whatnot | Nora Studio</title>
+<title>Selling Fee Comparison 2026: eBay vs Poshmark vs Mercari vs Depop vs Whatnot | Misty Studio</title>
 <meta name="description" content="Free side-by-side selling fee comparison for 2026. Enter one price and see what you keep on eBay, Poshmark, Mercari, Depop and Whatnot, ranked best payout first, with break-even prices and a payout ladder. US sellers.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/selling-fee-comparison/">
 <link rel="stylesheet" href="../../style.css">
@@ -34,7 +34,7 @@ table.cmp td a{color:inherit}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>Selling Fee Comparison 2026</h1>
@@ -109,7 +109,7 @@ table.cmp td a{color:inherit}
   <p class="muted" style="margin-top:22px">Rates for US sellers, checked October 2026 on each platform's own help pages: eBay "Selling fees" (non-Store), Poshmark's fee page, Mercari help center article 169, Depop's Help Centre "Seller fees and charges", whatnot.com/seller/fees. Any of them can change its fees, and promotions may lower them: check your own sale or order summary for the exact amount. Sales tax varies by state and is an estimate here. Not affiliated with eBay, Poshmark, Mercari, Depop or Whatnot.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; };
@@ -240,7 +240,7 @@ function render() {
 
 function toCSV() {
   const x = inputs(), rs = rows(x).slice().sort((a, b) => b.keep - a.keep);
-  const lines = [["Nora Studio selling fee comparison, US sellers, rates checked October 2026"],
+  const lines = [["Misty Studio selling fee comparison, US sellers, rates checked October 2026"],
     ["Price", x.price.toFixed(2)], ["Shipping buyer pays", x.ship.toFixed(2)], ["Sales tax %", x.tax.toFixed(2)],
     ["What you paid", x.cost.toFixed(2)], ["Other costs", x.extra.toFixed(2)],
     ["eBay category", (EBAY_CATS[x.cat] || EBAY_CATS.most).name], ["Whatnot commission %", x.rate.toFixed(2)],
@@ -272,9 +272,9 @@ window.__cmpCalc = { PLATFORMS, EBAY_CATS, orderTotal, payout, priceFor, rows, t
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"WebApplication","name":"Selling Fee Comparison 2026","url":"https://norastudiohq.github.io/tools/selling-fee-comparison/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Compare what you keep on eBay, Poshmark, Mercari, Depop and Whatnot from one sale price, with break-even prices and a payout ladder.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},
+{"@type":"WebApplication","name":"Selling Fee Comparison 2026","url":"https://norastudiohq.github.io/tools/selling-fee-comparison/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Compare what you keep on eBay, Poshmark, Mercari, Depop and Whatnot from one sale price, with break-even prices and a payout ladder.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},
 {"@type":"BreadcrumbList","itemListElement":[
-{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},
+{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},
 {"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},
 {"@type":"ListItem","position":3,"name":"Selling Fee Comparison 2026","item":"https://norastudiohq.github.io/tools/selling-fee-comparison/"}]},
 {"@type":"FAQPage","mainEntity":[

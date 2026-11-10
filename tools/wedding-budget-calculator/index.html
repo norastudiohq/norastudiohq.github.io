@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wedding Budget Calculator 2026: Split Your Budget by Category &amp; Cost per Guest | Nora Studio</title>
+<title>Wedding Budget Calculator 2026: Split Your Budget by Category &amp; Cost per Guest | Misty Studio</title>
 <meta name="description" content="Free wedding budget calculator. Enter your total budget and guest count to see how much to spend on the venue, catering, photography, attire, flowers and 12 more categories, your cost per guest, and what each extra guest costs. No signup.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/wedding-budget-calculator/">
 <link rel="stylesheet" href="../../style.css">
@@ -36,7 +36,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>Wedding Budget Calculator</h1>
@@ -112,7 +112,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
   <p>Plan on 5% to 10%. Taxes, service charges, gratuities, overtime and last-minute fixes are the usual surprises. Keep the "Contingency / other" row, or raise it if your quotes don't yet include tax and tips.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const MAX = 1e12;
@@ -233,9 +233,9 @@ const cell = v => {
 };
 function toCSV(rows) {
   const lines = [
-    ["Wedding budget plan - made with Nora Studio's free Wedding Budget Calculator"],
+    ["Wedding budget plan - made with Misty Studio's free Wedding Budget Calculator"],
     ["Calculator: " + TOOL],
-    ["Track payments, vendors, guests and your checklist: Wedding Budget Planner & Tracker by Nora Studio - " + PLANNER],
+    ["Track payments, vendors, guests and your checklist: Wedding Budget Planner & Tracker by Misty Studio - " + PLANNER],
     ["Generated", new Date().toISOString().slice(0, 10)],
     [],
     ["Scenario", "Total budget", "Guests", "Cost per guest", "Each extra guest", "Allocated", "Left to allocate", "Total %"]
@@ -249,7 +249,7 @@ $("csv").addEventListener("click", () => {
   const rows = list.length ? list : [current()];
   const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "wedding-budget-nora-studio.csv"; document.body.appendChild(a); a.click();
+  a.download = "wedding-budget-misty-studio.csv"; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 });
 
@@ -258,7 +258,7 @@ run(); renderList();
 window.__weddingCalc = { CATS, analyze, inputs, current, toCSV, run, get list() { return list; } };
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Wedding Budget Calculator","url":"https://norastudiohq.github.io/tools/wedding-budget-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free wedding budget calculator. Enter your total budget and guest count to see how much to spend on the venue, catering, photography, attire, flowers and 12 more categories, your cost per guest, and what each extra guest costs. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Wedding Budget Calculator","item":"https://norastudiohq.github.io/tools/wedding-budget-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How should I split my wedding budget?","acceptedAnswer":{"@type":"Answer","text":"A common starting point is about 45% for the venue plus catering and bar, about 14% for photography and video, 8% for flowers and decor, 8% for attire, hair and makeup, 5% for music, and the rest across rings, planner, stationery, rentals, cake, transport, favors and the officiant, with a few percent held back for surprises. Move money toward what matters most to you and away from what doesn't."}},{"@type":"Question","name":"What is a normal cost per guest?","acceptedAnswer":{"@type":"Answer","text":"Divide your total budget by your headcount. Many US weddings land somewhere between $150 and $400 per guest all-in, and catering alone often runs $50 to $150 per head. If your cost per guest looks high, the guest list is usually the biggest lever."}},{"@type":"Question","name":"How much does each extra guest cost?","acceptedAnswer":{"@type":"Answer","text":"More than the meal. Each guest adds food and drinks, a share of the cake, an invitation and postage, a chair, linens and place setting, and a favor. This calculator adds those per-head categories up so you can see what trimming or growing the list really does."}},{"@type":"Question","name":"How much should I set aside for unexpected costs?","acceptedAnswer":{"@type":"Answer","text":"Plan on 5% to 10%. Taxes, service charges, gratuities, overtime and last-minute fixes are the usual surprises. Keep the \"Contingency / other\" row, or raise it if your quotes don't yet include tax and tips."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Wedding Budget Calculator","url":"https://norastudiohq.github.io/tools/wedding-budget-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free wedding budget calculator. Enter your total budget and guest count to see how much to spend on the venue, catering, photography, attire, flowers and 12 more categories, your cost per guest, and what each extra guest costs. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Wedding Budget Calculator","item":"https://norastudiohq.github.io/tools/wedding-budget-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How should I split my wedding budget?","acceptedAnswer":{"@type":"Answer","text":"A common starting point is about 45% for the venue plus catering and bar, about 14% for photography and video, 8% for flowers and decor, 8% for attire, hair and makeup, 5% for music, and the rest across rings, planner, stationery, rentals, cake, transport, favors and the officiant, with a few percent held back for surprises. Move money toward what matters most to you and away from what doesn't."}},{"@type":"Question","name":"What is a normal cost per guest?","acceptedAnswer":{"@type":"Answer","text":"Divide your total budget by your headcount. Many US weddings land somewhere between $150 and $400 per guest all-in, and catering alone often runs $50 to $150 per head. If your cost per guest looks high, the guest list is usually the biggest lever."}},{"@type":"Question","name":"How much does each extra guest cost?","acceptedAnswer":{"@type":"Answer","text":"More than the meal. Each guest adds food and drinks, a share of the cake, an invitation and postage, a chair, linens and place setting, and a favor. This calculator adds those per-head categories up so you can see what trimming or growing the list really does."}},{"@type":"Question","name":"How much should I set aside for unexpected costs?","acceptedAnswer":{"@type":"Answer","text":"Plan on 5% to 10%. Taxes, service charges, gratuities, overtime and last-minute fixes are the usual surprises. Keep the \"Contingency / other\" row, or raise it if your quotes don't yet include tax and tips."}}]}]}
 </script>
 </body>
 </html>

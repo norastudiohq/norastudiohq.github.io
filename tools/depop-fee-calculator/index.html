@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Depop Fee Calculator 2026: Payout, Profit &amp; Boosted Listing Cost | Nora Studio</title>
+<title>Depop Fee Calculator 2026: Payout, Profit &amp; Boosted Listing Cost | Misty Studio</title>
 <meta name="description" content="Free Depop fee calculator for 2026. See the US 3.3% + $0.45 processing fee on the whole order, the 12% Boosted Listings fee, your payout, your profit and the price to list at. No selling fee for US sellers.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/depop-fee-calculator/">
 <link rel="stylesheet" href="../../style.css">
@@ -31,7 +31,7 @@ table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>Depop Fee Calculator 2026</h1>
@@ -111,7 +111,7 @@ table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
   <p class="muted" style="margin-top:22px">Rates for Depop US, checked October 2026 on Depop's Help Centre article "Seller fees and charges". Depop can change its fees: check Depop Balance in your account for the exact amount. Sales tax varies by state and is an estimate here. Not affiliated with Depop.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; };
@@ -216,7 +216,7 @@ const cell = v => {
 };
 function toCSV(items) {
   const lines = [
-    ["Depop earnings report - made with Nora Studio's free Depop Fee Calculator"],
+    ["Depop earnings report - made with Misty Studio's free Depop Fee Calculator"],
     ["Calculator: https://norastudiohq.github.io/tools/depop-fee-calculator/"],
     ["Track every flip on every platform: Reseller Inventory & Profit Tracker - https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02"],
     ["Generated", new Date().toISOString().slice(0, 10)],
@@ -231,7 +231,7 @@ $("csv").addEventListener("click", () => {
   const items = list.length ? list : [current()];
   const blob = new Blob(["﻿" + toCSV(items)], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "depop-earnings-nora-studio.csv"; document.body.appendChild(a); a.click();
+  a.download = "depop-earnings-misty-studio.csv"; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 });
 
@@ -240,7 +240,7 @@ run(); renderList();
 window.__depopCalc = { parts, priceFor, calc, ladder, current, toCSV, get list() { return list; } };
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Depop Fee Calculator 2026","url":"https://norastudiohq.github.io/tools/depop-fee-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free Depop fee calculator for 2026. See the US 3.3% + $0.45 processing fee on the whole order, the 12% Boosted Listings fee, your payout, your profit and the price to list at. No selling fee for US sellers.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Depop Fee Calculator 2026","item":"https://norastudiohq.github.io/tools/depop-fee-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does Depop take in 2026?","acceptedAnswer":{"@type":"Answer","text":"US sellers pay no Depop selling fee. The cost you do pay is payment processing: 3.3% plus $0.45 per sale, on the item price plus shipping and any tax. On a $40 sale with $7.50 buyer-paid shipping and 7% tax, that is $2.13, so $37.87 to you."}},{"@type":"Question","name":"How much do Boosted Listings cost?","acceptedAnswer":{"@type":"Answer","text":"For US and UK sellers, new listings boosted from 23 March 2026 pay 12% when a boosted listing sells. You pay nothing if it does not sell. The fee is on the item price, and on the shipping cost too if you did not use a Depop shipping label. In the example above, a boosted sale with a Depop label adds $4.80 and leaves you $33.07."}},{"@type":"Question","name":"Does Depop charge fees on shipping and tax?","acceptedAnswer":{"@type":"Answer","text":"The processing fee does, because it covers the whole order. That is why the percentage on a cheap item looks higher than 3.3%, and why the fixed $0.45 matters most on small sales. Read the \"Fees\" line above for the real share of your price."}},{"@type":"Question","name":"What if I sell outside the US?","acceptedAnswer":{"@type":"Answer","text":"This calculator is for US sellers. UK and Australian sellers also pay no selling fee, but processing differs: 2.9% + £0.30 in the UK and 2.6% + A$0.30 in Australia. Sellers elsewhere pay a 10% selling fee plus PayPal's processing fee."}},{"@type":"Question","name":"Do I get the fees back on a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes. Depop says that when a sale is refunded, its fees, including processing and boosting fees, are reversed too. Sales through Depop Payments reverse automatically."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Depop Fee Calculator 2026","url":"https://norastudiohq.github.io/tools/depop-fee-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free Depop fee calculator for 2026. See the US 3.3% + $0.45 processing fee on the whole order, the 12% Boosted Listings fee, your payout, your profit and the price to list at. No selling fee for US sellers.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Depop Fee Calculator 2026","item":"https://norastudiohq.github.io/tools/depop-fee-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does Depop take in 2026?","acceptedAnswer":{"@type":"Answer","text":"US sellers pay no Depop selling fee. The cost you do pay is payment processing: 3.3% plus $0.45 per sale, on the item price plus shipping and any tax. On a $40 sale with $7.50 buyer-paid shipping and 7% tax, that is $2.13, so $37.87 to you."}},{"@type":"Question","name":"How much do Boosted Listings cost?","acceptedAnswer":{"@type":"Answer","text":"For US and UK sellers, new listings boosted from 23 March 2026 pay 12% when a boosted listing sells. You pay nothing if it does not sell. The fee is on the item price, and on the shipping cost too if you did not use a Depop shipping label. In the example above, a boosted sale with a Depop label adds $4.80 and leaves you $33.07."}},{"@type":"Question","name":"Does Depop charge fees on shipping and tax?","acceptedAnswer":{"@type":"Answer","text":"The processing fee does, because it covers the whole order. That is why the percentage on a cheap item looks higher than 3.3%, and why the fixed $0.45 matters most on small sales. Read the \"Fees\" line above for the real share of your price."}},{"@type":"Question","name":"What if I sell outside the US?","acceptedAnswer":{"@type":"Answer","text":"This calculator is for US sellers. UK and Australian sellers also pay no selling fee, but processing differs: 2.9% + £0.30 in the UK and 2.6% + A$0.30 in Australia. Sellers elsewhere pay a 10% selling fee plus PayPal's processing fee."}},{"@type":"Question","name":"Do I get the fees back on a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes. Depop says that when a sale is refunded, its fees, including processing and boosting fees, are reversed too. Sales through Depop Payments reverse automatically."}}]}]}
 </script>
 </body>
 </html>

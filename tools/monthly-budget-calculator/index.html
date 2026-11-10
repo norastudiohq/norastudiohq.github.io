@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>50/30/20 Monthly Budget Calculator: Needs, Wants &amp; Savings | Nora Studio</title>
+<title>50/30/20 Monthly Budget Calculator: Needs, Wants &amp; Savings | Misty Studio</title>
 <meta name="description" content="Free 50/30/20 budget calculator. Enter your monthly take-home pay, plan 24 categories, and see needs, wants and savings as dollars and percentages against the 50/30/20 targets. Save scenarios and download as a spreadsheet. No signup.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/monthly-budget-calculator/">
 <link rel="stylesheet" href="../../style.css">
@@ -42,7 +42,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>50/30/20 Monthly Budget Calculator</h1>
@@ -129,7 +129,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
   <p>That is the normal starting point, and it is still useful information: it tells you the plan has no slack, so any surprise becomes debt. Look at the biggest 5 categories first, since a 10% cut to your largest line beats a 50% cut to your smallest. Then give the leftover a job on purpose, even if it is only $25 a month, so it does not quietly get spent.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const MAX = 1e12;
@@ -293,9 +293,9 @@ const cell = v => {
 };
 function toCSV(rows) {
   const lines = [
-    ["Monthly budget plan - made with Nora Studio's free 50/30/20 Monthly Budget Calculator"],
+    ["Monthly budget plan - made with Misty Studio's free 50/30/20 Monthly Budget Calculator"],
     ["Calculator: " + TOOL],
-    ["Track what you actually spend: Monthly Budget Planner by Nora Studio - " + PLANNER],
+    ["Track what you actually spend: Monthly Budget Planner by Misty Studio - " + PLANNER],
     ["Generated", new Date().toISOString().slice(0, 10)],
     [],
     ["Plan", "Total income", "Needs $", "Needs %", "Wants $", "Wants %", "Savings & debt $", "Savings & debt %", "Total planned", "Left over"]
@@ -310,7 +310,7 @@ $("csv").addEventListener("click", () => {
   const rows = list.length ? list : [current()];
   const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "monthly-budget-nora-studio.csv"; document.body.appendChild(a); a.click();
+  a.download = "monthly-budget-misty-studio.csv"; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 });
 
@@ -320,7 +320,7 @@ run(); renderList();
 window.__budgetCalc = { CATS, BUCKETS, analyze, inputs, current, toCSV, run, get list() { return list; } };
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"50/30/20 Monthly Budget Calculator","url":"https://norastudiohq.github.io/tools/monthly-budget-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free 50/30/20 budget calculator. Enter your monthly take-home pay, plan 24 categories, and see needs, wants and savings as dollars and percentages against the 50/30/20 targets. Save scenarios and download as a spreadsheet. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"50/30/20 Monthly Budget Calculator","item":"https://norastudiohq.github.io/tools/monthly-budget-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the 50/30/20 rule?","acceptedAnswer":{"@type":"Answer","text":"Split your take-home pay three ways: about 50% on needs, about 30% on wants, and about 20% on savings and paying down debt. Needs are the things you cannot skip, like housing, utilities, groceries, insurance and getting to work. Wants are everything you choose, like dining out, subscriptions and travel. The last 20% builds an emergency fund, goes into retirement, or kills debt faster."}},{"@type":"Question","name":"Do I use gross pay or take-home pay?","acceptedAnswer":{"@type":"Answer","text":"Take-home pay, the amount that actually lands in your account after tax and payroll deductions. If your employer already moves money into a retirement plan before you see it, that saving is happening outside this calculation, so count it as a bonus rather than part of your 20%."}},{"@type":"Question","name":"Is 50/30/20 realistic with high rent?","acceptedAnswer":{"@type":"Answer","text":"Often not. In expensive areas needs alone can run 60% or more, which is why the targets here are editable. If needs will not fit under 50%, the useful question is which single number can move: a cheaper housing cost, a roommate, a shorter commute, or more income. Lowering the wants bucket for a month works; lowering it forever usually does not."}},{"@type":"Question","name":"Where do minimum debt payments go?","acceptedAnswer":{"@type":"Answer","text":"Strict 50/30/20 treats minimum payments as needs, because missing them has real consequences, and counts only the extra you pay above the minimum in the 20%. This calculator starts with debt in the savings and debt bucket because that is how most people think about it, and the dropdown next to each category lets you move it."}},{"@type":"Question","name":"What if I have nothing left over?","acceptedAnswer":{"@type":"Answer","text":"That is the normal starting point, and it is still useful information: it tells you the plan has no slack, so any surprise becomes debt. Look at the biggest 5 categories first, since a 10% cut to your largest line beats a 50% cut to your smallest. Then give the leftover a job on purpose, even if it is only $25 a month, so it does not quietly get spent."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"50/30/20 Monthly Budget Calculator","url":"https://norastudiohq.github.io/tools/monthly-budget-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free 50/30/20 budget calculator. Enter your monthly take-home pay, plan 24 categories, and see needs, wants and savings as dollars and percentages against the 50/30/20 targets. Save scenarios and download as a spreadsheet. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"50/30/20 Monthly Budget Calculator","item":"https://norastudiohq.github.io/tools/monthly-budget-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the 50/30/20 rule?","acceptedAnswer":{"@type":"Answer","text":"Split your take-home pay three ways: about 50% on needs, about 30% on wants, and about 20% on savings and paying down debt. Needs are the things you cannot skip, like housing, utilities, groceries, insurance and getting to work. Wants are everything you choose, like dining out, subscriptions and travel. The last 20% builds an emergency fund, goes into retirement, or kills debt faster."}},{"@type":"Question","name":"Do I use gross pay or take-home pay?","acceptedAnswer":{"@type":"Answer","text":"Take-home pay, the amount that actually lands in your account after tax and payroll deductions. If your employer already moves money into a retirement plan before you see it, that saving is happening outside this calculation, so count it as a bonus rather than part of your 20%."}},{"@type":"Question","name":"Is 50/30/20 realistic with high rent?","acceptedAnswer":{"@type":"Answer","text":"Often not. In expensive areas needs alone can run 60% or more, which is why the targets here are editable. If needs will not fit under 50%, the useful question is which single number can move: a cheaper housing cost, a roommate, a shorter commute, or more income. Lowering the wants bucket for a month works; lowering it forever usually does not."}},{"@type":"Question","name":"Where do minimum debt payments go?","acceptedAnswer":{"@type":"Answer","text":"Strict 50/30/20 treats minimum payments as needs, because missing them has real consequences, and counts only the extra you pay above the minimum in the 20%. This calculator starts with debt in the savings and debt bucket because that is how most people think about it, and the dropdown next to each category lets you move it."}},{"@type":"Question","name":"What if I have nothing left over?","acceptedAnswer":{"@type":"Answer","text":"That is the normal starting point, and it is still useful information: it tells you the plan has no slack, so any surprise becomes debt. Look at the biggest 5 categories first, since a 10% cut to your largest line beats a 50% cut to your smallest. Then give the leftover a job on purpose, even if it is only $25 a month, so it does not quietly get spent."}}]}]}
 </script>
 </body>
 </html>

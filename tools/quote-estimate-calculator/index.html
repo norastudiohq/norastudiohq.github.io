@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Free Quote Calculator: Estimate Total with Tax and Deposit | Nora Studio</title>
+<title>Free Quote Calculator: Estimate Total with Tax and Deposit | Misty Studio</title>
 <meta name="description" content="Free quote and estimate calculator. Add up to 12 line items, set any tax or VAT rate, take a percent or flat discount, and see the total due plus the deposit and balance. Copy the quote as text or download it as a spreadsheet. No signup.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/quote-estimate-calculator/">
 <link rel="stylesheet" href="../../style.css">
@@ -48,7 +48,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>Free Quote &amp; Estimate Calculator</h1>
@@ -145,7 +145,7 @@ input,select{width:100%;padding:10px 12px;font:16px system-ui,sans-serif;border:
   <p>Thirty days is the common default, and it protects you when material prices move. Put the expiry on the quote itself, in the notes line, rather than leaving it open ended. If a customer comes back after it has expired, you can still honour the old price as a goodwill gesture, which reads much better than being forced into it.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> &middot; <a href="../../privacy.html">Privacy</a> &middot; <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const MAXROWS = 12;          // same 12 item rows as the paid Word quote template
@@ -310,7 +310,7 @@ function toText(x, a) {
   }
   if (x.notes) { L.push(""); L.push(x.notes); }
   L.push("");
-  L.push("Totals worked out with Nora Studio's free quote calculator: " + TOOL);
+  L.push("Totals worked out with Misty Studio's free quote calculator: " + TOOL);
   return L.join("\n");
 }
 
@@ -324,9 +324,9 @@ const cell = v => {
 function toCSV(x, a) {
   if (!x) { x = inputs(); a = analyze(x); }
   const lines = [
-    ["Quote - made with Nora Studio's free Quote & Estimate Calculator"],
+    ["Quote - made with Misty Studio's free Quote & Estimate Calculator"],
     ["Calculator: " + TOOL],
-    ["Send it on your own letterhead: quote & invoice templates by Nora Studio - " + PRODUCTS],
+    ["Send it on your own letterhead: quote & invoice templates by Misty Studio - " + PRODUCTS],
     ["Generated", new Date().toISOString().slice(0, 10)],
     ["From", x.from], ["Quote for", x.client], ["Quote number", x.qnum], ["Date", x.qdate],
     [],
@@ -437,7 +437,7 @@ $("csv").addEventListener("click", () => {
   const x = inputs();
   const blob = new Blob(["﻿" + toCSV(x, analyze(x))], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "quote-nora-studio.csv"; document.body.appendChild(a); a.click();
+  a.download = "quote-misty-studio.csv"; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 });
 document.querySelectorAll("input, select").forEach(el => el.addEventListener("input", run));
@@ -450,7 +450,7 @@ window.__quoteCalc = {
 };
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Free Quote & Estimate Calculator","url":"https://norastudiohq.github.io/tools/quote-estimate-calculator/","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free quote and estimate calculator. Add up to 12 line items, set any tax or VAT rate, take a percent or flat discount, and see the total due plus the deposit and balance. Copy the quote as text or download it as a spreadsheet. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Free Quote & Estimate Calculator","item":"https://norastudiohq.github.io/tools/quote-estimate-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between a quote and an estimate?","acceptedAnswer":{"@type":"Answer","text":"A quote is a fixed price you are offering to stand behind: if the customer accepts it, that is the number on the invoice. An estimate is your best guess at what the job will cost, and everyone understands it can move once the walls are open or the scope grows. Use the same calculation for both, but say in writing which one you are sending, and if it is an estimate, say what would make it change."}},{"@type":"Question","name":"Do I add tax before or after the discount?","acceptedAnswer":{"@type":"Answer","text":"In most places the discount comes off first and tax is charged on the discounted amount, because tax follows the price actually paid. This calculator works that way: subtotal, minus discount, then tax on the remainder. Sales tax and VAT rules differ by country and sometimes by state, so if you discount a lot it is worth confirming your local rule once and then sticking to it."}},{"@type":"Question","name":"How much deposit should I ask for?","acceptedAnswer":{"@type":"Answer","text":"For trade and service work, somewhere between 25% and 50% up front is normal, and the usual reason is materials: the deposit should at least cover what you have to buy before you start. For a small job, many people take nothing up front and invoice on completion. Whatever you pick, write it on the quote, because a deposit nobody agreed to in advance is the most common reason a first invoice gets argued over."}},{"@type":"Question","name":"Should my quote show the tax separately?","acceptedAnswer":{"@type":"Answer","text":"Yes. Show the subtotal, the tax amount with its rate, and the total as three separate lines. A customer who sees only one big number has no way to check your maths, and a business customer reclaiming tax needs the amount broken out. The copied text and the CSV from this page both keep the three lines separate."}},{"@type":"Question","name":"How long should a quote stay valid?","acceptedAnswer":{"@type":"Answer","text":"Thirty days is the common default, and it protects you when material prices move. Put the expiry on the quote itself, in the notes line, rather than leaving it open ended. If a customer comes back after it has expired, you can still honour the old price as a goodwill gesture, which reads much better than being forced into it."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Free Quote & Estimate Calculator","url":"https://norastudiohq.github.io/tools/quote-estimate-calculator/","applicationCategory":"BusinessApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free quote and estimate calculator. Add up to 12 line items, set any tax or VAT rate, take a percent or flat discount, and see the total due plus the deposit and balance. Copy the quote as text or download it as a spreadsheet. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Free Quote & Estimate Calculator","item":"https://norastudiohq.github.io/tools/quote-estimate-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between a quote and an estimate?","acceptedAnswer":{"@type":"Answer","text":"A quote is a fixed price you are offering to stand behind: if the customer accepts it, that is the number on the invoice. An estimate is your best guess at what the job will cost, and everyone understands it can move once the walls are open or the scope grows. Use the same calculation for both, but say in writing which one you are sending, and if it is an estimate, say what would make it change."}},{"@type":"Question","name":"Do I add tax before or after the discount?","acceptedAnswer":{"@type":"Answer","text":"In most places the discount comes off first and tax is charged on the discounted amount, because tax follows the price actually paid. This calculator works that way: subtotal, minus discount, then tax on the remainder. Sales tax and VAT rules differ by country and sometimes by state, so if you discount a lot it is worth confirming your local rule once and then sticking to it."}},{"@type":"Question","name":"How much deposit should I ask for?","acceptedAnswer":{"@type":"Answer","text":"For trade and service work, somewhere between 25% and 50% up front is normal, and the usual reason is materials: the deposit should at least cover what you have to buy before you start. For a small job, many people take nothing up front and invoice on completion. Whatever you pick, write it on the quote, because a deposit nobody agreed to in advance is the most common reason a first invoice gets argued over."}},{"@type":"Question","name":"Should my quote show the tax separately?","acceptedAnswer":{"@type":"Answer","text":"Yes. Show the subtotal, the tax amount with its rate, and the total as three separate lines. A customer who sees only one big number has no way to check your maths, and a business customer reclaiming tax needs the amount broken out. The copied text and the CSV from this page both keep the three lines separate."}},{"@type":"Question","name":"How long should a quote stay valid?","acceptedAnswer":{"@type":"Answer","text":"Thirty days is the common default, and it protects you when material prices move. Put the expiry on the quote itself, in the notes line, rather than leaving it open ended. If a customer comes back after it has expired, you can still honour the old price as a goodwill gesture, which reads much better than being forced into it."}}]}]}
 </script>
 </body>
 </html>

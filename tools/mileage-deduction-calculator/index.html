@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mileage Deduction Calculator 2026: IRS Rate 72.5¢ and 76¢ from July 1 | Nora Studio</title>
+<title>Mileage Deduction Calculator 2026: IRS Rate 72.5¢ and 76¢ from July 1 | Misty Studio</title>
 <meta name="description" content="Free 2026 mileage deduction calculator with the IRS mid-year rate change built in: 72.5 cents per business mile through June 30, 76 cents from July 1, 2026. Add parking and tolls and see a rough tax saving. No signup.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/mileage-deduction-calculator/">
 <link rel="stylesheet" href="../../style.css">
@@ -33,7 +33,7 @@ input[type=checkbox]{width:auto;margin-right:8px}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>2026 Mileage Deduction Calculator</h1>
@@ -111,7 +111,7 @@ input[type=checkbox]{width:auto;margin-right:8px}
   <p>Yes. Business parking fees and tolls are generally deductible on top of the standard mileage rate. Gas, repairs, insurance and depreciation are not; the rate already covers them. Commuting from home to a regular workplace doesn't count as business miles.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const MAX = 1e7;
@@ -201,9 +201,9 @@ const cell = v => {
 };
 function toCSV(rows) {
   const lines = [
-    ["2026 mileage deduction - made with Nora Studio's free Mileage Deduction Calculator"],
+    ["2026 mileage deduction - made with Misty Studio's free Mileage Deduction Calculator"],
     ["Calculator: " + TOOL],
-    ["Log every trip at the right rate by date: Mileage Log & Business Expense Tracker by Nora Studio - " + LOG],
+    ["Log every trip at the right rate by date: Mileage Log & Business Expense Tracker by Misty Studio - " + LOG],
     ["Generated", new Date().toISOString().slice(0, 10)],
     [],
     ["Name", "Jan-Jun miles", "Jul-Dec miles", "Total miles", "Jan-Jun deduction ($0.725)", "Jul-Dec deduction ($0.76)", "Mileage deduction", "Parking and tolls", "Total deduction", "Tax bracket %", "Self-employed", "Rough tax saving"]
@@ -216,7 +216,7 @@ $("csv").addEventListener("click", () => {
   const rows = list.length ? list : [current()];
   const blob = new Blob(["﻿" + toCSV(rows)], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "mileage-deduction-2026-nora-studio.csv"; document.body.appendChild(a); a.click();
+  a.download = "mileage-deduction-2026-misty-studio.csv"; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 });
 
@@ -225,7 +225,7 @@ run(); renderList();
 window.__mileageCalc = { RATE1, RATE2, analyze, inputs, current, toCSV, run, get list() { return list; } };
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"2026 Mileage Deduction Calculator","url":"https://norastudiohq.github.io/tools/mileage-deduction-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free 2026 mileage deduction calculator with the IRS mid-year rate change built in: 72.5 cents per business mile through June 30, 76 cents from July 1, 2026. Add parking and tolls and see a rough tax saving. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"2026 Mileage Deduction Calculator","item":"https://norastudiohq.github.io/tools/mileage-deduction-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the 2026 IRS mileage rate?","acceptedAnswer":{"@type":"Answer","text":"For business driving it is 72.5 cents per mile for miles driven from January 1 through June 30, 2026, and 76 cents per mile for miles driven on or after July 1, 2026. The IRS raised it mid-year, which it rarely does, so a single-rate calculation gets the second half of the year wrong."}},{"@type":"Question","name":"Which rate do I use for a trip in July?","acceptedAnswer":{"@type":"Answer","text":"The rate follows the date you drove. A trip on June 30 counts at 72.5 cents, a trip on July 1 at 76 cents. That's why this calculator asks for miles in each half of the year."}},{"@type":"Question","name":"What if I only know my total miles?","acceptedAnswer":{"@type":"Answer","text":"Choose \"only as a yearly total\" and the calculator splits your miles by days: 181 of 365 days fall before July 1. That's an estimate. For your return, use your actual log, which should show each trip's date, purpose and miles."}},{"@type":"Question","name":"Can I deduct parking and tolls too?","acceptedAnswer":{"@type":"Answer","text":"Yes. Business parking fees and tolls are generally deductible on top of the standard mileage rate. Gas, repairs, insurance and depreciation are not; the rate already covers them. Commuting from home to a regular workplace doesn't count as business miles."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"2026 Mileage Deduction Calculator","url":"https://norastudiohq.github.io/tools/mileage-deduction-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free 2026 mileage deduction calculator with the IRS mid-year rate change built in: 72.5 cents per business mile through June 30, 76 cents from July 1, 2026. Add parking and tolls and see a rough tax saving. No signup.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"2026 Mileage Deduction Calculator","item":"https://norastudiohq.github.io/tools/mileage-deduction-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the 2026 IRS mileage rate?","acceptedAnswer":{"@type":"Answer","text":"For business driving it is 72.5 cents per mile for miles driven from January 1 through June 30, 2026, and 76 cents per mile for miles driven on or after July 1, 2026. The IRS raised it mid-year, which it rarely does, so a single-rate calculation gets the second half of the year wrong."}},{"@type":"Question","name":"Which rate do I use for a trip in July?","acceptedAnswer":{"@type":"Answer","text":"The rate follows the date you drove. A trip on June 30 counts at 72.5 cents, a trip on July 1 at 76 cents. That's why this calculator asks for miles in each half of the year."}},{"@type":"Question","name":"What if I only know my total miles?","acceptedAnswer":{"@type":"Answer","text":"Choose \"only as a yearly total\" and the calculator splits your miles by days: 181 of 365 days fall before July 1. That's an estimate. For your return, use your actual log, which should show each trip's date, purpose and miles."}},{"@type":"Question","name":"Can I deduct parking and tolls too?","acceptedAnswer":{"@type":"Answer","text":"Yes. Business parking fees and tolls are generally deductible on top of the standard mileage rate. Gas, repairs, insurance and depreciation are not; the rate already covers them. Commuting from home to a regular workplace doesn't count as business miles."}}]}]}
 </script>
 </body>
 </html>

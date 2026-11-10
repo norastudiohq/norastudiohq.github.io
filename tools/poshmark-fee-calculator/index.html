@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Poshmark Fee &amp; Profit Calculator 2026: Earnings &amp; Lowest Offer | Nora Studio</title>
+<title>Poshmark Fee &amp; Profit Calculator 2026: Earnings &amp; Lowest Offer | Misty Studio</title>
 <meta name="description" content="Free Poshmark fee calculator for 2026. See the Poshmark fee ($2.95 under $15, 20% from $15), what you earn, your profit after cost, the lowest offer to accept and the price to list at for the payout you want.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/poshmark-fee-calculator/">
 <link rel="stylesheet" href="../../style.css">
@@ -30,7 +30,7 @@ table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>Poshmark Fee &amp; Profit Calculator 2026</h1>
@@ -112,7 +112,7 @@ table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
   <p class="muted" style="margin-top:22px">Fee rates for Poshmark US, checked October 2026. Other countries use different rates. Poshmark can change its fees: check your sale summary for the exact amount.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; };
@@ -212,7 +212,7 @@ const cell = v => {
 };
 function toCSV(items) {
   const lines = [
-    ["Poshmark earnings report - made with Nora Studio's free Poshmark Fee Calculator"],
+    ["Poshmark earnings report - made with Misty Studio's free Poshmark Fee Calculator"],
     ["Calculator: https://norastudiohq.github.io/tools/poshmark-fee-calculator/"],
     ["Track every flip on every platform: Reseller Inventory & Profit Tracker - https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02"],
     ["Generated", new Date().toISOString().slice(0, 10)],
@@ -227,7 +227,7 @@ $("csv").addEventListener("click", () => {
   const items = list.length ? list : [current()];
   const blob = new Blob(["﻿" + toCSV(items)], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "poshmark-earnings-nora-studio.csv"; document.body.appendChild(a); a.click();
+  a.download = "poshmark-earnings-misty-studio.csv"; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 });
 
@@ -236,7 +236,7 @@ run(); renderList();
 window.__poshCalc = { fee, earn, priceFor, calc, offers, current, toCSV, get list() { return list; } };
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Poshmark Fee Calculator 2026","url":"https://norastudiohq.github.io/tools/poshmark-fee-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free Poshmark fee calculator for 2026. See the Poshmark fee ($2.95 under $15, 20% from $15), what you earn, your profit after cost, the lowest offer to accept and the price to list at for the payout you want.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Poshmark Fee Calculator 2026","item":"https://norastudiohq.github.io/tools/poshmark-fee-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does Poshmark take in 2026?","acceptedAnswer":{"@type":"Answer","text":"In the US, Poshmark charges a flat $2.95 on sales under $15 and 20% of the sale price on sales of $15 or more. There is no listing fee and no monthly fee, and the buyer pays for the prepaid shipping label. A $35 sale costs a $7.00 fee, so you earn $28.00."}},{"@type":"Question","name":"Why is the fee so high on cheap items?","acceptedAnswer":{"@type":"Answer","text":"The $2.95 flat fee is a big share of a small sale: on a $10 item it is 29.5%, and you earn $7.05. A $15 sale costs $3.00 (20%), so a $14 item and a $15 item earn almost the same ($11.05 vs $12.00). Bundling cheap items into one sale is the usual fix."}},{"@type":"Question","name":"What is the lowest offer I should accept?","acceptedAnswer":{"@type":"Answer","text":"Work back from the profit you want: add it to what you paid, your other costs and any shipping discount you cover, then find the price whose payout reaches that number. The calculator does this for you in the \"Lowest offer\" line."}},{"@type":"Question","name":"What price should I list at to earn a set amount?","acceptedAnswer":{"@type":"Answer","text":"For payouts above $12.05, divide the payout you want by 0.8 (for $30, list at $37.50). For smaller payouts, add $2.95. Buyers often offer 10-30% below the listing price, so leave room."}},{"@type":"Question","name":"Does Poshmark charge fees on shipping?","acceptedAnswer":{"@type":"Answer","text":"No. The fee is on the sale price. If you offer a shipping discount, the part of the label you cover comes out of your earnings."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Poshmark Fee Calculator 2026","url":"https://norastudiohq.github.io/tools/poshmark-fee-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free Poshmark fee calculator for 2026. See the Poshmark fee ($2.95 under $15, 20% from $15), what you earn, your profit after cost, the lowest offer to accept and the price to list at for the payout you want.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Poshmark Fee Calculator 2026","item":"https://norastudiohq.github.io/tools/poshmark-fee-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does Poshmark take in 2026?","acceptedAnswer":{"@type":"Answer","text":"In the US, Poshmark charges a flat $2.95 on sales under $15 and 20% of the sale price on sales of $15 or more. There is no listing fee and no monthly fee, and the buyer pays for the prepaid shipping label. A $35 sale costs a $7.00 fee, so you earn $28.00."}},{"@type":"Question","name":"Why is the fee so high on cheap items?","acceptedAnswer":{"@type":"Answer","text":"The $2.95 flat fee is a big share of a small sale: on a $10 item it is 29.5%, and you earn $7.05. A $15 sale costs $3.00 (20%), so a $14 item and a $15 item earn almost the same ($11.05 vs $12.00). Bundling cheap items into one sale is the usual fix."}},{"@type":"Question","name":"What is the lowest offer I should accept?","acceptedAnswer":{"@type":"Answer","text":"Work back from the profit you want: add it to what you paid, your other costs and any shipping discount you cover, then find the price whose payout reaches that number. The calculator does this for you in the \"Lowest offer\" line."}},{"@type":"Question","name":"What price should I list at to earn a set amount?","acceptedAnswer":{"@type":"Answer","text":"For payouts above $12.05, divide the payout you want by 0.8 (for $30, list at $37.50). For smaller payouts, add $2.95. Buyers often offer 10-30% below the listing price, so leave room."}},{"@type":"Question","name":"Does Poshmark charge fees on shipping?","acceptedAnswer":{"@type":"Answer","text":"No. The fee is on the sale price. If you offer a shipping discount, the part of the label you cover comes out of your earnings."}}]}]}
 </script>
 </body>
 </html>

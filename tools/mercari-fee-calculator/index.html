@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mercari Fee &amp; Profit Calculator 2026: Earnings &amp; Lowest Offer | Nora Studio</title>
+<title>Mercari Fee &amp; Profit Calculator 2026: Earnings &amp; Lowest Offer | Misty Studio</title>
 <meta name="description" content="Free Mercari fee calculator for 2026. See the 10% Mercari selling fee (on item price plus buyer-paid shipping), what you earn when you or the buyer pays shipping, your profit, the lowest offer to accept and the price to list at.">
 <link rel="canonical" href="https://norastudiohq.github.io/tools/mercari-fee-calculator/">
 <link rel="stylesheet" href="../../style.css">
@@ -31,7 +31,7 @@ table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
 </style>
 </head>
 <body>
-<header class="wrap nav"><a class="brand" href="../../index.html">Nora Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
+<header class="wrap nav"><a class="brand" href="../../index.html">Misty Studio</a><nav><a href="../../index.html#products">Products</a><a href="../../index.html#contact">Contact</a></nav></header>
 <main>
 <section class="wrap hero" style="padding-top:28px;padding-bottom:20px">
   <h1>Mercari Fee &amp; Profit Calculator 2026</h1>
@@ -120,7 +120,7 @@ table.cmp tr.best td{background:rgba(46,139,87,.10);font-weight:700}
   <p class="muted" style="margin-top:22px">Fee rates for Mercari US, checked October 2026 on Mercari's help center: 10% of item price plus buyer-paid shipping, for listings created or updated on or after January 6, 2025. Mercari can change its fees: check your sale summary for the exact amount.</p>
 </section>
 </main>
-<footer class="wrap foot"><span>&copy; 2026 Nora Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
+<footer class="wrap foot"><span>&copy; 2026 Misty Studio</span><span><a href="../../terms.html">Terms</a> · <a href="../../privacy.html">Privacy</a> · <a href="../../refunds.html">Refunds</a></span></footer>
 <script>
 const $ = id => document.getElementById(id);
 const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; };
@@ -232,7 +232,7 @@ const cell = v => {
 };
 function toCSV(items) {
   const lines = [
-    ["Mercari earnings report - made with Nora Studio's free Mercari Fee Calculator"],
+    ["Mercari earnings report - made with Misty Studio's free Mercari Fee Calculator"],
     ["Calculator: https://norastudiohq.github.io/tools/mercari-fee-calculator/"],
     ["Track every flip on every platform: Reseller Inventory & Profit Tracker - https://buy.stripe.com/dRm3cxfKo4gacnj0ZY5AQ02"],
     ["Generated", new Date().toISOString().slice(0, 10)],
@@ -247,7 +247,7 @@ $("csv").addEventListener("click", () => {
   const items = list.length ? list : [current()];
   const blob = new Blob(["﻿" + toCSV(items)], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "mercari-earnings-nora-studio.csv"; document.body.appendChild(a); a.click();
+  a.download = "mercari-earnings-misty-studio.csv"; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
 });
 
@@ -256,7 +256,7 @@ run(); renderList();
 window.__mercariCalc = { fee, earn, priceFor, calc, offers, ladder, current, toCSV, get list() { return list; } };
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Mercari Fee Calculator 2026","url":"https://norastudiohq.github.io/tools/mercari-fee-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free Mercari fee calculator for 2026. See the 10% Mercari selling fee (on item price plus buyer-paid shipping), what you earn when you or the buyer pays shipping, your profit, the lowest offer to accept and the price to list at.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Nora Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nora Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Mercari Fee Calculator 2026","item":"https://norastudiohq.github.io/tools/mercari-fee-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does Mercari take in 2026?","acceptedAnswer":{"@type":"Answer","text":"In the US, Mercari charges sellers a 10% selling fee on the item price plus any shipping the buyer pays. There is no separate payment processing fee, no listing fee and no monthly fee. A $40 sale where you pay $7.50 shipping costs a $4.00 fee, so you earn $28.50."}},{"@type":"Question","name":"Does Mercari charge a fee on shipping?","acceptedAnswer":{"@type":"Answer","text":"Only when the buyer pays it. Then the 10% applies to the price plus shipping: a $40 item with $7.50 buyer-paid shipping costs a $4.75 fee and you earn $35.25. When you pay shipping, the fee is on the price only, but the label comes out of your earnings."}},{"@type":"Question","name":"Should I offer free shipping on Mercari?","acceptedAnswer":{"@type":"Answer","text":"Free shipping costs you the label minus 10% of it, because buyer-paid shipping carries the fee too. Many buyers filter for free shipping, so a slightly higher price with free shipping often sells faster. The \"If the buyer paid shipping\" line shows the difference for your item."}},{"@type":"Question","name":"What is the lowest offer I should accept?","acceptedAnswer":{"@type":"Answer","text":"Add the profit you want to what you paid, your other costs and any shipping you cover, then find the price whose payout reaches that number. The calculator does this for you in the \"Lowest offer\" line."}},{"@type":"Question","name":"How much is Instant Pay?","acceptedAnswer":{"@type":"Answer","text":"A standard direct deposit to your bank is free. Instant Pay to a debit card costs $3 per cash-out, so it matters most on small sales or when you cash out often."}},{"@type":"Question","name":"Does the buyer pay a fee too?","acceptedAnswer":{"@type":"Answer","text":"Yes, buyers pay a separate Buyer Protection fee at checkout. It does not come out of your earnings."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Mercari Fee Calculator 2026","url":"https://norastudiohq.github.io/tools/mercari-fee-calculator/","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","description":"Free Mercari fee calculator for 2026. See the 10% Mercari selling fee (on item price plus buyer-paid shipping), what you earn when you or the buyer pays shipping, your profit, the lowest offer to accept and the price to list at.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Misty Studio","url":"https://norastudiohq.github.io/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Misty Studio","item":"https://norastudiohq.github.io/"},{"@type":"ListItem","position":2,"name":"Free tools","item":"https://norastudiohq.github.io/tools/"},{"@type":"ListItem","position":3,"name":"Mercari Fee Calculator 2026","item":"https://norastudiohq.github.io/tools/mercari-fee-calculator/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does Mercari take in 2026?","acceptedAnswer":{"@type":"Answer","text":"In the US, Mercari charges sellers a 10% selling fee on the item price plus any shipping the buyer pays. There is no separate payment processing fee, no listing fee and no monthly fee. A $40 sale where you pay $7.50 shipping costs a $4.00 fee, so you earn $28.50."}},{"@type":"Question","name":"Does Mercari charge a fee on shipping?","acceptedAnswer":{"@type":"Answer","text":"Only when the buyer pays it. Then the 10% applies to the price plus shipping: a $40 item with $7.50 buyer-paid shipping costs a $4.75 fee and you earn $35.25. When you pay shipping, the fee is on the price only, but the label comes out of your earnings."}},{"@type":"Question","name":"Should I offer free shipping on Mercari?","acceptedAnswer":{"@type":"Answer","text":"Free shipping costs you the label minus 10% of it, because buyer-paid shipping carries the fee too. Many buyers filter for free shipping, so a slightly higher price with free shipping often sells faster. The \"If the buyer paid shipping\" line shows the difference for your item."}},{"@type":"Question","name":"What is the lowest offer I should accept?","acceptedAnswer":{"@type":"Answer","text":"Add the profit you want to what you paid, your other costs and any shipping you cover, then find the price whose payout reaches that number. The calculator does this for you in the \"Lowest offer\" line."}},{"@type":"Question","name":"How much is Instant Pay?","acceptedAnswer":{"@type":"Answer","text":"A standard direct deposit to your bank is free. Instant Pay to a debit card costs $3 per cash-out, so it matters most on small sales or when you cash out often."}},{"@type":"Question","name":"Does the buyer pay a fee too?","acceptedAnswer":{"@type":"Answer","text":"Yes, buyers pay a separate Buyer Protection fee at checkout. It does not come out of your earnings."}}]}]}
 </script>
 </body>
 </html>
